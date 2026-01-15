@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./CSS/login.css" />
+  <link rel="icon" href="Img/favicon.ico" />
+  <title>Login | ConnectPolo</title>
+</head>
+
+<body>
+  <main>
+    <h1>Entre com sua conta</h1>
+    <section class="login-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Ícone de perfil de usuário"
+        class="avatar" />
+
+      <form id="loginForm" class="login-container">
+        <div class="input-group">
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Senha:</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+
+        <div class="extras">
+          <input type="checkbox" id="remember" />
+          <label for="remember">Lembrar-me neste dispositivo!</label>
+        </div>
+
+        <button type="submit" id="loginBtn">Entrar</button>
+      </form>
+
+      <p id="loginMessage" class="login-message">Seja bem-vindo!</p>
+    </section>
+  </main>
+
+<script type="module" src="./JS/auth.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root {
+    --fundo-escuro: #1A1A22;
+    --gradient: linear-gradient(135deg, #1A1A22 0%, #2E2E3E 50%, #3A3A4A 100%);
+    --branco: #FFFFFF;
+    --cinza-logo: #D9D9D9;
+    --laranja: #F28C2E;
+    --vermelho: #E24329;
+    --box-shadow: 1px 1px 25px #00000073;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Archivo", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1A1A22 0%, #2E2E3E 50%, #3A3A4A 100%);;
+    color: var(--branco);
+
+    width: 100vw;
+    min-height: 100dvh;
+}
+
+header {
+    background-color: var(--fundo-escuro);
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 4rem;
+    align-items: center;
+}
+
+header h1 {
+    font-size: clamp(1.5rem, 2vw, 2.2rem);
+}
+
+header button {
+    font-size: 2rem;
+    background: var(--laranja);
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: 0.2s ease-in-out;
+}
+
+header button:hover{
+    transform: scale(1.05);
+    background-color: #81430a;
+}
+
+.lista-notificacoes {
+    width: 65%;
+    margin: 50px auto;
+
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+}
+
+.notificacao {
+    background-color: var(--fundo-escuro);
+    padding: 1.5rem;
+    border-radius: 7px;
+}
+
+.notificacao button {
+    border: none;
+    padding: 0.5rem;
+    border-radius: 22px;
+    background-color: var(--laranja);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    margin-top: 20px;
+}
+
+.notificacao button:hover {
+    background-color: #81430a;
+    color: white;
+}
+
+.notificacaoBottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+@media screen and (max-width: 565px){
+    .lista-notificacoes {
+    width: 90%;
+
+}
+}
+
+@media screen and (max-width: 390px){
+    .lista-notificacoes {
+    width: 70%;
+
+}
+
+header button {
+    font-size: 1.1rem;
+
+    padding: 0.5rem;
+
+}
+
+header h1 {
+    font-size: 1.1rem;
+}
+
+.lista-notificacoes p{
+    font-size: 0.8rem;
+}
+
+.small{
+    font-size: 0.8rem;
+}
+
+.lista-notificacoes button{
+    font-size: 0.7rem;
+}
+}

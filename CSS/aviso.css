@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap');
+
+/* ================= VARIÁVEIS ================= */
+:root {
+    --fundo-escuro: #1A1A22;
+    --gradient: linear-gradient(135deg, #1A1A22, #2E2E3E, #3A3A4A);
+    --branco: #FFFFFF;
+    --laranja: #F28C2E;
+    --laranja-escuro: #b06218;
+    --box-shadow: 0 8px 30px rgba(0,0,0,.4);
+}
+
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Archivo", sans-serif;
+}
+
+/* ================= BODY ================= */
+body {
+    min-height: 100vh;
+    background: var(--gradient);
+    color: var(--branco);
+    
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* ================= TÍTULO ================= */
+h1 {
+    text-align: center;
+    font-size: 2.2rem;
+}
+
+/* ================= FORM ================= */
+form {
+    background-color: #5f5f8157;
+    padding: 1.8rem;
+    border-radius: 22px;
+    box-shadow: var(--box-shadow);
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Inputs */
+input,
+textarea {
+    background-color: var(--fundo-escuro);
+    border: none;
+    border-radius: 12px;
+    padding: 0.8rem;
+    color: var(--branco);
+    font-size: 1rem;
+    resize: none;
+}
+
+textarea {
+    min-height: 120px;
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--laranja);
+}
+
+/* ================= BOTÕES ================= */
+.botoes {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    flex: 1;
+    background-color: var(--laranja);
+    border: none;
+    border-radius: 14px;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #000;
+    transition: .2s;
+}
+
+button:hover {
+    background-color: var(--laranja-escuro);
+}
+
+/* ================= FEEDBACK ================= */
+#msg {
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ================= AVISOS ================= */
+#avisos-lider-container {
+    
+    padding-right: 4px;
+}
+
+.aviso {
+    background-color: #5f5f8157;
+    padding: 1.8rem;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
+.aviso p {
+    margin-top: 10px;
+    word-break: break-all;
+}
+
+.aviso-acoes {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 420px) {
+    h1 {
+        font-size: 1.9rem;
+    }
+
+    form {
+        padding: 1.4rem;
+    }
+
+    button {
+        font-size: .95rem;
+    }
+
+    .botoes {
+        flex-direction: column;
+    }
+}
