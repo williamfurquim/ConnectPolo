@@ -14,11 +14,11 @@ export const alunosMock = [
     imagem: "./Img/Amanda.jpeg"
   },
   {
-    nome: "Gustavo Chimello",
+    nome: "Gustavo Terra 2",
     setor: "TI",
-    aniversario: "04-01-2026",
+    aniversario: "04-01-4026",
     tempo: 9,
-    imagem: "./Img/Gustavo.jpeg"
+    imagem: "./Img/Gustavo2.jpeg"
   },
   {
     nome: "Olavo Xavier",
@@ -33,6 +33,13 @@ export const alunosMock = [
     aniversario: "10-10-2006",
     tempo: 9,
     imagem: "./Img/Lucas.jpeg"
+  },
+  {
+    nome: "Gustavo Chimello",
+    setor: "TI",
+    aniversario: "04-01-2026",
+    tempo: 9,
+    imagem: "./Img/Gustavo.jpeg"
   },
   {
     nome: "Bruno Coelho",
@@ -60,5 +67,13 @@ export const alunosMock = [
     aniversario: "05-02-1985",
     tempo: 7,
     imagem: "https://img.a.transfermarkt.technology/portrait/big/8198-1748102259.jpg?lm=1"
+  },
+  {
+    nome: "Saruman",
+    setor: "Conselho dos Istari",
+    aniversario: "Primórdios da Terra-Média",
+    tempo: "+1000",
+    imagem: "https://i.pinimg.com/474x/b9/5d/37/b95d3791e6840ba3e66e6f707d979fc2.jpg"
   }
+
 ];

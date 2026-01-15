@@ -9,8 +9,10 @@ import {
   query,
   where,
   getDocs,
-  deleteDoc,
-  doc
+  updateDoc,
+  doc,
+  getDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 import {
@@ -61,7 +63,10 @@ form.addEventListener("submit", async (e) => {
       tipo,
       lider,
       status: "pendente",
-      criadoEm: serverTimestamp()
+      criadoEm: serverTimestamp(),
+
+      apagadoAluno: false,
+      apagadoLider: false
     });
 
     alert("Enviado com sucesso!");
@@ -82,6 +87,7 @@ async function carregarMinhasSolicitacoes() {
     where("alunoId", "==", usuarioLogado.uid)
   );
 
+
   const snap = await getDocs(q);
 
   if (snap.empty) {
@@ -93,6 +99,7 @@ async function carregarMinhasSolicitacoes() {
 
   snap.forEach(d => {
     const s = d.data();
+    if (s.apagadoAluno === true) return;
 
     html += `
       <div class="solicitacao-card">
@@ -100,14 +107,16 @@ async function carregarMinhasSolicitacoes() {
         <p><strong>Status:</strong> ${s.status}</p>
 
         ${s.respostaLider
-          ? `<p><strong>Resposta:</strong> ${s.respostaLider}</p>`
-          : ""
-        }
+        ? `<p><strong>Resposta:</strong> ${s.respostaLider}</p>`
+        : "<p>Sua solicitação ainda não foi analisada</p>"
+      }
 
-        ${s.status === "pendente"
-          ? `<button class="btn-excluir" data-id="${d.id}">Excluir</button>`
-          : ""
-        }
+        <button
+          class="btn-excluir"
+          data-id="${d.id}"
+          data-status="${s.status}">
+            Excluir
+          </button>
       </div>
     `;
   });
@@ -118,9 +127,37 @@ async function carregarMinhasSolicitacoes() {
 
   document.querySelectorAll(".btn-excluir").forEach(btn => {
     btn.addEventListener("click", async () => {
-      if (!confirm("Deseja excluir esta solicitação?")) return;
-      await deleteDoc(doc(db, "solicitacoes", btn.dataset.id));
+      const id = btn.dataset.id;
+      const status = btn.dataset.status;
+      const ref = doc(db, "solicitacoes", id);
+
+      const msg =
+        status === "pendente"
+          ? "Esta solicitação ainda não foi analisada. Ela será excluída definitivamente. Deseja continuar?"
+          : "Deseja excluir esta solicitação?";
+
+      if (!confirm(msg)) return;
+
+      // 🔥 CASO ESPECIAL: pendente → apaga DEFINITIVO
+      if (status === "pendente") {
+        await deleteDoc(ref);
+        carregarMinhasSolicitacoes();
+        return;
+      }
+
+      // 🧠 CASO NORMAL (já respondida)
+      await updateDoc(ref, { apagadoAluno: true });
+
+      const snap = await getDoc(ref);
+      const data = snap.data();
+
+      if (data.apagadoAluno === true && data.apagadoLider === true) {
+        await deleteDoc(ref);
+      }
+
       carregarMinhasSolicitacoes();
     });
   });
+
+
 }

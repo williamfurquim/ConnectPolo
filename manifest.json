@@ -1,0 +1,21 @@
+{
+  "name": "ConnectPolo",
+  "short_name": "ConnectPolo",
+  "description": "Um exemplo de PWA",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "./Img/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./Img/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
