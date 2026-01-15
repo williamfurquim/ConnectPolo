@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/aluno.css">
+    <script src="https://kit.fontawesome.com/5f5052ebd4.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="Img/favicon.ico" />
+    <title>Aluno | ConnectPolo</title>
+</head>
+
+<body>
+    <header>
+        <h1>ConnectPolo</h1>
+        <div class="d-progress">
+            <label for="progress">Seu progresso:</label>
+            <progress id="progress" value="50" max="100"></progress>
+        </div>
+        <nav>
+            <div class="d-perfil">
+                <p id="perfil-nome">Carregando</p>
+                <i class="fa-solid fa-person"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="d-header">
+        <nav>
+            <a href="#" id="btn-status">
+                Status
+            </a>
+            <a href="#">
+                Home
+            </a>
+            <a href="#">
+                Mural
+            </a>
+        </nav>
+    </div>
+
+    <section class="s-presenca" id="s-presenca">
+        <div class="d-presenca">
+            <p id="mensagem-presenca">Marque sua presença diária</p>
+            <button id="btn-presenca">Confirmar comparecimento</button>
+        </div>
+
+        <div class="d-justificativa">
+            <p>Justificar ausência futura</p>
+            <select id="motivo">
+                <option value="">Selecione o motivo</option>
+                <option value="Doença">Doença</option>
+                <option value="Imprevisto">Imprevisto no percurso</option>
+                <option value="Médico">Médico</option>
+                <option value="Curso Externo">Curso Externo</option>
+                <option value="Outro setor">Outro Setor</option>
+            </select>
+
+            <textarea id="observacao" placeholder="Observação (opcional)"></textarea>
+            <label for="data-falta">Data da ausência:</label>
+            <input type="date" id="data-falta" />
+            <button id="btn-justificar">Enviar justificativa</button>
+            <p id="msg-justificativa">Seu status aparecerá aqui</p>
+        </div>
+    </section>
+
+    <section class="s-avisos">
+        <div class="avisos-container-pai">
+            <h2>Avisos</h2>
+            <div id="avisos-container">
+                <p id="sem-avisos">Nenhum aviso disponível.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="s-solic">
+        <form id="formulario-solic">
+            <h3>Faça uma solicitação</h3>
+            <div class="linha-campos">
+
+                <div class="campo">
+                    <label>Tipo de solicitação</label>
+                    <select id="selectSolicitacao" required>
+                        <option value="Conversa com líder">Conversa com líder</option>
+                        <option value="Material ou uniforme">Material ou uniforme</option>
+                        <option value="Saída antecipada">Saída antecipada</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Especifique</label>
+                    <input type="text" id="selectTipo" required>
+                </div>
+
+                <div class="campo">
+                    <label>Líder</label>
+                    <select id="selectLider" required>
+                        <option value="lider1">Líder 1</option>
+                        <option value="lider2">Líder 2</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="linha-botao">
+                <button type="submit">Enviar pedido</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="s-minhas-solic">
+        <h3>Minhas solicitações</h3>
+        <div id="minhas-solicitacoes" class="minhas-solicitacoes"></div>
+    </section>
+
+    <main>
+        <section class="container">
+            <h2>Seus cursos:</h2>
+            <div class="grid">
+                <div class="d-curso">
+                    <h3>Fundamentos da Inteligência Artificial </h3>
+                    <progress value="35" max="100"></progress>
+                    <p>APTO</p>
+                </div>
+
+                <div class="d-curso">
+                    <h3>Fundamentos da Inteligência Artificial </h3>
+                    <progress value="75" max="100"></progress>
+                    <p>APTO</p>
+                </div>
+                <div class="d-curso">
+                    <h3>Fundamentos da Inteligência Artificial </h3>
+                    <progress value="35" max="100"></progress>
+                    <p>APTO</p>
+                </div>
+                <div class="d-curso">
+                    <h3>Fundamentos da Inteligência Artificial </h3>
+                    <progress value="100" max="100"></progress>
+                    <p>APTO</p>
+                </div>
+                <div class="d-curso">
+                    <h3>Fundamentos da Inteligência Artificial </h3>
+                    <progress value="44" max="100"></progress>
+                    <p id="nao-apto">APTO</p>
+                </div>
+                <div class="d-curso">
+                    <h3>Fundamentos da Inteligência Artificial </h3>
+                    <progress value="10" max="100"></progress>
+                    <p id="nao-apto">APTO</p>
+                </div>
+
+            </div>
+        </section>
+
+        <script type="module" src="./JS/firebase.js"></script>
+        <script type="module" src="./JS/Status/presenca.js"></script>
+        <script type="module" src="./JS//Status/justificativa.js"></script>
+        <script type="module" src="./JS/Avisos/avisos-aluno.js"></script>
+        <script type="module" src="./JS/Solicitações/solici.js"></script>
+        <script type="module" src="./JS/perfil-aluno.js"></script>
+    </main>
+</body>
+
+</html>

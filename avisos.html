@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Img/favicon.ico" />
+    <link rel="stylesheet" href="./CSS/aviso.css">
+
+    <title>Avisos | ConnectPolo</title>
+</head>
+<body>
+
+    <main class="container">
+
+        <h1>Criar Aviso</h1>
+
+        <form id="form-aviso">
+            <input
+                type="text"
+                id="titulo"
+                placeholder="Título do aviso"
+                required
+            >
+
+            <textarea
+                id="mensagem"
+                placeholder="Mensagem do aviso"
+                required
+            ></textarea>
+
+            <div class="botoes">
+                <button type="submit">Enviar Aviso</button>
+                <button type="button" onclick="window.location.href='./lider.html'">
+                    Retornar
+                </button>
+            </div>
+        </form>
+
+        <p id="msg"></p>
+
+        <section id="avisos-lider-container">
+            <p id="sem-avisos">Nenhum aviso criado.</p>
+        </section>
+
+    </main>
+
+    <script type="module" src="./JS/Avisos/avisos-lider.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/lider.css">
+    <link rel="icon" href="Img/favicon.ico" />
+    <title>Líder | ConnectPolo</title>
+</head>
+
+<body>
+    <main>
+        <section class="s-perfil">
+            <div class="d-informacoes-lider">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" height="50" alt="">
+                <div class="d-informacoes-texto">
+                    <h1>Informação</h1>
+                    <h2>Fulano de Tal</h2>
+                    <p>Informação</p>
+                </div>
+            </div>
+
+            <div class="d-botoes">
+                <div class="d-select">
+                    <h3>Turmas:</h3>
+                    <select name="select-turma" id="">
+                        <option value="ade">Auxiliar de Estatística</option>
+                        <option value="adl">Auxiliar de Logística</option>
+                        <option value="rob">Robótica</option>
+                        <option value="mec">Mecânica</option>
+                        <option value="aut">Automotiva</option>
+                        <option value="mec">PCD</option>
+                    </select>
+                </div>
+                <!-- <button onclick="window.location.href = './cadastroaluno.html'">Adicionar aluno</button> -->
+                <button onclick="window.location.href='./notificacoes.html'">Notificações</button>
+                <button onclick="window.location.href='./avisos.html'">Criar aviso</button>
+                <button>Meu perfil</button>
+                
+            </div>
+
+            <div class="grafico-container">
+                <canvas id="graficoPresencaFaltas" width="300" height="200"></canvas>
+            </div>
+
+
+            <div class="dados-alunos">
+                <div class="circle">
+                    <h4>Turmas</h4>
+                    <p style="color: green">8</p>
+                </div>
+
+                <div class="circle">
+                    <h4>Alunos</h4>
+                    <p style="color: rgb(0, 152, 0)">68</p>
+                </div>
+
+                <div class="circle">
+                    <h4>Cursos</h4>
+                    <p style="color: rgb(0, 98, 0)">13</p>
+                </div>
+
+                <div class="dados-alunos">
+                    <div class="circle">
+                        <h4>Presenças hoje</h4>
+                        <p id="presencas-hoje">0</p>
+                        <small id="presencas-variacao">—</small>
+                    </div>
+
+                    <div class="circle">
+                        <h4>Faltas hoje</h4>
+                        <p id="faltas-hoje">0</p>
+                        <small id="faltas-variacao">—</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="solicitacoes-alunos">
+                <p>Carregando solicitações...</p>
+            </div>
+        </section>
+
+
+
+
+        <section class="s-lista">
+            <div class="d-nome-turma">
+                <h2>Nome da turma:</h2>
+                <div class="funcionalidades-lista">
+                    <input type="text" id="barraPesquisa" placeholder="Digite para filtrar alunos...">
+                    <button>Excel 📊</button>
+                </div>
+            </div>
+
+            <div id="scroll" class="scroll">
+                <!-- <div class="bloco-aluno">
+                    <img src="./Img/William.png" height="50" alt="">
+
+                    <div class="info-left">
+                        <h2>William Furquim</h2>
+                        <p>Setor: TI</p>
+                    </div>
+
+                    <div class="info-right">
+                        <h2>05-09-2004</h2>
+                        <p>Meses experiência: 3</p>
+                    </div>
+                </div>
+
+                <div class="bloco-aluno">
+                    <img src="./Img/William.png" height="50" alt="">
+
+                    <div class="info-left">
+                        <h2>William Furquim</h2>
+                        <p>Setor: TI</p>
+                    </div>
+
+                    <div class="info-right">
+                        <h2>05-09-2004</h2>
+                        <p>Meses experiência: 3</p>
+                    </div>
+                </div>
+
+                <div class="bloco-aluno">
+                    <img src="./Img/William.png" height="50" alt="">
+
+                    <div class="info-left">
+                        <h2>William Furquim</h2>
+                        <p>Setor: TI</p>
+                    </div>
+
+                    <div class="info-right">
+                        <h2>05-09-2004</h2>
+                        <p>Meses experiência: 3</p>
+                    </div>
+                </div>
+
+                <div class="bloco-aluno">
+                    <img src="./Img/William.png" height="50" alt="">
+
+                    <div class="info-left">
+                        <h2>William Furquim</h2>
+                        <p>Setor: TI</p>
+                    </div>
+
+                    <div class="info-right">
+                        <h2>05-09-2004</h2>
+                        <p>Meses experiência: 3</p>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="./JS/Líder/lider.js"></script>
+    <script type="module" src="./JS/api.js"></script>
+    <script type="module" src="./JS/Solicitações/solici-lider.js"></script>
+    <script type="module" src="./JS/Líder/grafico.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,662 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root {
+    --fundo-escuro: #1A1A22;
+    --gradient: linear-gradient(135deg, #1A1A22 0%, #2E2E3E 50%, #3A3A4A 100%);
+    --branco: #FFFFFF;
+    --cinza-logo: #D9D9D9;
+    --laranja: #F28C2E;
+    --vermelho: #E24329;
+    --box-shadow: 1px 1px 25px #00000073;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Archivo", sans-serif;
+}
+
+body {
+    background: var(--gradient);
+    color: var(--branco);
+}
+
+header {
+    width: 100%;
+    background-color: #1a1a22;
+    min-height: 6vh;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 1rem 4rem;
+}
+
+header h1 {
+    font-size: 2rem;
+    cursor: default;
+}
+
+.d-perfil {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.d-perfil p,
+.d-perfil i,
+.d-progress label {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+header nav {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.d-progress label {
+    text-align: center;
+}
+
+.d-progress {
+    width: 60%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+progress {
+    width: 80%;
+    max-width: 800px;
+    min-width: 50px;
+}
+
+.d-header {
+    width: 100%;
+    min-height: 3vh;
+    background-color: #1a1a22ba;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem 4rem;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--branco);
+    font-size: 1rem;
+}
+
+.d-presenca,
+.d-justificativa {
+    background-color: #1a1a2294;
+    width: 30%;
+    min-width: 350px;
+    margin: 20px auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.128);
+}
+
+.d-justificativa select,
+input {
+    padding: 5px;
+}
+
+.d-presenca p,
+.d-justificativa p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.d-presenca button,
+.d-justificativa button {
+    border-radius: 22px;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(113, 113, 241);
+    font-size: 0.9rem;
+    transition: 0.2s ease-in-out;
+}
+
+#btn-presenca.pulsando {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.09);
+        /* Cresce ligeiramente */
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+#msg-justificativa {
+    font-size: 1rem;
+}
+
+.d-presenca button:hover,
+.d-justificativa button:hover {
+    transform: scale(1.07);
+    background-color: rgb(57, 57, 145);
+    color: rgb(255, 255, 255);
+}
+
+.avisos-container-pai {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.aviso {
+    background-color: #d22b2bff;
+    padding: 10px 20px;
+    border-radius: 10px 10px 42px 42px;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.674);
+    transition: 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.aviso footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: auto;
+    padding: 10px;
+}
+
+.aviso:hover {
+    transform: scale(1.02);
+}
+
+.aviso p,
+h3 {
+    cursor: default;
+    margin-top: 10px;
+    word-break: break-word;
+}
+
+.aviso h3 {
+    font-size: 1.5rem;
+}
+
+.aviso p {
+    font-size: 1rem;
+}
+
+.avisos-container-pai h2 {
+    font-size: 1.7rem;
+}
+
+#avisos-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+}
+
+.btn-avisos {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 22px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.btn-avisos:hover {
+    background-color: rgb(40, 40, 45);
+    color: white;
+    transform: scale(1.07);
+}
+
+
+#formulario-solic {
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+    gap: 5px;
+    padding: 16px 20px;
+    border-radius: 8px;
+}
+
+#formulario-solic h3 {
+    text-align: center;
+    font-size: 1.7rem;
+}
+
+.linha-campos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 180px;
+    flex: 1;
+}
+
+.campo label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--branco)
+}
+
+.campo input,
+.campo select {
+    padding: 10px 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.15);
+}
+
+.linha-botao {
+    display: flex;
+    justify-content: center;
+}
+
+.linha-botao button {
+    padding: 10px 20px;
+    background-color: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.linha-botao button:hover {
+    background-color: #256428;
+
+}
+
+.s-minhas-solic {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.solicitacao-card {
+    background-color: var(--cinza-logo);
+
+    border-radius: 10px;
+    padding: 16px 18px;
+    max-width: 420px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.241);
+    border-left: 5px solid #0057b8;
+    margin-bottom: 12px;
+}
+
+.solicitacao-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #282e35;
+}
+
+.solicitacao-card strong {
+    color: #111827;
+}
+
+.solicitacao-card p strong+span {
+    font-weight: 600;
+}
+
+.solicitacao-card p.resposta {
+    background-color: rgba(0, 87, 184, 0.08);
+    border-left: 3px solid #0057b8;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 0.92rem;
+}
+
+.btn-excluir {
+    margin-top: 12px;
+    background-color: #dc2626;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.btn-excluir:active {
+    transform: translateY(0);
+}
+
+main {
+    width: 100%;
+    min-height: 91vh;
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    align-items: start;
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.container h2 {
+    font-size: 1.7rem;
+}
+
+.grid {
+    width: 100%;
+    background-color: #353535;
+
+    padding: 1rem 1rem;
+    border-radius: 12px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-column: auto;
+    gap: 2rem;
+}
+
+.d-curso {
+    background-color: var(--cinza-logo);
+    color: #1A1A22;
+    height: 200px;
+    padding: 1rem 1rem;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.61);
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    text-align: center;
+}
+
+.d-curso:hover {
+    transform: scaleX(1.02);
+}
+
+.d-curso p {
+    background-color: green;
+    padding: 0.5rem;
+    border-radius: 50px;
+}
+
+#nao-apto {
+    background-color: red;
+    padding: 0.5rem;
+    border-radius: 50px;
+}
+
+@media screen and (max-width: 565px) {
+
+    header {
+        flex-direction: column;
+    }
+
+    .d-progress {
+        width: 100%;
+
+    }
+
+    header h1 {
+        font-size: 1rem;
+    }
+
+    .d-perfil p,
+    .d-perfil i {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .d-progress label {
+        display: none;
+    }
+
+    .container h2 {
+        font-size: 1.7rem;
+
+    }
+
+    #avisos-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .avisos-container-pai {
+        width: 72%;
+    }
+
+    .aviso p {
+        margin: 10px 0;
+    }
+
+    .solicitacao-card {
+        max-width: 320px;
+
+    }
+
+    .grid {
+        width: 80%;
+        margin: 0 auto
+    }
+
+    .container h2 {
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 565px) and (max-width: 1024px) {
+
+    header {
+        flex-direction: column;
+    }
+
+    .d-progress {
+        width: 100%;
+
+    }
+
+    header h1 {
+        font-size: 1rem;
+    }
+
+    .d-perfil p,
+    .d-perfil i {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .d-progress label {
+        display: none;
+    }
+
+    .container h2 {
+        font-size: 1.7rem;
+
+    }
+
+    #avisos-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .avisos-container-pai {
+        width: 85%;
+    }
+
+    .aviso p {
+        margin: 10px 0;
+    }
+
+    .solicitacao-card {
+        max-width: 420px;
+
+    }
+
+    .grid {
+        width: 90%;
+        margin: 0 auto
+    }
+
+    .container h2 {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 390px) {
+
+    header {
+        flex-direction: column;
+    }
+
+    .aviso h3 {
+        font-size: 1.2rem;
+    }
+
+    .aviso p {
+        font-size: 0.8rem;
+    }
+
+    .d-presenca,
+    .d-justificativa {
+
+        min-width: 250px;
+
+    }
+
+    .d-justificativa select,
+    input {
+        padding: 0px;
+    }
+
+    .d-presenca p,
+    .d-justificativa p {
+        font-size: 0.9rem;
+
+    }
+
+    .d-presenca button,
+    .d-justificativa button {
+        padding: 7px;
+        font-size: 0.7rem;
+    }
+
+    .avisos-container-pai h2 {
+        font-size: 1.3rem;
+    }
+
+    .avisos-container-pai {
+        width: 75%;
+    }
+
+    .aviso {
+        background-color: #d22b2bff;
+        padding: 10px;
+    }
+
+    .aviso p,
+    h3 {
+        cursor: default;
+        margin-top: 7px;
+    }
+
+    .btn-avisos {
+        padding: 0.3rem;
+    }
+
+    .container h2 {
+        font-size: 1.3rem;
+    }
+
+    #formulario-solic h3 {
+
+        font-size: 1.3rem;
+    }
+
+    .campo input,
+    .campo select {
+        padding: 5px 5px;
+    }
+
+    /* Botão */
+    .linha-botao button {
+        padding: 8px 10px;
+        font-size: 12px;
+
+    }
+
+    .solicitacao-card {
+
+        max-width: 260px;
+
+    }
+
+    .d-curso {
+        max-width: 80%;
+    }
+}
