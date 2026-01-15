@@ -118,7 +118,7 @@ option:nth-child(odd) {
 
 .d-botoes button,
 .d-botoes select {
-    background: linear-gradient(122deg, rgba(232, 232, 232, 1) 0%, rgba(209, 209, 209, 1) 100%);
+    background: linear-gradient(122deg, rgb(250, 250, 250) 0%, rgb(164, 164, 164) 100%);
     width: 100%;
     max-width: 400px;
 
@@ -127,14 +127,13 @@ option:nth-child(odd) {
     font-size: 1.4rem;
     padding: 1.2rem;
 
-    transition: 0.1s ease-in;
+    transition: 0.3s ease-in;
     cursor: pointer;
 }
 
 .d-botoes button:hover,
-.d-botoes select:hover {
-    transform: scale(1.05);
-    background-color: #a9a9a9;
+.d-botoes select:hover{
+    transform: scaleX(1.03);
 }
 
 .dados-alunos {
@@ -159,7 +158,6 @@ option:nth-child(odd) {
 }
 
 .circle:hover {
-    transform: scale(1.1);
     box-shadow: var(--box-shadow);
 }
 
@@ -285,6 +283,23 @@ option:nth-child(odd) {
     background-color: #15803d;
 }
 
+.btnDashboard {
+  background: var(--cinza-logo);
+  font-size: 1.1rem;
+  color: rgb(0, 0, 0);
+
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: 0.2s ease-in-out;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.btnDashboard:hover {
+  color: rgb(17, 163, 17);
+}
+
 #barraPesquisa {
     width: 300px;
     background-color: var(--branco);
@@ -297,11 +312,13 @@ option:nth-child(odd) {
     transition: 0.2s ease-in-out;
 }
 
-#barraPesquisa:hover,
 #barraPesquisa:focus {
     outline: 2px solid var(--laranja);
     transform: scalex(1.05);
 }
+
+#barraPesquisa:hover {
+    outline: 2px solid var(--laranja);}
 
 .bloco-aluno {
     background-color: var(--laranja);
@@ -317,13 +334,12 @@ option:nth-child(odd) {
     padding: 1rem;
     border: 3px solid var(--fundo-escuro);
     border-radius: 18px;
-    transition: 0.1s;
+    transition: 0.3s;
     cursor: pointer;
 }
 
 .bloco-aluno:hover {
-    transform: scale(1.03);
-    box-shadow: var(--box-shadow);
+    box-shadow: 0px 0px 5px var(--laranja);
 }
 
 .bloco-aluno img {

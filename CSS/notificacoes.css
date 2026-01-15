@@ -41,18 +41,21 @@ header h1 {
 }
 
 header button {
-    font-size: 2rem;
-    background: var(--laranja);
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: 0.2s ease-in-out;
+  background: var(--laranja);
+  font-size: 1rem;
+  color: black;
+
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: 0.2s ease-in-out;
+  border-radius: 12px;
+  font-weight: bolder;
 }
 
-header button:hover{
-    transform: scale(1.05);
-    background-color: #81430a;
+header button:hover {
+  transform: scale(1.05);
+  color: white;
 }
 
 .lista-notificacoes {
@@ -82,7 +85,6 @@ header button:hover{
 }
 
 .notificacao button:hover {
-    background-color: #81430a;
     color: white;
 }
 
@@ -102,13 +104,6 @@ header button:hover{
 @media screen and (max-width: 390px){
     .lista-notificacoes {
     width: 80%;
-
-}
-
-header button {
-    font-size: 1.3rem;
-
-    padding: 0.5rem;
 
 }
 
