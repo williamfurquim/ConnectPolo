@@ -41,12 +41,12 @@ let totalAlunos = 0;
 
 // ===== FUNÇÃO AUXILIAR VARIAÇÃO =====
 function calcularVariacao(atual, anterior) {
-    if (anterior === 0) return "Sem variação";
+    if (anterior === 0) return "Sem dados";
     const diff = ((atual - anterior) / anterior) * 100;
     const abs = Math.abs(diff).toFixed(1);
-    if (diff > 0) return `${abs}% a mais`;
-    if (diff < 0) return `${abs}% a menos`;
-    return "Sem variação";
+    if (diff > 0) return `${abs}% mais`;
+    if (diff < 0) return `${abs}% menos`;
+    return "Sem dados";
 }
 
 // ===== CARREGAR TOTAL DE ALUNOS =====
@@ -126,8 +126,8 @@ async function atualizarUIComVariacao() {
     const presHoje = presencasHoje.size + justificativasHoje.size;
     const faltasHoje = totalAlunos - presHoje;
 
-    presencasVarEl.textContent = calcularVariacao(presHoje, semanaPassada) + " da semana passada";
-    faltasVarEl.textContent = calcularVariacao(faltasHoje, totalAlunos - semanaPassada) + " da semana passada";
+    presencasVarEl.textContent = calcularVariacao(presHoje, semanaPassada) + " que semana passada";
+    faltasVarEl.textContent = calcularVariacao(faltasHoje, totalAlunos - semanaPassada) + " que semana passada";
 }
 
 // ===== TEMPO REAL =====
