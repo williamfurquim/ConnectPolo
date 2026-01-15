@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gráficos | ConnectPolo</title>
+
+    <link rel="stylesheet" href="./CSS/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Visão Analítica do Líder</h1>
+        <div class="acoes-header">
+            <button id="btn-pdf">Exportar PDF</button>
+            <button onclick="window.history.back()">← Voltar</button>
+        </div>
+    </header>
+
+    <main class="grid-graficos" id="area-pdf">
+
+        <section class="card">
+            <h2>Comparação entre turmas</h2>
+            <canvas id="graficoTurmas"></canvas>
+        </section>
+
+        <section class="card">
+            <h2>Status dos cursos</h2>
+            <canvas id="graficoCursos"></canvas>
+        </section>
+
+        <section class="card">
+            <h2>Faltas consecutivas</h2>
+            <canvas id="graficoFaltas"></canvas>
+        </section>
+
+        <section class="card">
+            <h2>Solicitações</h2>
+            <canvas id="graficoSolicitacoes"></canvas>
+        </section>
+
+    </main>
+
+    <script type="module" src="./JS/Líder/dashboard.js"></script>
+</body>
+
+</html>
