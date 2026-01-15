@@ -14,17 +14,17 @@
 
 <body>
     <header>
-        <h1>Visão Analítica do Líder</h1>
+        <h1>Dashboard | Visão analítica</h1>
         <div class="acoes-header">
-            <button id="btn-pdf">Exportar PDF</button>
-            <button onclick="window.history.back()">← Voltar</button>
+            <button id="btn-pdf" class="btnPdf">Exportar PDF</button>
+            <button onclick="window.history.back()" class="btnRetornar">↩️ Voltar</button>
         </div>
     </header>
 
     <main class="grid-graficos" id="area-pdf">
 
         <section class="card">
-            <h2>Comparação entre turmas</h2>
+            <h2>Comparação presença entre turmas</h2>
             <canvas id="graficoTurmas"></canvas>
         </section>
 
@@ -39,7 +39,7 @@
         </section>
 
         <section class="card">
-            <h2>Solicitações</h2>
+            <h2>Solicitações para líderes</h2>
             <canvas id="graficoSolicitacoes"></canvas>
         </section>
 
