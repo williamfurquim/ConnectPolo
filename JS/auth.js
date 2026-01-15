@@ -47,9 +47,10 @@ if (form) {
         window.location.href = "lider.html";
       }
 
-    } catch {
-      msg.textContent = "Erro ao fazer login.";
-      msg.style.color = "red";
+    } catch(err) {
+      msg.textContent = "Erro ao fazer login: " + err;
+      msg.style.color = "gray";
+      console.log(err)
     }
   });
 }

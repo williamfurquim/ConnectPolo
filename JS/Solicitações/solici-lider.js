@@ -7,7 +7,9 @@ import {
   serverTimestamp,
   getDocs,
   doc,
-  updateDoc
+  updateDoc,
+  deleteDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // ===== VARIAVEL GLOBAL =====
@@ -27,7 +29,7 @@ if (snapshot.empty) {
 
   snapshot.forEach(d => {
     const s = d.data();
-
+    if (s.apagadoLider === true) return;
     html += `
       <div class="solicitacao-card">
         <h3 class="solicitacao-titulo">${s.solicitacao}</h3>
@@ -39,19 +41,23 @@ if (snapshot.empty) {
         </div>
 
         <div class="solicitacao-acoes">
-          ${
-            s.status === "pendente"
-              ? `
-                <button class="btn btn-aceitar" data-id="${d.id}">
-                  Aceitar
-                </button>
-                <button class="btn btn-recusar" data-id="${d.id}">
-                  Recusar
-                </button>
-              `
-              : `<small style="color: black;">Solicitação já respondida</small>`
-          }
-        </div>
+  ${s.status === "pendente"
+        ? `
+        <button class="btn btn-aceitar" data-id="${d.id}">
+          Aceitar
+        </button>
+        <button class="btn btn-recusar" data-id="${d.id}">
+          Recusar
+        </button>
+      `
+        : `
+        <button class="btn btn-excluir" data-id="${d.id}">
+          Excluir
+        </button>
+      `
+      }
+</div>
+
       </div>
     `;
   });
@@ -99,4 +105,27 @@ if (snapshot.empty) {
       location.reload();
     });
   });
+
+  // ===== BOTÃO EXCLUIR =====
+
+  document.querySelectorAll(".btn-excluir").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      if (!confirm("Deseja excluir esta solicitação?")) return;
+
+      const id = btn.dataset.id;
+      const ref = doc(db, "solicitacoes", id);
+
+      await updateDoc(ref, { apagadoLider: true });
+
+      const snap = await getDoc(ref);
+      const data = snap.data();
+
+      if (data.apagadoAluno === true && data.apagadoLider === true) {
+        await deleteDoc(ref);
+      }
+
+      location.reload();
+    });
+  });
 }
+

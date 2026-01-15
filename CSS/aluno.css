@@ -55,6 +55,14 @@ header h1 {
     font-weight: 700;
 }
 
+hr {
+    min-width: 300px;
+    max-width: 100%;
+    height: 3px;
+    background-color: rgb(255, 255, 255);
+    margin: 0 auto;
+}
+
 header nav {
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -273,6 +281,7 @@ h3 {
     gap: 4px;
     min-width: 180px;
     flex: 1;
+    
 }
 
 .campo label {
@@ -282,24 +291,36 @@ h3 {
 }
 
 .campo input,
-.campo select {
-    padding: 10px 5px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    cursor: pointer;
+.campo select,
+.campo textarea {
+    background-color: #f9fafb;
+    color: #1f2937;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
+
 .campo input:focus,
-.campo select:focus {
-    border-color: #2e7d32;
-    box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.15);
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 90px;
+    max-height: 180px;
 }
 
 .linha-botao {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .linha-botao button {
@@ -311,15 +332,16 @@ h3 {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.2s ease-in-out;
 }
 
 .linha-botao button:hover {
-    background-color: #256428;
+    background-color: #ffffff;
+    color: #09860f;
 
 }
 
 .s-minhas-solic {
-
     display: flex;
     justify-content: center;
     align-items: center;
