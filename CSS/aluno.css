@@ -56,8 +56,7 @@ header h1 {
 }
 
 hr {
-    min-width: 300px;
-    max-width: 100%;
+    width: min(90%, 300px);
     height: 3px;
     background-color: rgb(255, 255, 255);
     margin: 0 auto;
@@ -82,9 +81,7 @@ header nav {
 }
 
 progress {
-    width: 80%;
-    max-width: 800px;
-    min-width: 50px;
+    width: min(80%, 80%);
 }
 
 .d-header {
@@ -119,8 +116,7 @@ nav a {
 .d-presenca,
 .d-justificativa {
     background-color: #1a1a2294;
-    width: 30%;
-    min-width: 350px;
+    width: min(90%, 390px);
     margin: 20px auto;
 
     display: flex;
@@ -186,7 +182,7 @@ input {
 }
 
 .avisos-container-pai {
-    width: 85%;
+    width: min(85%, 1500px);
     margin: 0 auto;
 }
 
@@ -281,7 +277,7 @@ h3 {
     gap: 4px;
     min-width: 180px;
     flex: 1;
-    
+
 }
 
 .campo label {
@@ -293,13 +289,14 @@ h3 {
 .campo input,
 .campo select,
 .campo textarea {
-    background-color: #f9fafb;
-    color: #1f2937;
+    background-color: #333333;
+    color: #ffffff;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     padding: 10px 12px;
     font-size: 0.95rem;
     transition: all 0.2s ease;
+    width: 300px;
 }
 
 
@@ -347,6 +344,10 @@ h3 {
     align-items: center;
     flex-direction: column;
     gap: 10px;
+}
+
+.s-minhas-solic h3 {
+    text-align: center;
 }
 
 .solicitacao-card {
@@ -415,9 +416,7 @@ main {
 }
 
 .container {
-    width: 85%;
-    max-width: 1200px;
-
+    width: min(85%, 1500px);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -429,22 +428,22 @@ main {
 }
 
 .grid {
-    width: 100%;
+    width: min(100%, 1500px);
     background-color: #353535;
+    margin: 0 auto;
 
     padding: 1rem 1rem;
     border-radius: 12px;
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    grid-column: auto;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
 .d-curso {
     background-color: var(--cinza-logo);
     color: #1A1A22;
-    height: 200px;
+    min-height: 200px;
     padding: 1rem 1rem;
 
     border-radius: 10px;
@@ -480,6 +479,7 @@ main {
 
     header {
         flex-direction: column;
+        padding: 1rem 0rem;
     }
 
     .d-progress {
@@ -489,12 +489,14 @@ main {
 
     header h1 {
         font-size: 1rem;
+        text-align: center;
     }
 
     .d-perfil p,
     .d-perfil i {
         font-size: 1rem;
         font-weight: 700;
+        text-align: center;
     }
 
     .d-progress label {
@@ -524,13 +526,14 @@ main {
     }
 
     .grid {
-        width: 80%;
-        margin: 0 auto
+        grid-template-columns: 1fr;
     }
 
     .container h2 {
         text-align: center;
     }
+
+    
 }
 
 @media screen and (min-width: 565px) and (max-width: 1024px) {
@@ -581,13 +584,9 @@ main {
     }
 
     .grid {
-        width: 90%;
-        margin: 0 auto
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .container h2 {
-        text-align: center;
-    }
 }
 
 @media screen and (max-width: 390px) {
@@ -605,11 +604,11 @@ main {
     }
 
     .d-presenca,
-    .d-justificativa {
+.d-justificativa {
+    width: min(90%, 290px);
+    margin: 20px auto;
 
-        min-width: 250px;
-
-    }
+}
 
     .d-justificativa select,
     input {
@@ -660,11 +659,6 @@ main {
         font-size: 1.3rem;
     }
 
-    .campo input,
-    .campo select {
-        padding: 5px 5px;
-    }
-
     /* Botão */
     .linha-botao button {
         padding: 8px 10px;
@@ -678,7 +672,10 @@ main {
 
     }
 
-    .d-curso {
-        max-width: 80%;
+    .campo input,
+    .campo select,
+    .campo textarea {
+        width: 200px;
+        max-width: 90%;
     }
 }

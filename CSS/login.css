@@ -132,15 +132,16 @@ button:hover {
     .input-group input {
         width: 100%;
         padding: 0.5rem;
+        
     }
 
     .login-card img {
         height: auto;
-        width: 7rem;
+        width: 50%
     }
 
     button {
-        width: 80%;
+        width: 100%;
     }
 
     h1 {
