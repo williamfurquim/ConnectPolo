@@ -74,6 +74,13 @@ export const alunosMock = [
     aniversario: "Primórdios da Terra-Média",
     tempo: "+1000",
     imagem: "https://i.pinimg.com/474x/b9/5d/37/b95d3791e6840ba3e66e6f707d979fc2.jpg"
+  },
+  {
+    nome: "Me passa 1 dólar",
+    setor: "Rua",
+    aniversario: "Não sabe-se",
+    tempo: 1,
+    imagem: "https://i.redd.it/day-13-the-worst-thing-jerome-has-ever-done-v0-oez7y4k66qoe1.jpg?width=210&format=pjpg&auto=webp&s=445d03f108b2473904995529e9919ef3d03c3a87"
   }
 
 ];
