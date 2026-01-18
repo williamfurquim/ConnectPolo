@@ -6,3 +6,6 @@ Senha: SandMan
 
 E-mail: amanda@aluno.com
 Senha: 12341234
+
+E-mail: gustavo.chimello@aluno.com
+Senha: Procyon Lotor

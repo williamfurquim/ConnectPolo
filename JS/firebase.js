@@ -5,6 +5,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.14.0/firebas
 const firebaseConfig = {
   apiKey: "AIzaSyBrC8475Zag_T-sfRgXibUi_4YGSfRhxSk",
   authDomain: "marcopolodays-25e45.firebaseapp.com",
+  databaseURL: "https://marcopolodays-25e45-default-rtdb.firebaseio.com",
   projectId: "marcopolodays-25e45",
   storageBucket: "marcopolodays-25e45.firebasestorage.app",
   messagingSenderId: "992740172037",
