@@ -26,25 +26,25 @@ import {
 export async function buscarTurmas(filtros = {}) {
   try {
     console.log("📚 [buscarTurmas] Iniciando busca...");
-    
+
     let q = collection(db, "turmas");
-    
+
     // ✅ SOLUÇÃO: Busca TODAS as turmas e filtra no JavaScript
     // (Evita erro de índice composto no Firestore)
     const snapshot = await getDocs(q);
-    
+
     console.log("📚 [buscarTurmas] Documentos encontrados:", snapshot.size);
-    
+
     let turmas = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
-    
+
     // Filtro por status ativa (se especificado)
     if (filtros.ativa !== undefined) {
       turmas = turmas.filter(t => t.ativa === filtros.ativa);
     }
-    
+
     // Ordena por campo "ordem" (ou por nome se não existir)
     turmas.sort((a, b) => {
       if (a.ordem !== undefined && b.ordem !== undefined) {
@@ -52,9 +52,9 @@ export async function buscarTurmas(filtros = {}) {
       }
       return (a.nome || '').localeCompare(b.nome || '');
     });
-    
+
     console.log("📚 [buscarTurmas] Turmas processadas:", turmas);
-    
+
     return {
       success: true,
       count: turmas.length,
@@ -76,17 +76,17 @@ export async function buscarTurmaPorId(turmaId) {
   try {
     const docRef = doc(db, "turmas", turmaId);
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       return {
         success: false,
         error: "Turma não encontrada"
       };
     }
-    
+
     // Buscar alunos da turma
     const alunosResult = await buscarAlunos({ turmaId, ativo: true });
-    
+
     return {
       success: true,
       data: {
@@ -114,27 +114,27 @@ export async function buscarTurmaPorId(turmaId) {
 export async function buscarAlunos(filtros = {}) {
   try {
     let q = collection(db, "usuarios");
-    
+
     // Sempre filtrar por role aluno
     q = query(q, where("role", "==", "aluno"));
-    
+
     // Filtro por turma
     if (filtros.turmaId) {
       q = query(q, where("turmaId", "==", filtros.turmaId));
     }
-    
+
     // Filtro por status ativo
     if (filtros.ativo !== undefined) {
       q = query(q, where("ativo", "==", filtros.ativo));
     }
-    
+
     const snapshot = await getDocs(q);
-    
+
     const alunos = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
-    
+
     return {
       success: true,
       count: alunos.length,
@@ -156,14 +156,14 @@ export async function buscarAlunoPorId(alunoId) {
   try {
     const docRef = doc(db, "usuarios", alunoId);
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       return {
         success: false,
         error: "Aluno não encontrado"
       };
     }
-    
+
     return {
       success: true,
       data: {
@@ -190,16 +190,16 @@ export async function buscarAlunoPorEmail(email) {
       where("email", "==", email.toLowerCase()),
       where("role", "==", "aluno")
     );
-    
+
     const snapshot = await getDocs(q);
-    
+
     if (snapshot.empty) {
       return {
         success: false,
         error: "Aluno não encontrado"
       };
     }
-    
+
     const doc = snapshot.docs[0];
     return {
       success: true,
@@ -224,20 +224,32 @@ export async function cadastrarAluno(dados) {
   try {
     // Verificar se email já existe
     const emailExists = await buscarAlunoPorEmail(dados.email);
-    
+
     if (emailExists.success) {
       return {
         success: false,
         error: "Email já cadastrado"
       };
     }
-    
+
+    let diaNascimento = null;
+    let mesNascimento = null;
+
+    if (dados.dataNascimento) {
+      const partes = dados.dataNascimento.split("-");
+      mesNascimento = Number(partes[1]);
+      diaNascimento = Number(partes[2]);
+    }
+
     const novoAluno = {
       nome: dados.nomeCompleto,
       nomeExibicao: dados.nomeExibicao || dados.nomeCompleto,
       email: dados.email.toLowerCase(),
       setor: dados.setor,
       dataNascimento: dados.dataNascimento || null,
+      diaNascimento: diaNascimento,
+      mesNascimento: mesNascimento,
+
       tempoExperiencia: dados.tempoExperiencia || "0 meses",
       foto: dados.foto || null,
       matricula: dados.matricula || null,
@@ -246,11 +258,11 @@ export async function cadastrarAluno(dados) {
       ativo: true,
       criadoEm: serverTimestamp()
     };
-    
+
     const docRef = await addDoc(collection(db, "usuarios"), novoAluno);
-    
+
     console.log("✅ Aluno cadastrado:", docRef.id);
-    
+
     return {
       success: true,
       message: "Aluno cadastrado com sucesso",
@@ -275,20 +287,29 @@ export async function atualizarAluno(alunoId, dados) {
   try {
     const docRef = doc(db, "usuarios", alunoId);
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       return {
         success: false,
         error: "Aluno não encontrado"
       };
     }
-    
+
+    let diaNascimento;
+    let mesNascimento;
+
+    if (dados.dataNascimento) {
+      const partes = dados.dataNascimento.split("-");
+      mesNascimento = Number(partes[1]);
+      diaNascimento = Number(partes[2]);
+    }
+
     const atualizacao = {
       ...(dados.nome && { nome: dados.nome }),
       ...(dados.nomeExibicao && { nomeExibicao: dados.nomeExibicao }),
       ...(dados.email && { email: dados.email.toLowerCase() }),
       ...(dados.setor && { setor: dados.setor }),
-      ...(dados.dataNascimento !== undefined && { dataNascimento: dados.dataNascimento }),
+      ...(dados.dataNascimento !== undefined && { dataNascimento: dados.dataNascimento, diaNascimento, mesNascimento }),
       ...(dados.tempoExperiencia !== undefined && { tempoExperiencia: dados.tempoExperiencia }),
       ...(dados.foto !== undefined && { foto: dados.foto }),
       ...(dados.matricula !== undefined && { matricula: dados.matricula }),
@@ -296,11 +317,11 @@ export async function atualizarAluno(alunoId, dados) {
       ...(dados.ativo !== undefined && { ativo: dados.ativo }),
       atualizadoEm: serverTimestamp()
     };
-    
+
     await updateDoc(docRef, atualizacao);
-    
+
     console.log("✅ Aluno atualizado:", alunoId);
-    
+
     return {
       success: true,
       message: "Aluno atualizado com sucesso",
@@ -320,17 +341,17 @@ export async function atualizarAluno(alunoId, dados) {
 export async function buscarCursos(filtros = {}) {
   try {
     let q = collection(db, "cursos");
-    
+
     if (filtros.ativo !== undefined) {
       q = query(q, where("ativo", "==", filtros.ativo));
     }
-    
+
     if (filtros.categoria) {
       q = query(q, where("categoria", "==", filtros.categoria));
     }
-    
+
     const snapshot = await getDocs(q);
-    
+
     const cursos = snapshot.docs.map(doc => {
       const data = doc.data();
       return {
@@ -339,7 +360,7 @@ export async function buscarCursos(filtros = {}) {
         totalModulos: data.modulos ? data.modulos.length : 0
       };
     });
-    
+
     return {
       success: true,
       count: cursos.length,
@@ -358,16 +379,16 @@ export async function buscarCursoPorId(cursoId) {
   try {
     const docRef = doc(db, "cursos", cursoId);
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       return {
         success: false,
         error: "Curso não encontrado"
       };
     }
-    
+
     const data = docSnap.data();
-    
+
     return {
       success: true,
       data: {
@@ -392,7 +413,7 @@ export async function buscarProgressoAluno(alunoId, cursoId = null) {
     if (cursoId) {
       const docRef = doc(db, "progresso", alunoId, "cursos", cursoId);
       const docSnap = await getDoc(docRef);
-      
+
       if (!docSnap.exists()) {
         return {
           success: true,
@@ -406,7 +427,7 @@ export async function buscarProgressoAluno(alunoId, cursoId = null) {
           }
         };
       }
-      
+
       return {
         success: true,
         data: {
@@ -418,20 +439,20 @@ export async function buscarProgressoAluno(alunoId, cursoId = null) {
     } else {
       const cursosRef = collection(db, "progresso", alunoId, "cursos");
       const snapshot = await getDocs(cursosRef);
-      
+
       const cursosProgresso = [];
-      
+
       for (const doc of snapshot.docs) {
         const cursoData = doc.data();
         const cursoInfo = await buscarCursoPorId(doc.id);
-        
+
         cursosProgresso.push({
           cursoId: doc.id,
           titulo: cursoInfo.success ? cursoInfo.data.titulo : "Curso não encontrado",
           ...cursoData
         });
       }
-      
+
       return {
         success: true,
         data: {
@@ -453,18 +474,18 @@ export async function buscarProgressoAluno(alunoId, cursoId = null) {
 export async function atualizarProgresso(alunoId, cursoId, modulosConcluidos) {
   try {
     const cursoResult = await buscarCursoPorId(cursoId);
-    
+
     if (!cursoResult.success) {
       return cursoResult;
     }
-    
+
     const totalModulos = cursoResult.data.totalModulos;
-    const porcentagem = totalModulos > 0 
+    const porcentagem = totalModulos > 0
       ? Math.round((modulosConcluidos / totalModulos) * 100)
       : 0;
-    
+
     const progressoRef = doc(db, "progresso", alunoId, "cursos", cursoId);
-    
+
     await setDoc(progressoRef, {
       modulosConcluidos,
       totalModulos,
@@ -472,9 +493,9 @@ export async function atualizarProgresso(alunoId, cursoId, modulosConcluidos) {
       concluido: porcentagem === 100,
       ultimaAtualizacao: serverTimestamp()
     });
-    
+
     console.log("✅ Progresso atualizado:", alunoId, cursoId);
-    
+
     return {
       success: true,
       message: "Progresso atualizado com sucesso",
@@ -504,16 +525,16 @@ export async function buscarDadosDashboard() {
       buscarTurmas(),
       buscarCursos()
     ]);
-    
+
     const totalAlunos = alunosResult.count || 0;
     const alunosAtivos = alunosResult.data?.filter(a => a.ativo).length || 0;
-    
+
     const totalTurmas = turmasResult.count || 0;
     const turmasAtivas = turmasResult.data?.filter(t => t.ativa).length || 0;
-    
+
     const totalCursos = cursosResult.count || 0;
     const cursosAtivos = cursosResult.data?.filter(c => c.ativo).length || 0;
-    
+
     return {
       success: true,
       data: {
