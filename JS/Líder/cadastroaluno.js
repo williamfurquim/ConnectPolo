@@ -1,4 +1,4 @@
-import { cadastrarAluno, buscarTurmas } from "../api-service";
+import { cadastrarAluno, buscarTurmas } from "../api-service.js";
 
 let imageBase64 = null;
 let turmasDisponiveis = [];

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap');  
+@import url('https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap');
 
 :root {
     --fundo-escuro: #1A1A22;
@@ -23,7 +23,7 @@ body {
     color: var(--branco);
 }
 
-header{
+header {
     background-color: var(--fundo-escuro);
     width: 100%;
     gap: 2rem;
@@ -35,29 +35,29 @@ header{
     padding: 1rem 2rem;
 }
 
-header h1{
+header h1 {
     font-size: clamp(1.8rem, 4vw, 2rem);
 }
 
 header button {
-  background: var(--laranja);
-  font-size: 1rem;
-  color: black;
+    background: var(--laranja);
+    font-size: 1rem;
+    color: black;
 
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  transition: 0.2s ease-in-out;
-  border-radius: 12px;
-  font-weight: bolder;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: 0.2s ease-in-out;
+    border-radius: 12px;
+    font-weight: bolder;
 }
 
 header button:hover {
-  transform: scale(1.05);
-  color: white;
+    transform: scale(1.05);
+    color: white;
 }
 
-main{
+main {
     width: 100%;
     min-height: 90vh;
     display: flex;
@@ -65,15 +65,15 @@ main{
     align-items: center;
 }
 
-.container{
+.container {
     background-color: var(--fundo-escuro);
     width: min(90%, 1300px);
-    
+
     display: flex;
     padding: 2rem 2rem;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.241);
-    gap: 80px;
-    align-items:flex-start;
+    gap: clamp(20px, 4vw, 80px);
+    align-items: flex-start;
     justify-content: space-between;
 
     border-radius: 24px;
@@ -83,29 +83,32 @@ main{
     flex: 1;
 }
 
-.card{
+.card {
     display: flex;
     flex-direction: column;
-     min-width: 0;
+    min-width: 0;
 }
 
-.infos-card{
+.infos-card {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 20px;
     margin-top: 40px;
 }
 
-img {
+.container > img {
     width: 100%;
     max-width: 22rem;
     min-width: 0;
+    height: auto;
+    object-fit: contain;
 }
- h2{
-    font-size: 2rem;
- }
 
- .card input{
+h2 {
+    font-size: 2rem;
+}
+
+.card input {
     width: min(100%, 375px);
     background-color: var(--branco);
     color: black;
@@ -115,37 +118,174 @@ img {
     padding: 0.5rem;
     font-size: 1rem;
     transition: 0.2s ease-in-out;
- }
+}
 
- .card input:focus{
+.card input:focus {
     outline: 2px solid var(--laranja);
     transform: scale(1.03);
- }
+}
 
- .card input:hover{
-     outline: 2px solid var(--laranja);
- }
+.card input:hover {
+    outline: 2px solid var(--laranja);
+}
 
 
-@media screen and (min-width:565px) and (max-width:1024px){
-    .container{
-    flex-direction: column; 
+@media screen and (min-width:565px) and (max-width:1024px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+
+        gap: 20px;
+    }
+
+    .container > img {
+        width: 10rem;
+    }
+
+    h2 {
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.s-aniversario {
+    width: 100%;
+    min-height: 50vh;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
     align-items: center;
-    margin: 20px 0; 
+    
+    margin: 80px 0;
+}
 
+.d-aniversario {
+    background: linear-gradient(90deg, rgb(27, 5, 99) 0%, rgb(149, 43, 202) 52%, rgb(27, 5, 99) 100%);
+    width: min(90%, 1175px);
+    display: flex;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.241);
+    padding: 30px;
+    border-radius: 20px;
+    gap: 70px;
+
+}
+
+.texto {
+    flex: 1;
+}
+
+.imagem {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
 }
 
-img{
-    width: 10rem;
+.imagem img {
+    max-width: 50%;
+   border-radius: 50%;
 }
 
-h2{
-    text-align: center;
-}
+.texto p {
+    font-size: clamp(18px,2vw,19.8px);
+    margin-top: 10px;
+    word-break: normal;
 }
 
-@media (max-width: 565px) {
+.texto h4 {
+    font-size: 4rem;
+   
+    font-family: "Bubbler One", sans-serif;
+}
+
+
+#img-baloes {
+    align-self: end;
+    border-radius: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+@media screen and (max-width: 1024px){
+    .d-aniversario {
+        flex-direction: column;
+        gap: 35px;
+       padding: 30px 50px;
+       
+    }
+
+    .imagem img {
+        max-width: 30%;
+    }
+ 
+}
+
+
+@media screen and (max-width: 565px) {
+
+    
+
+    .imagem img {
+        max-width: 50%;
+
+    }
+
+    .texto p {
+        text-align: center;
+    }
+
+    .texto h4 {
+        text-align: center;
+    }
+
     .container {
         flex-direction: column;
         align-items: center;
@@ -157,86 +297,21 @@ h2{
         grid-template-columns: minmax(0, 1fr);
     }
 
-    img{
-    width: 10rem;
-}
+    .container > img {
+        width: 10rem;
+    }
 
-h2{
-text-align: center;
-}
-}
-
-@media screen and (max-width: 390px){
-    header{
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem;
+    h2 {
+        text-align: center;
     }
 }
 
 
 
-.s-aniversario{
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-}
-
-
-
-
-
-.d-aniversario{
-    background: linear-gradient(90deg,rgb(27, 5, 99) 0%, rgb(149, 43, 202) 52%, rgb(27, 5, 99) 100%);
-    width: min(90%, 975px);
-    display: flex;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.241);
-    padding: 20px 15px;
-    border-radius: 20px;
-
-
-}
-
-.texto{
-    flex: 1;
-    
-
-}
-
-.imagem{
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
-
-.imagem img{
-    width: 100%;
-
-}
-
-.texto p{
-    font-size: 1.3rem;
-    margin-top: 10px;
-    margin-left: 15px;
-
-}
-
-.texto h4{
-    font-size: 4rem;
-    font-family: "Bubbler One", sans-serif;
-    margin-left: 15px;
-}
-
-
-#img-baloes{
-    margin-left: 15px;
-  align-self: end;
-  width: 550px;
-  margin-top: 20px;
- 
+@media (max-width: 390px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
 }

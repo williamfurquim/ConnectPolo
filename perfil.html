@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/perfil-lider.css">
     <link rel="icon" href="Img/favicon.ico" />
     <title>Perfil | ConnectPolo</title>
@@ -12,7 +12,7 @@
 <body>
     <header>
         <h1>ConnectPolo</h1>
-        <button onclick="window.location.href='./lider.html'">↩️ Voltar</button>
+        <button onclick="window.history.back()">↩️ Voltar</button>
     </header>
 
     <main>
@@ -33,8 +33,8 @@
                     </div>
 
                     <div class="card">
-                        <label for="turmas">Turmas:</label>
-                        <input id="turmas" type="text">
+                        <label for="n-matrícula">Número de Matrícula::</label>
+                        <input id="n-matrícula" type="text">
                     </div>
 
                     <div class="card">
@@ -56,22 +56,22 @@
         </section>
     </main>
 
-    <section class="s-aniversario">
+    <section class="s-aniversario" id="s-aniversario">
         <div class="d-aniversario">
         
             
             <div class="texto">
-                <h4>Happy <br>Bithday</h4>
-                <p>Sua presença enriquece nosso ambiente de trabalho. <br>Dessejamos que seu dia seja maravilhoso e <br>que sua jornada continue sendo de muito crescimento e conquistas.</p>
+                <h4>Happy <br>Birthday</h4>
+                <p>Sua presença enriquece nosso ambiente de trabalho. <br>Desejamos que seu dia seja maravilhoso e <br>que sua jornada continue sendo de muito crescimento e conquistas.</p>
             </div>
             
             <div class="imagem">
-                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="">
+                <img id="img-aluno" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="">
                 <img id="img-baloes" src="https://static.vecteezy.com/system/resources/thumbnails/038/967/748/small/celebration-party-banner-with-color-balloons-png.png" alt="">
             </div>
         </div>
         
     </section>
 </body>
-
+    <script type="module" src="./JS/Líder/buscar-aniver.js"></script>
 </html>
