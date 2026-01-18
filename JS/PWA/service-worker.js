@@ -1,4 +1,4 @@
-const CACHE_NAME = 'connectpolo-v1.0.4'; // Atualize a cada deploy
+const CACHE_NAME = 'connectpolo-v1.0.5'; // Atualize a cada deploy
 
 const urlsToCache = [
   '/',
@@ -13,38 +13,12 @@ const urlsToCache = [
 
   '/CSS/aluno.css',
   '/CSS/aviso.css',
-  '/CSS/cadastroaluno.css', //
+  '/CSS/cadastroaluno.css',
   '/CSS/dashboard.css',
   '/CSS/lider.css',
   '/CSS/login.css',
   '/CSS/notificacoes.css',
   '/CSS/perfil-lider.css',
-
-  '/JS/api.js',
-  '/JS/auth.js',
-  '/JS/data.js',
-  '/JS/firebase.js',
-  '/JS/guard.js',
-  '/JS/perfil-aluno.js',
-  '/JS/api-service.js',
-  '/JS/upload-service.js', 
-   
-
-  '/JS/Avisos/avisos-aluno.js',
-  '/JS/Avisos/avisos-lider.js',
-
-  '/JS/Líder/cadastroalunos.js',
-  '/JS/Líder/dashboard.js',
-  '/JS/Líder/grafico.js',
-  '/JS/Líder/lider.js',
-  '/JS/Líder/notificacoes.js',
-
-  '/JS/Solicitações/solici-lider.js',
-  '/JS/Solicitações/solici.js',
-
-  '/JS/Status/justificativa.js',
-  '/JS/Status/presenca.js',
-  '/JS/Status/verificacao.js',
 
   '/Img/favicon.ico',
   '/Img/icon-192.png',
@@ -76,32 +50,29 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
+  // Nunca tocar em Firebase, APIs ou JS
   if (
-    url.hostname.includes('firebasestorage') ||
-    url.hostname.includes('firebaseio') ||
+    url.hostname.includes('firebase') ||
     url.hostname.includes('googleapis') ||
-    url.hostname.includes('gstatic') ||
-    url.hostname.includes('firestore')
+    event.request.destination === 'script'
   ) {
-    return event.respondWith(fetch(event.request));
+    return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) return response;
-      return fetch(event.request).then(res => {
-        if (event.request.method === 'GET' && res.status === 200 && res.type === 'basic') {
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, res.clone()));
-        }
-        return res;
-      });
-    }).catch(() => {
-      if (event.request.destination === 'document') {
-        return caches.match('/index.html');
-      }
-    })
-  );
+  // Cache apenas HTML, CSS e imagens
+  if (
+    event.request.destination === 'document' ||
+    event.request.destination === 'style' ||
+    event.request.destination === 'image'
+  ) {
+    event.respondWith(
+      caches.match(event.request).then(response => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
+
 
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
