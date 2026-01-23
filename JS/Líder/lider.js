@@ -10,6 +10,8 @@ import {
   orderBy
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
 protegerPagina("lider");
 verificarFaltasHoje();
 
@@ -42,3 +44,36 @@ const q = query(
   where("lida", "==", false),
   orderBy("criadaEm", "desc")
 );
+
+
+
+
+
+const btnSalvar = document.getElementById("btn-salvar-horario");
+if (btnSalvar) {
+  btnSalvar.addEventListener("click", async () => {
+    const inicio = document.getElementById("hora-inicio").value;
+    const fim = document.getElementById("hora-fim").value;
+
+    if (!inicio || !fim) {
+      alert("Preencha os dois horários!");
+      return;
+    }
+
+    await setDoc(doc(db, "config", "presenca"), { inicio, fim });
+    alert("Horário de presença salvo com sucesso!");
+  });
+}
+
+// Pré-carregar horários atuais nos inputs do líder
+async function carregarHorarioAtual() {
+  const ref = doc(db, "config", "presenca");
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+
+  const { inicio, fim } = snap.data();
+  document.getElementById("hora-inicio").value = inicio;
+  document.getElementById("hora-fim").value = fim;
+}
+
+carregarHorarioAtual();

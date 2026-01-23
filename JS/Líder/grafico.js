@@ -77,19 +77,22 @@ async function obterEstatisticasSemanaPassada() {
         else if (jSnap.exists()) justificativas++;
     }));
 
-    return presencas + justificativas;
+    return { presencas, justificativas };
 }
 
 // ===== FUNÇÃO DE ATUALIZAÇÃO DO GRÁFICO =====
 function atualizarGraficoEUI() {
-    const presencas = presencasHoje.size + justificativasHoje.size;
-    const faltas = totalAlunos - presencas;
+    const presencas = presencasHoje.size;
+    const justificativas = justificativasHoje.size;
+    const faltas = totalAlunos - presencas - justificativas;
 
     presencasHojeEl.textContent = presencas;
     faltasHojeEl.textContent = faltas;
 
     if (grafico) {
-        grafico.data.datasets[0].data = [presencas, faltas];
+        grafico.data.labels = ["Presenças", "Justificativas", "Faltas"];
+        grafico.data.datasets[0].data = [presencas, justificativas, faltas];
+        grafico.data.datasets[0].backgroundColor = ["#4CAF50", "#3679d7", "#F44336"];
         grafico.update();
         return;
     }
@@ -97,10 +100,10 @@ function atualizarGraficoEUI() {
     grafico = new Chart(ctx, {
         type: "doughnut",
         data: {
-            labels: ["Presenças", "Faltas"],
+            labels: ["Presenças", "Justificativas", "Faltas"],
             datasets: [{
-                data: [presencas, faltas],
-                backgroundColor: ["#4CAF50", "#F44336"],
+                data: [presencas, justificativas, faltas],
+                backgroundColor: ["#4CAF50", "#3679d7", "#F44336"],
                 borderWidth: 2
             }]
         },
@@ -111,7 +114,7 @@ function atualizarGraficoEUI() {
                 legend: { position: "top" },
                 title: {
                     display: true,
-                    text: "PRESENÇA / FALTAS (HOJE)"
+                    text: "PRESENÇA / JUSTIFICATIVAS / FALTAS (HOJE)"
                 }
             }
         }
@@ -124,11 +127,20 @@ async function atualizarUIComVariacao() {
 
     const semanaPassada = await obterEstatisticasSemanaPassada();
 
-    const presHoje = presencasHoje.size + justificativasHoje.size;
+    const presHoje = presencasHoje.size;
+    const justHoje = justificativasHoje.size;
     const faltasHoje = totalAlunos - presHoje;
 
-    presencasVarEl.textContent = calcularVariacao(presHoje, semanaPassada) + " que semana passada";
-    faltasVarEl.textContent = calcularVariacao(faltasHoje, totalAlunos - semanaPassada) + " que semana passada";
+    const presSemana = semanaPassada.presencas;
+     const justSemana = semanaPassada.justificativas;
+    const faltasSemana = totalAlunos - (presSemana + justSemana);
+
+    // Atualiza elementos
+    presencasVarEl.textContent = calcularVariacao(presHoje, presSemana) + " que semana passada";
+    faltasVarEl.textContent = calcularVariacao(faltasHoje, faltasSemana) + " que semana passada";
+
+    // Atualiza texto do DOM de faltas hoje
+    faltasHojeEl.textContent = faltasHoje;
 }
 
 // ===== TEMPO REAL =====

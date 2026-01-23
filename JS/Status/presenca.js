@@ -1,8 +1,6 @@
 // ===== IMPORTAÇÕES =====
-
 import { auth, db } from "../firebase.js";
-import { onAuthStateChanged } from
-  "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import {
   doc,
   getDoc,
@@ -10,15 +8,27 @@ import {
   addDoc,
   collection,
   serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // ===== VARIÁVEIS GLOBAIS =====
-
 const btnPresenca = document.getElementById("btn-presenca");
 const msg = document.getElementById("mensagem-presenca");
 
-// ===== VERIFICAÇÃO DE STATUS =====
+// ===== FUNÇÃO DE HORÁRIO PERMITIDO =====
+async function horarioPermitido() {
+  const ref = doc(db, "config", "presenca");
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return false;
 
+  const { inicio, fim } = snap.data();
+  const agora = new Date();
+  const horaAtual = `${String(agora.getHours()).padStart(2,"0")}:${String(agora.getMinutes()).padStart(2,"0")}`;
+
+  return horaAtual >= inicio && horaAtual <= fim;
+}
+
+// ===== VERIFICAÇÃO DE STATUS COM HORÁRIO =====
 async function verificarStatus(user) {
   const hoje = new Date().toISOString().split("T")[0];
 
@@ -29,6 +39,8 @@ async function verificarStatus(user) {
     getDoc(refPresenca),
     getDoc(refJustificativa)
   ]);
+
+  const permitido = await horarioPermitido();
 
   if (justificativaSnap.exists()) {
     msg.textContent = "Você possui uma justificativa registrada hoje";
@@ -45,18 +57,37 @@ async function verificarStatus(user) {
     return "presente";
   }
 
+  // Só habilita o botão se estiver no horário permitido
+  if (!permitido) {
+    msg.textContent = "Presença só pode ser registrada no horário definido pelo líder";
+    msg.style.color = "red";
+    btnPresenca.disabled = true;
+    btnPresenca.classList.remove("pulsando");
+    return "foraHorario";
+  }
+
   btnPresenca.disabled = false;
   btnPresenca.classList.add("pulsando");
+  msg.textContent = "Marque sua presença diária";
   return "pendente";
 }
 
-// ===== ADICIONAR PRESENÇA =====
+// ===== FUNÇÃO DE ATUALIZAÇÃO PERIÓDICA DO BOTÃO =====
+async function atualizarBotao(user) {
+  await verificarStatus(user);
+}
 
+// ===== ADICIONAR PRESENÇA =====
 if (btnPresenca) {
   onAuthStateChanged(auth, async (user) => {
     if (!user) return;
- await verificarStatus(user);
-    
+
+    // Atualiza botão ao carregar
+    await atualizarBotao(user);
+
+    // Atualiza botão a cada minuto para refletir mudanças de horário
+    setInterval(() => atualizarBotao(user), 60000);
+
     btnPresenca.addEventListener("click", async () => {
       const status = await verificarStatus(user);
       if (status !== "pendente") return;
@@ -67,10 +98,8 @@ if (btnPresenca) {
       const refJustificativa = doc(db, "justificativas", user.uid, "dias", hoje);
       const justificativaSnap = await getDoc(refJustificativa);
 
-
       if (justificativaSnap.exists()) {
-        msg.textContent =
-          "Você já possui uma justificativa registrada para hoje.";
+        msg.textContent = "Você já possui uma justificativa registrada para hoje.";
         msg.style.color = "orange";
         btnPresenca.disabled = true;
         return;
@@ -90,7 +119,7 @@ if (btnPresenca) {
       await addDoc(collection(db, "notificacoes"), {
         tipo: "presenca",
         alunoId: user.uid,
-        mensagem: "Aluno registrou presença hoje.",
+        mensagem: "registrou presença hoje.",
         criadaEm: serverTimestamp(),
         lida: false
       })
@@ -101,4 +130,17 @@ if (btnPresenca) {
     });
   });
 }
+
+const refHorario = doc(db, "config", "presenca");
+
+onSnapshot(refHorario, (snap) => {
+  const pHorario = document.getElementById("horario-presenca");
+  if (!snap.exists()) {
+    pHorario.textContent = "Horário ainda não definido.";
+    return;
+  }
+  const { inicio, fim } = snap.data();
+  pHorario.textContent = `Horário permitido para marcar presença: ${inicio} - ${fim}`;
+  pHorario.style.color = "gray"
+});
 
