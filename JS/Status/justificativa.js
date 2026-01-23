@@ -97,13 +97,15 @@ if (btn) {
 
       const mensagem =
         dataReferencia === hoje
-          ? "Aluno informou ausência para o dia de hoje."
-          : `Aluno informou ausência prevista para ${dataFormatada}.`;
+          ? "informou ausência para o dia de hoje"
+          : `informou ausência prevista para ${dataFormatada}`;
       // Cria notificação para o líder
       await addDoc(collection(db, "notificacoes"), {
         tipo: "justificativa",
         alunoId: user.uid,
-        mensagem: `${mensagem} Motivo: ${motivo}.`,
+        mensagem: mensagem,
+        motivo: motivo,
+        observacao: observacao,
         dataReferencia,
         criadaEm: serverTimestamp(),
         lida: false

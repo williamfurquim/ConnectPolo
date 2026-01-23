@@ -48,17 +48,17 @@
             <div class="dados-alunos">
                 <div class="circle">
                     <h4>Turmas</h4>
-                    <p style="color: green">8</p>
+                    <p style="color: rgb(0, 98, 0)" id="total-turmas"></p>
                 </div>
 
                 <div class="circle">
                     <h4>Alunos</h4>
-                    <p style="color: rgb(0, 152, 0)">68</p>
+                    <p style="color: rgb(0, 98, 0)" id="total-alunos"></p>
                 </div>
 
                 <div class="circle">
                     <h4>Cursos</h4>
-                    <p style="color: rgb(0, 98, 0)">13</p>
+                    <p style="color: rgb(0, 98, 0)" id="total-cursos"></p>
                 </div>
             </div>
 
@@ -80,8 +80,26 @@
                 📊 Ver gráficos
             </button>
 
-            <div id="solicitacoes-alunos">
-                <p>Carregando solicitações...</p>
+            <div class="config-horario">
+                <h2>Receber presenças</h2>
+                <label for="hora-inicio">Início:</label>
+                <input type="time" id="hora-inicio">
+                <label for="hora-fim">Fim:</label>
+                <input type="time" id="hora-fim">
+                <button id="btn-salvar-horario">Salvar horário</button>
+            </div>
+
+            
+            <div class="solicitacoes">
+                <h2>Solicitações</h2>
+                <div class="d-select">
+                    <label for="filtro-tipo">Filtrar por tipo:</label>
+                <select id="filtro-tipo">
+                    <option value="todos">Todos</option>
+                    <!-- Opções serão preenchidas dinamicamente via JS -->
+                </select>
+                </div>
+                <div id="solicitacoes-alunos"></div>
             </div>
         </section>
 
@@ -161,6 +179,7 @@
     <script type="module" src="./JS/api.js"></script>
     <script type="module" src="./JS/Solicitações/solici-lider.js"></script>
     <script type="module" src="./JS/Líder/grafico.js"></script>
+    <script type="module" src="./JS/Líder/grafico-alunos.js"></script>
 </body>
 
 </html>
