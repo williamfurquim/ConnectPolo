@@ -146,24 +146,96 @@ function renderizarAlunos(alunos) {
 }
 
 // ===== BARRA DE PESQUISA =====
+// ===== FUNÇÕES AUXILIARES =====
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function removeAcentos(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// ===== FUNÇÃO DE HIGHLIGHT CORRIGIDA =====
+function highlight(text, termo) {
+  if (!text || !termo) return text;
+
+  const textSemAcento = removeAcentos(text).toLowerCase();
+  const termoSemAcento = removeAcentos(termo).toLowerCase();
+
+  let resultado = '';
+  let lastIndex = 0;
+
+  const regex = new RegExp(escapeRegExp(termoSemAcento), 'gi');
+  let match;
+  while ((match = regex.exec(textSemAcento)) !== null) {
+    resultado += text.slice(lastIndex, match.index);
+    resultado += `<span class="highlight">${text.slice(match.index, match.index + termo.length)}</span>`;
+    lastIndex = match.index + termo.length;
+  }
+
+  resultado += text.slice(lastIndex);
+  return resultado;
+}
+
+// ===== FUNÇÃO DE DEBOUNCE =====
+function debounce(fn, delay = 300) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+// ===== BARRA DE PESQUISA =====
 if (barraPesquisa) {
-  barraPesquisa.addEventListener("input", () => {
-    const termo = barraPesquisa.value.toLowerCase().trim();
+  barraPesquisa.addEventListener("input", debounce(() => {
+    const termo = barraPesquisa.value.trim();
     
     if (!termo) {
       renderizarAlunos(alunosCache);
       return;
     }
-    
-    const alunosFiltrados = alunosCache.filter(aluno =>
-      aluno.nome.toLowerCase().includes(termo) ||
-      (aluno.nomeExibicao && aluno.nomeExibicao.toLowerCase().includes(termo)) ||
-      aluno.setor.toLowerCase().includes(termo)
-    );
-    
-    renderizarAlunos(alunosFiltrados);
-  });
+
+    const termoLimpo = removeAcentos(termo.toLowerCase());
+
+    const alunosFiltrados = alunosCache.filter(aluno => {
+      const nome = removeAcentos(aluno.nome.toLowerCase());
+      const exibicao = removeAcentos((aluno.nomeExibicao || "").toLowerCase());
+      const setor = removeAcentos(aluno.setor.toLowerCase());
+      return nome.includes(termoLimpo) || exibicao.includes(termoLimpo) || setor.includes(termoLimpo);
+    });
+
+    lista.innerHTML = "";
+    if (alunosFiltrados.length === 0) {
+      lista.innerHTML = `<p style='color: white; text-align: center; padding: 2rem;'>📭 Nenhum aluno encontrado.</p>`;
+      return;
+    }
+
+    alunosFiltrados.forEach(aluno => {
+      const bloco = document.createElement("div");
+      bloco.classList.add("bloco-aluno");
+
+      const imagemSrc = aluno.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+      const nomeExibir = aluno.nomeExibicao || aluno.nome;
+
+      bloco.innerHTML = `
+        <img src="${imagemSrc}" 
+             alt="Foto de ${aluno.nome}"
+             onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
+        <div class="info-left">
+          <h2>${highlight(nomeExibir, termo)}</h2>
+          <p>Setor: ${highlight(aluno.setor, termo)}</p>
+        </div>
+        <div class="info-right">
+          <h2>${aluno.dataNascimento || 'Não informado'}</h2>
+          <p>Experiência: ${aluno.tempoExperiencia}</p>
+        </div>
+      `;
+      lista.appendChild(bloco);
+    });
+  }, 300));
 }
+
 
 // ===== INICIALIZAÇÃO =====
 window.addEventListener("load", async () => {

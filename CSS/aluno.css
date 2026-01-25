@@ -314,6 +314,9 @@ h3 {
     max-height: 180px;
 }
 
+
+
+
 .linha-botao {
     display: flex;
     justify-content: center;
@@ -344,6 +347,14 @@ h3 {
     align-items: center;
     flex-direction: column;
     gap: 10px;
+}
+
+.minhas-solicitacoes {
+    max-width: 90%;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+
 }
 
 .s-minhas-solic h3 {
@@ -533,7 +544,11 @@ main {
         text-align: center;
     }
 
+    .minhas-solicitacoes {
     
+    grid-template-columns: repeat(1, 1fr);
+
+}
 }
 
 @media screen and (min-width: 565px) and (max-width: 1024px) {
@@ -566,6 +581,12 @@ main {
 
     }
 
+    .minhas-solicitacoes {
+    
+    grid-template-columns: repeat(2, 1fr);
+
+}
+
     #avisos-container {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -583,6 +604,7 @@ main {
 
     }
 
+
     .grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -596,11 +618,11 @@ main {
     }
 
     .aviso h3 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .aviso p {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .d-presenca,
@@ -612,7 +634,7 @@ main {
 
     .d-justificativa select,
     input {
-        padding: 0px;
+        padding: 7px;
     }
 
     .d-presenca p,
@@ -623,12 +645,12 @@ main {
 
     .d-presenca button,
     .d-justificativa button {
-        padding: 7px;
-        font-size: 0.7rem;
+        padding: 12px;
+        font-size: 0.8rem;
     }
 
     .avisos-container-pai h2 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
 
     .avisos-container-pai {
@@ -637,7 +659,7 @@ main {
 
     .aviso {
         background-color: #d22b2bff;
-        padding: 10px;
+        padding: 15px;
     }
 
     .aviso p,
@@ -668,7 +690,8 @@ main {
 
     .solicitacao-card {
 
-        max-width: 260px;
+        max-width: 95%;
+        
 
     }
 

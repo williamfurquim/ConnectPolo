@@ -71,6 +71,7 @@ main {
 .d-informacoes-lider img {
     height: auto;
     width: 9rem;
+    border-radius: 50%;
 }
 
 .d-botoes {
@@ -104,11 +105,11 @@ option:nth-child(odd) {
 }
 
 .scroll {
-    width: min(100%, auto);
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 1rem;
 }
 
@@ -416,13 +417,20 @@ option:nth-child(odd) {
     transform: scalex(1.05);
 }
 
+.highlight {
+  background-color: #f2522ec9;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
 #barraPesquisa:hover {
     outline: 2px solid var(--laranja);}
 
 .bloco-aluno {
     background-color: var(--laranja);
     width: 100%;
-    max-width: 100%;
+    max-width: 600px; /* largura máxima desejada */
+    margin: 0 auto;   
 
 
     display: flex;
@@ -488,6 +496,31 @@ option:nth-child(odd) {
     padding: 10px;
 }
 
+.d-botoes button,
+.d-botoes select {
+    font-size: 1.2rem;
+    padding: 1rem;
+
+}
+
+.d-informacoes-lider img {
+    height: auto;
+    width: 7.6rem;
+}
+
+.d-informacoes-lider h2 {
+    font-size: 1.5rem;
+}
+
+.d-informacoes-lider h1 {
+    font-size: 1.2rem;
+}
+
+.circle {
+    padding: 1.7rem 1.5rem;
+    font-size: 1.5rem;
+}
+
     .funcionalidades-lista{
         gap: 10px;
     }
@@ -502,7 +535,7 @@ option:nth-child(odd) {
 
     .dados-alunos {
         width: 70%;
-        flex-direction: column;
+        display: grid;
         align-items: center;
     }
 
@@ -524,11 +557,11 @@ option:nth-child(odd) {
 @media screen and (max-width: 290px) {
     .d-informacoes-lider img {
         height: auto;
-        width: 5rem;
+        width: 6rem;
     }
 
     .d-informacoes-lider h1 {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .s-perfil{
@@ -536,15 +569,15 @@ option:nth-child(odd) {
     }
 
     .grafico-container{
-    width: min(90%, 120px);
+    width: min(90%, 150px);
 }
 
     .d-informacoes-lider h2 {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
     }
 
     .d-informacoes-lider p {
-        font-size: 0.6rem;
+        font-size: 0.8rem;
     }
 
     .d-select h3 {
@@ -560,7 +593,8 @@ option:nth-child(odd) {
 
     .d-botoes button,
     .d-botoes select {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        padding: 0.8rem;
     }
 
     .info-left h2 {
