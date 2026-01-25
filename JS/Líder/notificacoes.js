@@ -57,7 +57,7 @@ onSnapshot(q, async (snap) => {
     const data = n.criadaEm?.toDate().toLocaleString("pt-BR");
 
     div.innerHTML = `
-      <p style="font-size: 1.25rem;"><strong>${n.alunoNome}</strong> ${n.mensagem} | <strong>Motivo:</strong> ${n.motivo}</p>
+      <p style="font-size: 1.25rem;"><strong>${n.alunoNome}</strong> ${n.mensagem} ${n.motivo ? `| <strong>Motivo: ${n.motivo}</strong>` : ""}</p>
       ${n.observacao ? `<p style="margin-top: 1rem; font-size: 1.1rem;">➡️Observação: ${n.observacao}</p>` : ""}
       <div class="notificacaoBottom">
         <small class="small">${n.tipo.toUpperCase()} • ${data}</small><br>
