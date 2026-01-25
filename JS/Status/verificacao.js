@@ -57,7 +57,7 @@ export async function verificarFaltasHoje() {
       await setDoc(refNotificacao, {
         tipo: "falta",
         alunoId: aluno.id,
-        mensagem: `${nomeAluno} não marcou presença hoje.`,
+        mensagem: `não marcou presença hoje.`,
         criadaEm: serverTimestamp(),
         lida: false
       });
