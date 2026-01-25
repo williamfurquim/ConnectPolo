@@ -30,90 +30,102 @@ if (btn) {
     if (!user) return;
 
     btn.addEventListener("click", async () => {
-      const motivo = document.getElementById("motivo").value;
-      const observacao = document.getElementById("observacao").value;
-      const dataReferencia = document.getElementById("data-falta").value;
-      const hoje = hojeISO();
-      if (dataReferencia < hoje) {
-        msg.textContent = "Não é possível justificar faltas passadas.";
-        msg.style.color = "red";
-        return;
-      }
+      try {     
+        btn.disabled = true;   
+        const motivo = document.getElementById("motivo").value;
+        const observacao = document.getElementById("observacao").value;
+        const dataReferencia = document.getElementById("data-falta").value;
+        const hoje = hojeISO();
 
-      if (!motivo || !dataReferencia) {
-        msg.textContent = "Informe o motivo e a data da ausência.";
-        msg.style.color = "red";
-        return;
-      }
-
-      const refPresenca = doc(
-        db,
-        "presencas",
-        user.uid,
-        "dias",
-        dataReferencia
-      );
-
-      if (dataReferencia === hoje) {
-        const presencaSnap = await getDoc(refPresenca);
-        if (presencaSnap.exists()) {
-          msg.textContent = "Você já registrou presença para esta data";
-          msg.style.color = "orange";
+        if (!motivo || !dataReferencia || !observacao) {
+          msg.textContent = "Preencha todos os campos para justificar sua falta.";
+          msg.style.color = "red";
+          btn.disabled = false;
           return;
         }
+
+        const refPresenca = doc(
+          db,
+          "presencas",
+          user.uid,
+          "dias",
+          dataReferencia
+        );
+
+        const refJustificativa = doc(
+          db,
+          "justificativas",
+          user.uid,
+          "dias",
+          dataReferencia
+        );
+
+        const justificativaSnap = await getDoc(refJustificativa);
+
+        const presencaSnap = await getDoc(refPresenca);
+
+        if (dataReferencia === hoje && presencaSnap.exists()) {
+          msg.textContent = "Você já registrou presença hoje";
+          msg.style.color = "orange";
+          btn.disabled = false;  
+          return;
+        }
+
+
+        if (justificativaSnap.exists()) {
+          msg.textContent = "Já existe uma justificativa para esta data";
+          msg.style.color = "orange";
+          btn.disabled = false;  
+          return;
+        }
+
+        if (presencaSnap.exists()) {
+          msg.textContent =
+            "Você já registrou presença nesta data. Não é possível justificar";
+          msg.style.color = "orange";
+          btn.disabled = false;  
+          return;
+        }
+
+        // Salva justificativa
+        await setDoc(refJustificativa, {
+          motivo,
+          observacao,
+          dataReferencia,
+          criadaEm: serverTimestamp()
+        });
+
+        // Define mensagem conforme data
+        const dataFormatada = dataReferencia.split("-").reverse().join("/");
+
+        let mensagem;
+        if(dataReferencia === hoje){
+          mensagem = "justificou ausência para o dia de hoje."
+        } else if(dataReferencia > hoje) {
+          mensagem = `justificou ausência prevista para ${dataFormatada}.`;
+        } else {
+          mensagem = `justificou ausência ocorrida em ${dataFormatada}.`;
+        }
+         
+        // Cria notificação para o líder
+        await addDoc(collection(db, "notificacoes"), {
+          tipo: "justificativa",
+          alunoId: user.uid,
+          mensagem: mensagem,
+          motivo: motivo,
+          observacao: observacao,
+          dataReferencia,
+          criadaEm: serverTimestamp(),
+          lida: false
+        });
+
+        msg.textContent = "Justificativa registrada com sucesso.";
+        msg.style.color = "green";
+      } catch (error) {
+        console.log(error);
+        msg.textContent = "Houve um erro ao justificar falta";
+        btn.disabled = false;
       }
-
-      const refJustificativa = doc(
-        db,
-        "justificativas",
-        user.uid,
-        "dias",
-        dataReferencia
-      );
-
-      if ((await getDoc(refJustificativa)).exists()) {
-        msg.textContent = "Já existe uma justificativa para esta data";
-        msg.style.color = "orange";
-        return;
-      }
-
-      if ((await getDoc(refPresenca)).exists()) {
-        msg.textContent =
-          "Você já registrou presença nesta data. Não é possível justificar";
-        msg.style.color = "orange";
-        return;
-      }
-
-      // Salva justificativa
-      await setDoc(refJustificativa, {
-        motivo,
-        observacao,
-        dataReferencia,
-        criadaEm: serverTimestamp()
-      });
-
-      // Define mensagem conforme data
-      const dataFormatada = dataReferencia.split("-").reverse().join("/");
-
-      const mensagem =
-        dataReferencia === hoje
-          ? "informou ausência para o dia de hoje"
-          : `informou ausência prevista para ${dataFormatada}`;
-      // Cria notificação para o líder
-      await addDoc(collection(db, "notificacoes"), {
-        tipo: "justificativa",
-        alunoId: user.uid,
-        mensagem: mensagem,
-        motivo: motivo,
-        observacao: observacao,
-        dataReferencia,
-        criadaEm: serverTimestamp(),
-        lida: false
-      });
-
-      msg.textContent = "Justificativa registrada com sucesso.";
-      msg.style.color = "green";
-      btn.disabled = true;
     });
   });
 }

@@ -52,6 +52,11 @@ header button {
     font-weight: bolder;
 }
 
+main img {
+    border-radius: 50%;
+    object-fit: contain;
+}
+
 header button:hover {
     transform: scale(1.05);
     color: white;

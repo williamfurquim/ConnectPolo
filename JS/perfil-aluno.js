@@ -20,5 +20,5 @@ onAuthStateChanged(auth, (user) => {
 });
 
 botao.addEventListener("click", () => {
-  window.location.href = "perfil.html";
+  window.location.href = "perfil-aluno.html";
 })
