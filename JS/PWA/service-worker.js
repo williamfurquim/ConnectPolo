@@ -8,7 +8,8 @@ const urlsToCache = [
   '/dashboard.html',
   '/lider.html',
   '/notificacoes.html',
-  '/perfil.html',
+  '/perfil-aluno.html',
+  './perfil-lider.html',
   '/cadastroaluno.html',
 
   '/CSS/aluno.css',
