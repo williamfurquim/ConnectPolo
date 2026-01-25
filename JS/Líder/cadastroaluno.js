@@ -304,6 +304,18 @@ function handleFile(file) {
     reader.readAsDataURL(file);
 }
 
+export function extrairCaminhoDeURL(url) {
+  try {
+    const urlObj = new URL(url);
+    if (!urlObj.pathname.includes('/o/')) return null;
+    const path = urlObj.pathname.split('/o/')[1];
+    return decodeURIComponent(path.split('?')[0]);
+  } catch {
+    return null;
+  }
+}
+
+
 function restaurarAreaUpload() {
     uploadArea.innerHTML = `
         <div class="upload-icon">📤</div>

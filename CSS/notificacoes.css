@@ -22,7 +22,6 @@ body {
     background: linear-gradient(135deg, #1A1A22 0%, #2E2E3E 50%, #3A3A4A 100%);;
     color: var(--branco);
 
-    width: 100vw;
     min-height: 100dvh;
 }
 

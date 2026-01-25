@@ -17,10 +17,10 @@ console.log("Hoje:", diaHoje, mesHoje);
 
 const q = query(
   collection(db, "usuarios"),
-  where("role", "==", "aluno"),
-//   where("diaNascimento", "==", diaHoje),
-//   where("mesNascimento", "==", mesHoje),
-//   where("ativo", "==", true)
+  // where("role", "==", "aluno"),
+  // where("diaNascimento", "==", diaHoje),
+  // where("mesNascimento", "==", mesHoje),
+  // where("ativo", "==", true)
 );
 
 

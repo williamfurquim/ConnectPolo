@@ -5,8 +5,8 @@ import { doc, getDoc } from
   "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 const nome = document.getElementById("nomeCompleto");
-const funcao = document.getElementById("funçao");
-const matricula = document.getElementById("n-matrícula");
+const funcao = document.getElementById("funcao");
+const matricula = document.getElementById("n-matricula");
 const nascimento = document.getElementById("dataNascimento");
 const email = document.getElementById("email");
 const tempoExperiencia = document.getElementById("tempoExperiencia");
