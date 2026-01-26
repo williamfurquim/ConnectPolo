@@ -42,7 +42,6 @@ const urlsToCache = [
 
   './JS/Status/justificativa.js',
   './JS/Status/presenca.js',
-  './JS/Status/verificacao.js',
 
   './JS/api-service.js',
   './JS/api.js',

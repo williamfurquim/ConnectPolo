@@ -20,7 +20,7 @@ const msg = document.getElementById("msg-justificativa");
 // ===== FUNÇÃO DE DATA LOCAL =====
 
 function hojeISO() {
-  return new Date().toISOString().split("T")[0];
+  return new Date().toLocaleDateString("en-CA");
 }
 
 // ===== ADICIONAR JUSTIFICATIVA SE ESTIVER LOGADO =====
@@ -30,15 +30,14 @@ if (btn) {
     if (!user) return;
 
     btn.addEventListener("click", async () => {
-      try {     
-        btn.disabled = true;   
+      try {      
         const motivo = document.getElementById("motivo").value;
         const observacao = document.getElementById("observacao").value;
         const dataReferencia = document.getElementById("data-falta").value;
         const hoje = hojeISO();
 
         if (!motivo || !dataReferencia || !observacao) {
-          msg.textContent = "Preencha todos os campos para justificar sua falta.";
+          msg.textContent = "Preencha todos os campos para justificar sua falta";
           msg.style.color = "red";
           btn.disabled = false;
           return;
@@ -64,14 +63,6 @@ if (btn) {
 
         const presencaSnap = await getDoc(refPresenca);
 
-        if (dataReferencia === hoje && presencaSnap.exists()) {
-          msg.textContent = "Você já registrou presença hoje";
-          msg.style.color = "orange";
-          btn.disabled = false;  
-          return;
-        }
-
-
         if (justificativaSnap.exists()) {
           msg.textContent = "Já existe uma justificativa para esta data";
           msg.style.color = "orange";
@@ -80,8 +71,11 @@ if (btn) {
         }
 
         if (presencaSnap.exists()) {
-          msg.textContent =
-            "Você já registrou presença nesta data. Não é possível justificar";
+          if(dataReferencia === hoje){
+            msg.textContent = "Você já registrou presença hoje";
+          } else{
+            msg.textContent = "Você já registrou presença nesta data";
+          }
           msg.style.color = "orange";
           btn.disabled = false;  
           return;
@@ -111,6 +105,7 @@ if (btn) {
         await addDoc(collection(db, "notificacoes"), {
           tipo: "justificativa",
           alunoId: user.uid,
+          alunoNome: user.displayName || "",
           mensagem: mensagem,
           motivo: motivo,
           observacao: observacao,
@@ -121,6 +116,7 @@ if (btn) {
 
         msg.textContent = "Justificativa registrada com sucesso.";
         msg.style.color = "green";
+        btn.disabled = true;
       } catch (error) {
         console.log(error);
         msg.textContent = "Houve um erro ao justificar falta";

@@ -23,13 +23,13 @@ let grafico = null;
 
 // ===== DATAS =====
 function hojeISO() {
-    return new Date().toISOString().split("T")[0];
+    return new Date().toLocaleDateString("en-CA");
 }
 
 function dataSemanaPassadaISO() {
     const d = new Date();
     d.setDate(d.getDate() - 7);
-    return d.toISOString().split("T")[0];
+     return d.toLocaleDateString("en-CA");
 }
 
 const HOJE = hojeISO();

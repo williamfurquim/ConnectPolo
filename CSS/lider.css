@@ -358,18 +358,29 @@ option:nth-child(odd) {
     color: black;
     border: none;
     padding: 0.5rem;
-    font-size: 0.9rem;
-    border-radius: 12px;
+    font-size: 0.76rem;
+    border-radius: 16px 0px 0px 16px;
     margin-top: 1rem;
     transition: 0.2s ease-in-out;
-    cursor: pointer;
     font-weight: bolder;
 }
 
-
+.btn-planilha input{
+    padding: 0.5rem;
+    border-radius: 0 16px 16px 0;
+    border: none;
+    font-size: 0.9rem;
+}
 
 .funcionalidades-lista button:hover {
-    transform: scale(1.05);
+
+    color: white;
+    background-color: #15803d;
+}
+
+.btn-planilha input:hover,
+.btn-planilha input:focus {
+
     color: white;
     background-color: #15803d;
 }

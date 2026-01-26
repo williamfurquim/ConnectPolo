@@ -111,7 +111,10 @@
                 <h2>Nome da turma</h2>
                 <div class="funcionalidades-lista">
                     <input type="text" id="barraPesquisa" placeholder="Digite para filtrar alunos...">
-                    <button>Excel 📊</button>
+                    <div class="btn-planilha">
+                        <button id="btn-exportar-presenca">📊</button>
+                        <input type="date" id="data-exportacao" max="" />
+                    </div>
                 </div>
             </div>
 
@@ -126,6 +129,7 @@
     <script type="module" src="./JS/Líder/grafico.js"></script>
     <script type="module" src="./JS/Líder/grafico-alunos.js"></script>
     <script type="module" src="./JS/Perfil/dados-lider.js"></script>
+    <script type="module" src="./JS/Líder/export.js"></script>
 </body>
 
 </html>
