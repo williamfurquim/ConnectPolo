@@ -30,7 +30,7 @@ async function horarioPermitido() {
 
 // ===== VERIFICAÇÃO DE STATUS COM HORÁRIO =====
 async function verificarStatus(user) {
-  const hoje = new Date().toISOString().split("T")[0];
+  const hoje = new Date().toLocaleDateString("en-CA");
 
   const refPresenca = doc(db, "presencas", user.uid, "dias", hoje);
   const refJustificativa = doc(db, "justificativas", user.uid, "dias", hoje);
@@ -92,7 +92,7 @@ if (btnPresenca) {
       const status = await verificarStatus(user);
       if (status !== "pendente") return;
 
-      const hoje = new Date().toISOString().split("T")[0];
+      const hoje = new Date().toLocaleDateString("en-CA");
 
       const refPresenca = doc(db, "presencas", user.uid, "dias", hoje);
       const refJustificativa = doc(db, "justificativas", user.uid, "dias", hoje);
@@ -119,6 +119,7 @@ if (btnPresenca) {
       await addDoc(collection(db, "notificacoes"), {
         tipo: "presenca",
         alunoId: user.uid,
+        alunoNome: user.displayName || "",
         mensagem: "registrou presença hoje.",
         criadaEm: serverTimestamp(),
         lida: false

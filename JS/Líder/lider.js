@@ -1,13 +1,13 @@
 // ===== IMPORTAÇÕES =====
 import { protegerPagina } from "../guard.js";
-import { verificarFaltasHoje } from "../Status/verificacao.js";
+
 
 import { auth, db } from "../firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 protegerPagina("lider");
-verificarFaltasHoje();
+
 
 
 const imgLider = document.getElementById("img-lider");
