@@ -16,8 +16,8 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" id="img-lider" height="50" alt="">
                 <div class="d-informacoes-texto">
                     <!-- <h1 id="funcao-lider">Informação</h1> -->
-                    <h2 id="nome-lider"></h2>
-                    <p id="email-lider"></p>
+                    <h2 id="nome-lider">Buscando informação...</h2>
+                    <p id="email-lider">Carregando...</p>
                 </div>
             </div>
 
@@ -34,10 +34,10 @@
                         <option value="pcd">PCD</option>
                     </select>
                 </div>
-                <button onclick="window.location.href='./notificacoes.html'">🔔 Notificações</button>
-                <button onclick="window.location.href='./avisos.html'">📌 Criar aviso</button>
-                <button onclick="window.location.href='./perfil-lider.html'">👤 Meu perfil</button>
-                <button onclick="window.location.href = './cadastroaluno.html'">➕ Cadastrar aluno</button>
+                <button onclick="window.location.href='./notificacoes.html'" class="btn-notificacao">🔔 Notificações</button>
+                <button onclick="window.location.href='./avisos.html'" class="btn-aviso">📌 Criar aviso</button>
+                <button onclick="window.location.href='./perfil-lider.html'" class="btn-perfil">👤 Meu perfil</button>
+                <button onclick="window.location.href = './cadastroaluno.html'" class="btn-cadastro"> Cadastros</button>
             </div>
 
             <div class="grafico-container">
@@ -46,32 +46,32 @@
 
 
             <div class="dados-alunos">
-                <div class="circle">
+                <div class="circle c1">
                     <h4>Turmas</h4>
-                    <p style="color: rgb(0, 98, 0)" id="total-turmas"></p>
+                    <p style="color: rgb(0, 0, 0)" id="total-turmas"></p>
                 </div>
 
                 <div class="circle">
                     <h4>Alunos</h4>
-                    <p style="color: rgb(0, 98, 0)" id="total-alunos"></p>
+                    <p style="color: rgb(0, 0, 0)" id="total-alunos"></p>
                 </div>
 
-                <div class="circle">
+                <div class="circle c3">
                     <h4>Cursos</h4>
-                    <p style="color: rgb(0, 98, 0)" id="total-cursos"></p>
+                    <p style="color: rgb(0, 0, 0)" id="total-cursos"></p>
                 </div>
             </div>
 
-            <div class="dados-alunos">
+            <div class="dados-porcentagem">
                 <div class="circle">
                     <h4>Presenças hoje</h4>
-                    <p id="presencas-hoje">0</p>
+                    <p id="presencas-hoje" style="color: rgb(0, 98, 0); font-weight: bolder;"></p>
                     <small id="presencas-variacao">—</small>
                 </div>
 
                 <div class="circle">
                     <h4>Faltas hoje</h4>
-                    <p id="faltas-hoje">0</p>
+                    <p id="faltas-hoje" style="color: rgb(255, 6, 6); font-weight: bolder;"></p>
                     <small id="faltas-variacao">—</small>
                 </div>
             </div>
