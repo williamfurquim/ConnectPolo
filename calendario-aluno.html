@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendário | ConnectPolo</title>
+  <link rel="stylesheet" href="./CSS/calendario-aluno.css">
+</head>
+<body>
+
+<h2>Calendário</h2>
+
+<div class="controle-mes">
+  <button id="mes-anterior">◀</button>
+  <span id="mes-ano"></span>
+  <button id="mes-proximo">▶</button>
+</div>
+
+<div class="legenda">
+  <span class="presente">Presença</span>
+  <span class="justificado">Justificado</span>
+  <span class="falta">Falta</span>
+</div>
+
+<div id="calendario" class="calendario"></div>
+
+<div id="detalhes" class="detalhes"></div>
+
+<div class="resumo">
+  <span id="r-presenca">Presenças: 0</span>
+  <span id="r-justificativa">Justificativas: 0</span>
+  <span id="r-falta">Faltas: 0</span>
+</div>
+
+<div class="divBotoesBaixos">
+    <button id="btn-pdf">📄 Exportar PDF</button>
+    <button onclick="window.location.href='./aluno.html'">↩️ Voltar</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module" src="./JS/calendario.js"></script>
+</body>
+</html>

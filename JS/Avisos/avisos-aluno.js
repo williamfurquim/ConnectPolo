@@ -1,5 +1,4 @@
 // ===== IMPORTAÇÕES =====
-
 import { db } from "../firebase.js";
 import {
     collection,
@@ -20,17 +19,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 // ===== VARIÁVEIS GLOBAIS =====
-
 const auth = getAuth();
-
 const container = document.getElementById("avisos-container");
 const semAvisos = document.getElementById("sem-avisos");
-
 const TEMPO_MAXIMO = 48 * 60 * 60 * 1000; // 48 horas
 const q = query(collection(db, "avisos"), orderBy("criadoEm", "desc"));
 
 // ===== VERIFICA USUÁRIO LOGADO =====
-
 onAuthStateChanged(auth, (user) => {
     if (!user) {
         console.warn("Usuário não autenticado!");
@@ -39,11 +34,8 @@ onAuthStateChanged(auth, (user) => {
 
     const userId = user.uid;
 
-    // ===== EXIBE AVISOS DO LÍDER =====
-
     onSnapshot(q, async (snapshot) => {
         container.innerHTML = "";
-
         let existeAvisoVisivel = false;
         const agora = Date.now();
 
@@ -60,28 +52,31 @@ onAuthStateChanged(auth, (user) => {
 
             existeAvisoVisivel = true;
 
+            const linkHTML = data.link
+                ? `<p><a href="${data.link}" target="_blank" rel="noopener noreferrer">Abrir link</a></p>`
+                : "";
+
             const aviso = document.createElement("div");
             aviso.classList.add("aviso");
 
             aviso.innerHTML = `
                 <h3>${data.titulo}</h3>
                 <p>${data.mensagem}</p>
+                ${linkHTML}
                 <footer>
                     <button class="btn-avisos">
-                        ${lidoSnap.exists() ? "Lido" : "Marcar como lido"}
+                        ${lidoSnap.exists() ? "Marcado como lido" : "Marcar como lido"}
                     </button>
                 </footer>
             `;
 
             const btnLido = aviso.querySelector(".btn-avisos");
 
-            if (lidoSnap.exists()) {
-                btnLido.disabled = true;
-            }
+            if (lidoSnap.exists()) btnLido.disabled = true;
 
             btnLido.addEventListener("click", async () => {
                 btnLido.disabled = true;
-                btnLido.textContent = "Lido";
+                btnLido.textContent = "Marcado como lido";
 
                 await setDoc(lidoRef, {
                     avisoId,
@@ -97,8 +92,6 @@ onAuthStateChanged(auth, (user) => {
             container.appendChild(aviso);
         }
 
-        if (!existeAvisoVisivel) {
-            container.appendChild(semAvisos);
-        }
+        if (!existeAvisoVisivel) container.appendChild(semAvisos);
     });
 });

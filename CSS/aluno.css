@@ -108,7 +108,7 @@ nav {
 }
 
 nav a {
-    text-decoration: none;
+    text-decoration: underline;
     color: var(--branco);
     font-size: 1rem;
 }
@@ -187,7 +187,7 @@ input {
 }
 
 .aviso {
-    background-color: #d22b2bff;
+    background-color: rgb(159, 20, 20);
     padding: 10px 20px;
     border-radius: 10px 10px 42px 42px;
     border-bottom: 5px solid rgba(0, 0, 0, 0.674);
@@ -216,12 +216,22 @@ h3 {
     word-break: break-word;
 }
 
+.aviso a{
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
+    font-weight: bolder;
+}
+
 .aviso h3 {
     font-size: 1.5rem;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
 }
 
 .aviso p {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgb(255, 219, 219);
 }
 
 .avisos-container-pai h2 {
@@ -658,7 +668,7 @@ main {
     }
 
     .aviso {
-        background-color: #d22b2bff;
+        background-color: rgb(159, 20, 20);
         padding: 15px;
     }
 

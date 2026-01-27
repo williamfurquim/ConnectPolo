@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;700&display=swap');
+
+:root {
+    --fundo-escuro: #1A1A22;
+    --gradient: linear-gradient(135deg, #1A1A22 0%, #2E2E3E 50%, #3A3A4A 100%);
+    --branco: #FFFFFF;
+    --cinza-logo: #D9D9D9;
+    --laranja: #F28C2E;
+    --vermelho: #E24329;
+    --verde: #16A34A;
+    --box-shadow: 1px 1px 25px #00000073;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Archivo", sans-serif;
+}
+
+body {
+    background: var(--gradient);
+    color: var(--branco);
+    padding: 1rem;
+    min-height: 100dvh;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* CONTROLE DE MÊS */
+.controle-mes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.controle-mes button {
+    background-color: var(--cinza-logo);
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.2s ease-in-out;
+}
+
+.controle-mes button:hover {
+    background-color: var(--laranja);
+    color: #000;
+}
+
+#mes-ano {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* LEGENDA */
+.legenda {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.legenda span {
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.legenda .presente { background-color: var(--verde); color: var(--branco); }
+.legenda .justificado { background-color: var(--laranja); color: #000; }
+.legenda .falta { background-color: var(--vermelho); color: var(--branco); }
+
+/* CALENDÁRIO */
+.calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    max-width: 450px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.dia {
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    transition: 0.2s ease-in-out;
+}
+
+.dia:hover {
+    transform: translateY(-2px);
+}
+
+.dia.presente { background-color: var(--verde); color: var(--branco); }
+.dia.justificado { background-color: var(--laranja); color: #000; }
+.dia.falta { background-color: var(--vermelho); color: var(--branco); }
+.dia.vazio { opacity: 0.3; cursor: default; }
+
+/* DETALHES */
+.detalhes {
+    max-width: 450px;
+    margin: 0 auto 1.5rem auto;
+    background: rgba(255,255,255,0.05);
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+}
+
+/* RESUMO */
+.resumo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.resumo span {
+    background: rgba(255,255,255,0.05);
+    padding: 0.5rem 0.9rem;
+    border-radius: 12px;
+}
+
+/* BOTÃO PDF */
+.divBotoesBaixos button {
+    display: block;
+    margin: 0 auto 2rem auto;
+    background-color: var(--laranja);
+    border: none;
+    padding: 0.8rem 1.4rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.divBotoesBaixos button:hover {
+    background-color: #d97706;
+}
+
+.divBotoesBaixos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* RESPONSIVO */
+@media (max-width: 580px) {
+    .calendario { gap: 0.4rem; }
+    .dia { height: 50px; font-size: 0.9rem; }
+    h2 { font-size: 1.5rem; }
+    .detalhes { padding: 0.8rem 1rem; font-size: 0.9rem; }
+    .resumo span { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
+    .controle-mes button { width: 32px; height: 32px; font-size: 1rem; }
+}
