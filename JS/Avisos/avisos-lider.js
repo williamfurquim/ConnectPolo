@@ -1,5 +1,4 @@
 // ===== IMPORTAÇÕES =====
-
 import { db } from "../firebase.js";
 import {
     collection,
@@ -14,19 +13,18 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // ===== VARIÁVEIS GLOBAIS =====
-
 const form = document.getElementById("form-aviso");
 const msg = document.getElementById("msg");
 const container = document.getElementById("avisos-lider-container");
 const semAvisos = document.getElementById("sem-avisos");
 
 // ===== ENVIAR AVISO PARA TURMA =====
-
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const titulo = document.getElementById("titulo").value.trim();
     const mensagem = document.getElementById("mensagem").value.trim();
+    const link = document.getElementById("link")?.value.trim() || "";
 
     if (!titulo || !mensagem) return;
 
@@ -34,13 +32,13 @@ form.addEventListener("submit", async (e) => {
         await addDoc(collection(db, "avisos"), {
             titulo,
             mensagem,
+            link,
             criadoEm: serverTimestamp()
         });
 
         msg.textContent = "Aviso enviado!";
         msg.style.color = "green";
         form.reset();
-
     } catch (err) {
         msg.textContent = "Erro ao enviar aviso.";
         msg.style.color = "red";
@@ -49,11 +47,9 @@ form.addEventListener("submit", async (e) => {
 });
 
 // ===== PEGA TODOS OS AVISOS CRIADOS =====
-
 const q = query(collection(db, "avisos"), orderBy("criadoEm", "desc"));
 
 // ===== EXIBE PRÓPRIOS AVISOS =====
-
 onSnapshot(q, (snapshot) => {
     container.innerHTML = "";
 
@@ -70,11 +66,11 @@ onSnapshot(q, (snapshot) => {
 
         aviso.innerHTML = `
             <h3 contenteditable="false">${data.titulo}</h3>
-            <p contenteditable="false">${data.mensagem}</p>
-            <p class="aviso-lido">
-            👁️${data.lidosCount || 0} aluno(s) visualizaram
+            <p class="mensagem-aviso" contenteditable="false">${data.mensagem}</p>
+            <p class="link-aviso" contenteditable="false">
+                ${data.link ? `<a href="${data.link}" target="_blank" rel="noopener noreferrer">${data.link}</a>` : ""}
             </p>
-
+            <p class="aviso-lido">👁️${data.lidosCount || 0} aluno(s) visualizaram</p>
             <div class="aviso-acoes">
                 <button class="btn-editar">Editar</button>
                 <button class="btn-salvar" style="display:none;">Salvar</button>
@@ -84,23 +80,26 @@ onSnapshot(q, (snapshot) => {
         `;
 
         const tituloEl = aviso.querySelector("h3");
-        const mensagemEl = aviso.querySelector("p");
+        const mensagemEl = aviso.querySelector(".mensagem-aviso");
+        const linkEl = aviso.querySelector(".link-aviso");
         const btnEditar = aviso.querySelector(".btn-editar");
         const btnSalvar = aviso.querySelector(".btn-salvar");
         const btnExcluir = aviso.querySelector(".btn-excluir");
         const btnCancelar = aviso.querySelector(".btn-cancelar");
 
-
-        /* ✏️ Editar */
+        // ✏️ Editar
         let tituloOriginal = "";
         let mensagemOriginal = "";
+        let linkOriginal = "";
 
         btnEditar.addEventListener("click", () => {
             tituloOriginal = tituloEl.textContent;
             mensagemOriginal = mensagemEl.textContent;
+            linkOriginal = linkEl.textContent;
 
             tituloEl.contentEditable = true;
             mensagemEl.contentEditable = true;
+            linkEl.contentEditable = true;
             tituloEl.focus();
 
             btnEditar.style.display = "none";
@@ -108,34 +107,46 @@ onSnapshot(q, (snapshot) => {
             btnCancelar.style.display = "inline-block";
         });
 
-        /* 💾 Salvar edição */
+        // 💾 Salvar edição (incluindo link)
         btnSalvar.addEventListener("click", async () => {
+            const novoLink = linkEl.textContent.trim();
+            const linkParaSalvar = novoLink.startsWith("http") ? novoLink : ""; // evita links inválidos
+
             await updateDoc(doc(db, "avisos", d.id), {
                 titulo: tituloEl.textContent.trim(),
-                mensagem: mensagemEl.textContent.trim()
+                mensagem: mensagemEl.textContent.trim(),
+                link: linkParaSalvar
             });
+
+            // Atualiza o link exibido corretamente
+            linkEl.innerHTML = linkParaSalvar
+                ? `<a href="${linkParaSalvar}" target="_blank" rel="noopener noreferrer">${linkParaSalvar}</a>`
+                : "";
 
             tituloEl.contentEditable = false;
             mensagemEl.contentEditable = false;
+            linkEl.contentEditable = false;
 
             btnEditar.style.display = "inline-block";
             btnSalvar.style.display = "none";
             btnCancelar.style.display = "none";
         });
 
-
-        /* 🗑️ Excluir */
+        // 🗑️ Excluir
         btnExcluir.addEventListener("click", async () => {
             if (!confirm("Deseja excluir este aviso?")) return;
             await deleteDoc(doc(db, "avisos", d.id));
         });
 
+        // ❌ Cancelar edição
         btnCancelar.addEventListener("click", () => {
             tituloEl.textContent = tituloOriginal;
             mensagemEl.textContent = mensagemOriginal;
+            linkEl.textContent = linkOriginal;
 
             tituloEl.contentEditable = false;
             mensagemEl.contentEditable = false;
+            linkEl.contentEditable = false;
 
             btnEditar.style.display = "inline-block";
             btnSalvar.style.display = "none";

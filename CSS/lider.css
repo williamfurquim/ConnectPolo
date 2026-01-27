@@ -79,6 +79,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 5px;
 }
 
 .d-select {
@@ -514,7 +515,7 @@ option{
     outline: 2px solid var(--laranja);}
 
 .bloco-aluno {
-    background-color:  #262630;
+    background: var(--gradient);
     width: 100%;
     max-width: 600px; /* largura máxima desejada */
     margin: 0 auto;   
@@ -526,14 +527,14 @@ option{
     gap: 1rem;
 
     padding: 1rem;
-    border: 2.5px solid var(--laranja);
     border-radius: 12px;
-    transition: 0.3s;
+    transition: 0.5s;
     cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.626);
 }
 
 .bloco-aluno:hover {
-    box-shadow: 0px 0px 5px var(--laranja);
+    box-shadow: -2px -2px 4px var(--laranja);
 }
 
 .bloco-aluno img {
@@ -575,6 +576,14 @@ option{
     main {
         flex-direction: column;
     }
+
+    .d-nome-turma {
+    text-align: center;
+}
+
+.funcionalidades-lista {
+    justify-content: center;
+}
 }
 
 @media screen and (max-width: 490px) {
@@ -583,14 +592,10 @@ option{
     padding: 10px;
 }
 
-.d-nome-turma {
-    text-align: center;
-}
 
 
-.funcionalidades-lista {
-    justify-content: center;
-}
+
+
 
 .d-botoes button,
 .d-botoes select {
