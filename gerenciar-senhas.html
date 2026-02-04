@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Senhas | ConnectPolo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #264461 0%, #1a4857 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1A1A22;
+            margin-bottom: 1rem;
+        }
+        .info {
+            background: #f0f9ff;
+            padding: 1rem;
+            border-left: 4px solid #0284c7;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+        .busca {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .busca input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .busca button {
+            padding: 0.8rem 1.5rem;
+            background: #F28C2E;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .busca button:hover {
+            background: #d97b26;
+        }
+        .resultado {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .resultado.show {
+            display: block;
+        }
+        .aluno-info {
+            margin-bottom: 1rem;
+        }
+        .aluno-info p {
+            margin: 0.5rem 0;
+        }
+        .senha-box {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .senha-box strong {
+            color: #92400e;
+            font-size: 1.2rem;
+        }
+        .acoes {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-resetar {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-resetar:hover {
+            background: #dc2626;
+        }
+        .btn-copiar {
+            background: #10b981;
+            color: white;
+        }
+        .btn-copiar:hover {
+            background: #059669;
+        }
+        .btn-voltar {
+            background: #6b7280;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+        .btn-voltar:hover {
+            background: #4b5563;
+        }
+        #loading {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        #loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔑 Gerenciar Senhas</h1>
+        
+        <div class="info">
+            <p><strong>ℹ️ Como usar:</strong></p>
+            <p>Digite o email do aluno para buscar e resetar a senha.</p>
+        </div>
+
+        <div class="busca">
+            <input 
+                type="email" 
+                id="emailBusca" 
+                placeholder="Digite o email do aluno..."
+            >
+            <button onclick="buscarAluno()">🔍 Buscar</button>
+        </div>
+
+        <div id="loading">
+            <p>⏳ Buscando...</p>
+        </div>
+
+        <div id="resultado" class="resultado">
+            <div class="aluno-info">
+                <h2 id="alunoNome"></h2>
+                <p><strong>Email:</strong> <span id="alunoEmail"></span></p>
+                <p><strong>Matrícula:</strong> <span id="alunoMatricula"></span></p>
+                <p><strong>Turma:</strong> <span id="alunoTurma"></span></p>
+            </div>
+
+            <div class="senha-box">
+                <p><strong>🔑 Senha Atual:</strong></p>
+                <p id="senhaAtual" style="font-size: 1.3rem; margin-top: 0.5rem;">-</p>
+            </div>
+
+            <div class="acoes">
+                <button class="btn btn-resetar" onclick="resetarSenha()">
+                    🔄 Resetar Senha
+                </button>
+                <button class="btn btn-copiar" onclick="copiarCredenciais()">
+                    📋 Copiar Credenciais
+                </button>
+            </div>
+        </div>
+
+        <button class="btn-voltar" onclick="window.location.href='cadastroaluno.html'">
+            ↩️ Voltar
+        </button>
+    </div>
+
+    <script type="module">
+        import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { db } from "./JS/firebase.js";
+        import { doc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+        let alunoAtual = null;
+        const auth = getAuth();
+
+        window.buscarAluno = async function() {
+            const email = document.getElementById('emailBusca').value.trim().toLowerCase();
+            
+            if (!email) {
+                alert('Digite um email');
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const resultado = document.getElementById('resultado');
+            
+            loading.classList.add('show');
+            resultado.classList.remove('show');
+
+            try {
+                const q = query(
+                    collection(db, "usuarios"),
+                    where("email", "==", email),
+                    where("role", "==", "aluno")
+                );
+                
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    alert('Aluno não encontrado');
+                    loading.classList.remove('show');
+                    return;
+                }
+
+                const alunoDoc = snapshot.docs[0];
+                alunoAtual = { id: alunoDoc.id, ...alunoDoc.data() };
+
+                document.getElementById('alunoNome').textContent = alunoAtual.nome;
+                document.getElementById('alunoEmail').textContent = alunoAtual.email;
+                document.getElementById('alunoMatricula').textContent = alunoAtual.matricula || 'Não informada';
+                document.getElementById('alunoTurma').textContent = alunoAtual.turmaId || 'Não informada';
+                document.getElementById('senhaAtual').textContent = alunoAtual.senhaTemporaria || '(Senha não registrada)';
+
+                loading.classList.remove('show');
+                resultado.classList.add('show');
+
+            } catch (error) {
+                console.error('Erro ao buscar:', error);
+                alert('Erro ao buscar aluno: ' + error.message);
+                loading.classList.remove('show');
+            }
+        };
+
+        window.resetarSenha = async function() {
+            if (!alunoAtual) return;
+
+            if (!confirm(`Resetar senha de ${alunoAtual.nome}?\n\nUm email será enviado para ${alunoAtual.email}`)) {
+                return;
+            }
+
+            try {
+                await sendPasswordResetEmail(auth, alunoAtual.email);
+                alert(`✅ Email de reset enviado para ${alunoAtual.email}\n\nO aluno deve verificar a caixa de entrada (e spam).`);
+            } catch (error) {
+                console.error('Erro ao resetar:', error);
+                alert('❌ Erro ao enviar email: ' + error.message);
+            }
+        };
+
+        window.copiarCredenciais = function() {
+            if (!alunoAtual) return;
+
+            const texto = `Email: ${alunoAtual.email}\nSenha: ${alunoAtual.senhaTemporaria || '(não registrada)'}`;
+            
+            navigator.clipboard.writeText(texto)
+                .then(() => alert('✅ Credenciais copiadas!'))
+                .catch(() => alert('❌ Erro ao copiar'));
+        };
+    </script>
+</body>
+</html>

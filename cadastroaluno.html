@@ -8,13 +8,78 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+
+        .nav-buttons {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: white;
+            color: #1A1A22;
+            border: 2px solid #e5e7eb;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #F28C2E;
+        }
+        
+        .nav-btn-primary {
+            background: #F28C2E;
+            color: white;
+            border-color: #F28C2E;
+        }
+        
+        .nav-btn-primary:hover {
+            background: #d97b26;
+            border-color: #d97b26;
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .nav-buttons {
+                position: static;
+                justify-content: center;
+                margin: 1rem;
+            }
+            
+            .nav-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <main>
+
+        <div class="nav-buttons">
+        <button class="nav-btn nav-btn-primary" onclick="window.location.href='./gerenciar-senhas.html'">
+            🔑 Gerenciar Senhas
+        </button>
+        <button class="nav-btn" onclick="window.location.href='./lider.html'">
+            ↩️ Voltar
+        </button>
+    </div>
+        
         <div class="header">
             <div class="header-content">
                 <h1>Cadastro de Aluno</h1>
-                <button onclick="window.location.href='./lider.html'">↩️ Voltar</button>
+                <p>Sistema de Gestão</p>
             </div>
         </div>
         

@@ -35,19 +35,23 @@ if (form) {
       if (!snap.exists()) {
         await setDoc(ref, {
           email: user.email,
-          role: email.endsWith("@aluno.com") ? "aluno" : "lider",
+          role: "aluno", // padrão seguro
+          ativo: true,
           criadoEm: new Date()
         });
       }
 
+
       // Redireciona
-      if (email.endsWith("@aluno.com")) {
-        window.location.href = "aluno.html";
-      } else {
+      const userData = (await getDoc(ref)).data();
+
+      if (userData.role === "lider") {
         window.location.href = "lider.html";
+      } else {
+        window.location.href = "aluno.html";
       }
 
-    } catch(err) {
+    } catch (err) {
       msg.textContent = "Erro ao fazer login: " + err;
       msg.style.color = "gray";
       console.log(err)
