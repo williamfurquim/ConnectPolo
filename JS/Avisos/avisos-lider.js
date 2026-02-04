@@ -33,7 +33,8 @@ form.addEventListener("submit", async (e) => {
             titulo,
             mensagem,
             link,
-            criadoEm: serverTimestamp()
+            criadoEm: serverTimestamp(),
+            lidosCount: 0
         });
 
         msg.textContent = "Aviso enviado!";
@@ -93,6 +94,7 @@ onSnapshot(q, (snapshot) => {
         let linkOriginal = "";
 
         btnEditar.addEventListener("click", () => {
+            linkEl.textContent = data.link || "";
             tituloOriginal = tituloEl.textContent;
             mensagemOriginal = mensagemEl.textContent;
             linkOriginal = linkEl.textContent;
@@ -109,28 +111,34 @@ onSnapshot(q, (snapshot) => {
 
         // 💾 Salvar edição (incluindo link)
         btnSalvar.addEventListener("click", async () => {
-            const novoLink = linkEl.textContent.trim();
-            const linkParaSalvar = novoLink.startsWith("http") ? novoLink : ""; // evita links inválidos
+            try {
+                const novoLink = linkEl.textContent.trim();
+                const linkParaSalvar = novoLink.startsWith("http") ? novoLink : "";
 
-            await updateDoc(doc(db, "avisos", d.id), {
-                titulo: tituloEl.textContent.trim(),
-                mensagem: mensagemEl.textContent.trim(),
-                link: linkParaSalvar
-            });
+                await updateDoc(doc(db, "avisos", d.id), {
+                    titulo: tituloEl.textContent.trim(),
+                    mensagem: mensagemEl.textContent.trim(),
+                    link: linkParaSalvar
+                });
 
-            // Atualiza o link exibido corretamente
-            linkEl.innerHTML = linkParaSalvar
-                ? `<a href="${linkParaSalvar}" target="_blank" rel="noopener noreferrer">${linkParaSalvar}</a>`
-                : "";
+                linkEl.innerHTML = linkParaSalvar
+                    ? `<a href="${linkParaSalvar}" target="_blank" rel="noopener noreferrer">${linkParaSalvar}</a>`
+                    : "";
 
-            tituloEl.contentEditable = false;
-            mensagemEl.contentEditable = false;
-            linkEl.contentEditable = false;
+                tituloEl.contentEditable = false;
+                mensagemEl.contentEditable = false;
+                linkEl.contentEditable = false;
 
-            btnEditar.style.display = "inline-block";
-            btnSalvar.style.display = "none";
-            btnCancelar.style.display = "none";
+                btnEditar.style.display = "inline-block";
+                btnSalvar.style.display = "none";
+                btnCancelar.style.display = "none";
+
+            } catch (e) {
+                alert("Erro ao salvar edição.");
+                console.error(e);
+            }
         });
+
 
         // 🗑️ Excluir
         btnExcluir.addEventListener("click", async () => {
@@ -142,7 +150,10 @@ onSnapshot(q, (snapshot) => {
         btnCancelar.addEventListener("click", () => {
             tituloEl.textContent = tituloOriginal;
             mensagemEl.textContent = mensagemOriginal;
-            linkEl.textContent = linkOriginal;
+            linkEl.innerHTML = linkOriginal
+                ? `<a href="${linkOriginal}" target="_blank" rel="noopener noreferrer">${linkOriginal}</a>`
+                : "";
+
 
             tituloEl.contentEditable = false;
             mensagemEl.contentEditable = false;

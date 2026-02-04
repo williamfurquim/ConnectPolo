@@ -45,26 +45,32 @@ onAuthStateChanged(auth, (user) => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   if (!usuarioLogado) return;
 
-  const solicitacao = document.getElementById("selectSolicitacao").value;
-  const lider = document.getElementById("selectLider").value;
-  const tipo = document.getElementById("selectTipo").value.trim();
-
-  const alunoId = usuarioLogado.uid;
-  const alunoNome = usuarioLogado.displayName || usuarioLogado.email;
-
   try {
+    // BUSCA O NOME REAL NO BANCO ANTES DE ENVIAR
+    const docRef = doc(db, "usuarios", usuarioLogado.uid);
+    const docSnap = await getDoc(docRef);
+    
+    // Se achar o nome no banco, usa ele. Se não achar, coloca um aviso (jamais o email).
+    let nomeParaSalvar = "?";
+    if (docSnap.exists() && docSnap.data().nome) {
+        nomeParaSalvar = docSnap.data().nome;
+    }
+
+    const solicitacao = document.getElementById("selectSolicitacao").value;
+    const lider = document.getElementById("selectLider").value;
+    const tipo = document.getElementById("selectTipo").value.trim();
+
     await addDoc(collection(db, "solicitacoes"), {
-      alunoId,
-      alunoNome,
+      alunoId: usuarioLogado.uid,
+      alunoNome: nomeParaSalvar, // <--- Aqui garantimos apenas o nome do banco
       solicitacao,
       tipo,
       lider,
       status: "pendente",
       criadoEm: serverTimestamp(),
-
+      notificadoAtraso: false,
       apagadoAluno: false,
       apagadoLider: false
     });
@@ -72,7 +78,6 @@ form.addEventListener("submit", async (e) => {
     alert("Enviado com sucesso!");
     form.reset();
     carregarMinhasSolicitacoes();
-
   } catch (err) {
     alert("Erro ao enviar");
     console.error(err);
@@ -91,7 +96,7 @@ async function carregarMinhasSolicitacoes() {
   const snap = await getDocs(q);
 
   if (snap.empty) {
-    container.innerHTML = "<p>Você ainda não enviou solicitações.</p>";
+    container.innerHTML = "";
     return;
   }
 
@@ -105,6 +110,9 @@ async function carregarMinhasSolicitacoes() {
       <div class="solicitacao-card">
         <p><strong>Tipo:</strong> ${s.solicitacao}</p>
         <p><strong>Status:</strong> ${s.status}</p>
+        <p><strong>Sua mensagem:</strong> "${s.tipo}"</p>
+
+
 
         ${s.respostaLider
         ? `<p><strong>Resposta:</strong> ${s.respostaLider}</p>`

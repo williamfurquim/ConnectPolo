@@ -14,22 +14,33 @@ import {
 // ===== VARIÁVEIS GLOBAIS =====
 const btnPresenca = document.getElementById("btn-presenca");
 const msg = document.getElementById("mensagem-presenca");
+let cacheHorario = null;
+
+// ===== FUNÇÃO AUXILIAR DE HORÁRIO =====
+function horaParaMinutos(hora) {
+  const [h, m] = hora.split(":").map(Number);
+  return h * 60 + m;
+}
 
 // ===== FUNÇÃO DE HORÁRIO PERMITIDO =====
 async function horarioPermitido() {
-  const ref = doc(db, "config", "presenca");
-  const snap = await getDoc(ref);
-  if (!snap.exists()) return false;
+  if (!cacheHorario) return false;
 
-  const { inicio, fim } = snap.data();
+  const { inicio, fim } = cacheHorario;
+
   const agora = new Date();
-  const horaAtual = `${String(agora.getHours()).padStart(2,"0")}:${String(agora.getMinutes()).padStart(2,"0")}`;
 
-  return horaAtual >= inicio && horaAtual <= fim;
+  const agoraMin = agora.getHours() * 60 + agora.getMinutes();
+  const inicioMin = horaParaMinutos(inicio);
+  const fimMin = horaParaMinutos(fim);
+
+  return agoraMin >= inicioMin && agoraMin <= fimMin;
+
 }
 
 // ===== VERIFICAÇÃO DE STATUS COM HORÁRIO =====
 async function verificarStatus(user) {
+  msg.style.color = "";
   const hoje = new Date().toLocaleDateString("en-CA");
 
   const refPresenca = doc(db, "presencas", user.uid, "dias", hoje);
@@ -136,12 +147,16 @@ const refHorario = doc(db, "config", "presenca");
 
 onSnapshot(refHorario, (snap) => {
   const pHorario = document.getElementById("horario-presenca");
+
   if (!snap.exists()) {
+    cacheHorario = null;
     pHorario.textContent = "Horário ainda não definido.";
     return;
   }
-  const { inicio, fim } = snap.data();
-  pHorario.textContent = `Horário permitido para marcar presença: ${inicio} - ${fim}`;
-  pHorario.style.color = "gray"
-});
 
+  cacheHorario = snap.data();
+
+  const { inicio, fim } = cacheHorario;
+  pHorario.textContent = `Horário permitido para marcar presença: ${inicio} - ${fim}`;
+  pHorario.style.color = "gray";
+});
