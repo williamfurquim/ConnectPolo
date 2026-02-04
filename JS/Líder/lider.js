@@ -36,31 +36,52 @@ onAuthStateChanged(auth, async (user) => {
     }
   }
 
-  email.textContent = d.email;
-  nomeLider.textContent = nomeExibir;
-  imgLider.src = d.foto || "https://cdn-icons-png.flaticon.com/512/149/149071.png"; 
+  if (email) email.textContent = d.email || "—";
+  if (nomeLider) nomeLider.textContent = nomeExibir;
+  if (imgLider) {
+    imgLider.src = d.foto || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+  }
+
 });
 
 const btnSalvar = document.getElementById("btn-salvar-horario");
 if (btnSalvar) {
   btnSalvar.addEventListener("click", async () => {
-    try{
-    const inicio = document.getElementById("hora-inicio").value;
-    const fim = document.getElementById("hora-fim").value;
+    try {
+      const inicio = document.getElementById("hora-inicio").value;
+      const fim = document.getElementById("hora-fim").value;
 
-    if (!inicio || !fim) {
-      alert("Preencha os dois horários!");
-      return;
-    }
+      if (!inicio || !fim) {
+        alert("Preencha os dois horários!");
+        return;
+      }
 
-    if (fim <= inicio) {
-      alert("O horário final deve ser mais que o horário de início!");
-      return;
-    }
+      if (fim <= inicio) {
+        alert("O horário final deve ser mais que o horário de início!");
+        return;
+      }
 
-    await setDoc(doc(db, "config", "presenca"), { inicio, fim });
-    alert("Horário de presença salvo com sucesso!");
-    } catch (error){
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Usuário não autenticado.");
+        return;
+      }
+
+      const refUsuario = doc(db, "usuarios", user.uid);
+      const snapUsuario = await getDoc(refUsuario);
+
+      if (!snapUsuario.exists() || snapUsuario.data().role !== "lider") {
+        alert("Você não tem permissão para alterar este horário.");
+        return;
+      }
+
+      await setDoc(
+        doc(db, "config", "presenca"),
+        { inicio, fim },
+        { merge: true } // 🔐 não apaga outros campos
+      );
+      alert("Horário de presença salvo com sucesso!");
+    } catch (error) {
       console.log(error);
       alert("Houve um problema ao definir horário de presença!")
     }

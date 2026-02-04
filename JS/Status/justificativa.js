@@ -30,9 +30,10 @@ if (btn) {
     if (!user) return;
 
     btn.addEventListener("click", async () => {
-      try {      
-        const motivo = document.getElementById("motivo").value;
-        const observacao = document.getElementById("observacao").value;
+      btn.disabled = true;
+      try {
+        const motivo = document.getElementById("motivo").value.trim();
+        const observacao = document.getElementById("observacao").value.trim();
         const dataReferencia = document.getElementById("data-falta").value;
         const hoje = hojeISO();
 
@@ -59,25 +60,25 @@ if (btn) {
           dataReferencia
         );
 
-        const justificativaSnap = await getDoc(refJustificativa);
+        const [justificativaSnap, presencaSnap] = await Promise.all([
+          getDoc(refJustificativa),
+          getDoc(refPresenca)
+        ]);
 
-        const presencaSnap = await getDoc(refPresenca);
 
         if (justificativaSnap.exists()) {
           msg.textContent = "Já existe uma justificativa para esta data";
           msg.style.color = "orange";
-          btn.disabled = false;  
           return;
         }
 
         if (presencaSnap.exists()) {
-          if(dataReferencia === hoje){
+          if (dataReferencia === hoje) {
             msg.textContent = "Você já registrou presença hoje";
-          } else{
+          } else {
             msg.textContent = "Você já registrou presença nesta data";
           }
           msg.style.color = "orange";
-          btn.disabled = false;  
           return;
         }
 
@@ -93,14 +94,14 @@ if (btn) {
         const dataFormatada = dataReferencia.split("-").reverse().join("/");
 
         let mensagem;
-        if(dataReferencia === hoje){
+        if (dataReferencia === hoje) {
           mensagem = "justificou ausência para o dia de hoje."
-        } else if(dataReferencia > hoje) {
+        } else if (dataReferencia > hoje) {
           mensagem = `justificou ausência prevista para ${dataFormatada}.`;
         } else {
           mensagem = `justificou ausência ocorrida em ${dataFormatada}.`;
         }
-         
+
         // Cria notificação para o líder
         await addDoc(collection(db, "notificacoes"), {
           tipo: "justificativa",

@@ -39,6 +39,17 @@ onAuthStateChanged(auth, (user) => {
         let existeAvisoVisivel = false;
         const agora = Date.now();
 
+        const lidosCache = new Map();
+        await Promise.all(
+            snapshot.docs.map(async avisoDoc => {
+                const avisoId = avisoDoc.id;
+                const lidoRef = doc(db, "avisosLidos", `${avisoId}_${userId}`);
+                const lidoSnap = await getDoc(lidoRef);
+                lidosCache.set(avisoId, lidoSnap.exists());
+            })
+        );
+
+
         for (const avisoDoc of snapshot.docs) {
             const data = avisoDoc.data();
             if (!data.criadoEm) continue;
@@ -48,7 +59,7 @@ onAuthStateChanged(auth, (user) => {
 
             const avisoId = avisoDoc.id;
             const lidoRef = doc(db, "avisosLidos", `${avisoId}_${userId}`);
-            const lidoSnap = await getDoc(lidoRef);
+            const jaLido = lidosCache.get(avisoId);
 
             existeAvisoVisivel = true;
 
@@ -65,18 +76,21 @@ onAuthStateChanged(auth, (user) => {
                 ${linkHTML}
                 <footer>
                     <button class="btn-avisos">
-                        ${lidoSnap.exists() ? "Marcado como lido" : "Marcar como lido"}
+                        ${jaLido ? "Marcado como lido" : "Marcar como lido"}
                     </button>
                 </footer>
             `;
 
             const btnLido = aviso.querySelector(".btn-avisos");
 
-            if (lidoSnap.exists()) btnLido.disabled = true;
+            if (jaLido) btnLido.disabled = true;
 
             btnLido.addEventListener("click", async () => {
                 btnLido.disabled = true;
                 btnLido.textContent = "Marcado como lido";
+
+                const snapConfirmacao = await getDoc(lidoRef);
+                if (snapConfirmacao.exists()) return;
 
                 await setDoc(lidoRef, {
                     avisoId,
