@@ -14,38 +14,41 @@ const barraPesquisa = document.getElementById("barraPesquisa");
 // ===== CARREGAR TURMAS NO SELECT =====
 async function carregarTurmas() {
   if (!selectTurma) return;
-  
+
   try {
     console.log("📚 Carregando turmas para o select...");
     selectTurma.innerHTML = '<option value="">⏳ Carregando...</option>';
-    
+
     const result = await buscarTurmas({ ativa: true });
-    
+
     if (!result.success) {
       throw new Error(result.error);
     }
-    
+
     turmasCache = result.data;
-    
+
     if (turmasCache.length === 0) {
       selectTurma.innerHTML = '<option value="">❌ Nenhuma turma disponível</option>';
       return;
     }
-    
+
     // Popular o select
     let options = '<option value="">Todas as turmas</option>';
     turmasCache.forEach(turma => {
       options += `<option value="${turma.id}">${turma.nome}</option>`;
     });
     selectTurma.innerHTML = options;
-    
-    // Selecionar primeira turma automaticamente
-    if (turmasCache.length > 0) {
-      selectTurma.value = turmasCache[0].id;
-      turmaAtualId = turmasCache[0].id;
-      await carregarAlunos();
+
+    // Iniciar em "Todas as turmas"
+    selectTurma.value = "";
+    turmaAtualId = null;
+    await carregarAlunos();
+
+    const nomeTurmaEl = document.querySelector('.d-nome-turma h2');
+    if (nomeTurmaEl) {
+      nomeTurmaEl.textContent = "Todas as turmas";
     }
-    
+
     console.log("✅ Turmas carregadas:", turmasCache.length);
   } catch (e) {
     console.error("❌ Erro ao carregar turmas:", e);
@@ -57,7 +60,7 @@ async function carregarTurmas() {
 if (selectTurma) {
   selectTurma.addEventListener('change', async (e) => {
     turmaAtualId = e.target.value || null;
-    
+
     // Atualizar nome da turma no header
     const nomeTurmaEl = document.querySelector('.d-nome-turma h2');
     if (nomeTurmaEl) {
@@ -68,7 +71,7 @@ if (selectTurma) {
         nomeTurmaEl.textContent = "Todas as turmas";
       }
     }
-    
+
     console.log("🔄 Turma selecionada:", turmaAtualId);
     await carregarAlunos();
   });
@@ -77,25 +80,25 @@ if (selectTurma) {
 // ===== CARREGAR ALUNOS =====
 async function carregarAlunos() {
   if (!lista) return;
-  
+
   try {
     lista.innerHTML = "<p style='color: white; text-align: center;'>⏳ Carregando alunos...</p>";
-    
+
     // Filtrar por turma se houver seleção
     const filtros = { ativo: true };
     if (turmaAtualId) {
       filtros.turmaId = turmaAtualId;
     }
-    
+
     const result = await buscarAlunos(filtros);
-    
+
     if (!result.success) {
       throw new Error(result.error);
     }
-    
+
     alunosCache = result.data;
     renderizarAlunos(alunosCache);
-    
+
     console.log(`✅ ${alunosCache.length} alunos carregados`);
   } catch (e) {
     console.error("❌ Erro ao carregar alunos:", e);
@@ -111,7 +114,7 @@ async function carregarAlunos() {
 // ===== RENDERIZAÇÃO =====
 function renderizarAlunos(alunos) {
   lista.innerHTML = "";
-  
+
   if (alunos.length === 0) {
     lista.innerHTML = `
       <p style='color: white; text-align: center; padding: 2rem;'>
@@ -120,14 +123,14 @@ function renderizarAlunos(alunos) {
     `;
     return;
   }
-  
+
   alunos.forEach(aluno => {
     const bloco = document.createElement("div");
     bloco.classList.add("bloco-aluno");
-    
+
     const imagemSrc = aluno.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
     const nomeExibir = aluno.nomeExibicao || aluno.nome;
-    
+
     bloco.innerHTML = `
       <img src="${imagemSrc}" 
            alt="Foto de ${aluno.nome}"
@@ -190,7 +193,7 @@ function debounce(fn, delay = 300) {
 if (barraPesquisa) {
   barraPesquisa.addEventListener("input", debounce(() => {
     const termo = barraPesquisa.value.trim();
-    
+
     if (!termo) {
       renderizarAlunos(alunosCache);
       return;
