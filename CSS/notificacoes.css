@@ -59,7 +59,7 @@ header button:hover {
 
 .lista-notificacoes {
     width: 65%;
-    margin: 50px auto;
+    margin: 0 auto;
 
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -92,6 +92,47 @@ header button:hover {
     justify-content: space-between;
     align-items: end;
 }
+
+.oculto{
+    display: none;
+}
+
+.categoria {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    width: min(90%, 260px);
+    margin: 30px auto;
+}
+
+.categoria label {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--branco);
+    text-align: center;
+}
+
+.categoria select {
+    padding: 8px 10px;
+
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+
+    background-color: var(--fundo-escuro);
+    color: white;
+    cursor: pointer;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efeito ao focar */
+.categoria select:focus {
+    outline: none;
+    border-color: var(--laranja);
+}
+
 
 @media screen and (max-width: 565px){
     .lista-notificacoes {

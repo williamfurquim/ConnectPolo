@@ -172,7 +172,7 @@ function adicionarListenersBotoes() {
 
 async function verificarNotAntigas() {
   const agora = new Date();
-  const DOIS_MINUTOS = 2 * 60 * 1000;
+  const DOIS_MINUTOS = 1 * 60 * 1000;
 
   // IMPORTANTE: Volte o filtro para não repetir notificações
   const q = query(
