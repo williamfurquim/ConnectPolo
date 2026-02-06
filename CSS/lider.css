@@ -99,7 +99,7 @@ select {
     margin: 0 auto;
 }
 
-option{
+option {
     background-color: var(--cinza-logo);
 }
 
@@ -128,26 +128,26 @@ option{
 .d-botoes select {
     border-radius: 24px 24px 0 0;
     background-color: var(--cinza-logo);
-        text-align: start;
+    text-align: start;
 }
 
-.btn-perfil{
+.btn-perfil {
     border-radius: 0 0 24px 24px;
     background-color: var(--cinza-logo);
-        text-align: start;
+    text-align: start;
 }
 
-.btn-notificacao{
+.btn-notificacao {
     background-color: var(--cinza-logo);
-        text-align: start;
+    text-align: start;
 }
 
-.btn-aviso{
+.btn-aviso {
     background-color: var(--cinza-logo);
-        text-align: start;
+    text-align: start;
 }
 
-.btn-cadastro{
+.btn-cadastro {
     border-radius: 24px;
     margin-top: 1rem;
     background-color: var(--laranja);
@@ -157,17 +157,17 @@ option{
 .d-botoes select:hover,
 .btn-perfil:hover,
 .btn-notificacao:hover,
-.btn-aviso:hover{
+.btn-aviso:hover {
     background-color: #b1b1b1;
 }
 
-.btn-cadastro:hover{
+.btn-cadastro:hover {
     transform: scale(1.03);
 }
 
 .dados-alunos {
     display: flex;
-    flex-wrap:  wrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 
@@ -202,11 +202,11 @@ option{
     background: rgba(78, 78, 78, 0.945);
 }
 
-@media (max-width: 530px){
+@media (max-width: 530px) {
     .dados-alunos .circle:not(:last-child)::after {
 
-    background: rgba(78, 78, 78, 0.022);
-}
+        background: rgba(78, 78, 78, 0.022);
+    }
 }
 
 .dados-alunos .circle h4 {
@@ -247,80 +247,89 @@ option{
 /* ===== CONFIGURAÇÃO DE HORÁRIO ESTILO DARK MODERN - LAYOUT VERTICAL ===== */
 
 .config-horario {
-  display: flex;
-  flex-direction: column; /* força vertical */
-  align-items: stretch;   /* ocupa toda a largura disponível */
-  gap: 12px;
-  width: min(90%, 400px);
-  margin: 20px auto;
-  padding: 16px 20px;
-  background-color: #2e2e3e; /* fundo escuro */
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-  font-family: "Archivo", sans-serif;
+    display: flex;
+    flex-direction: column;
+    /* força vertical */
+    align-items: stretch;
+    /* ocupa toda a largura disponível */
+    gap: 12px;
+    width: min(90%, 400px);
+    margin: 20px auto;
+    padding: 16px 20px;
+    background-color: #2e2e3e;
+    /* fundo escuro */
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    font-family: "Archivo", sans-serif;
 }
 
 .config-horario label {
-  color: #ffffff;
-  font-weight: 600;
-  margin-bottom: 4px; /* espaço entre label e input */
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 4px;
+    /* espaço entre label e input */
 }
 
 .config-horario input[type="time"] {
-  padding: 10px 12px;
-  border: 1px solid #555;
-  border-radius: 8px;
-  background-color: #1a1a22;
-  color: #ffffff;
-  font-size: 0.95rem;
-  transition: all 0.2s ease-in-out;
+    padding: 10px 12px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #1a1a22;
+    color: #ffffff;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
 }
 
 .config-horario input[type="time"]:focus {
-  outline: none;
-  border-color: #f28c2e; /* laranja do seu tema */
-  box-shadow: 0 0 6px rgba(242, 140, 46, 0.35);
+    outline: none;
+    border-color: #f28c2e;
+    /* laranja do seu tema */
+    box-shadow: 0 0 6px rgba(242, 140, 46, 0.35);
 }
 
 .config-horario button {
-  padding: 12px 16px;
-  background-color: #f28c2e; /* laranja vibrante */
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.95rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+    padding: 12px 16px;
+    background-color: #f28c2e;
+    /* laranja vibrante */
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
 .config-horario button:hover {
-  background-color: #7e4310;
-  transform: scale(1.05);
+    background-color: #7e4310;
+    transform: scale(1.05);
 }
 
 .config-horario button:active {
-  transform: scale(0.98);
+    transform: scale(0.98);
 }
 
 /* ===== RESPONSIVO ===== */
 @media (max-width: 480px) {
-  .config-horario {
-    width: 90%; /* ocupa quase toda a tela no mobile */
-  }
+    .config-horario {
+        width: 90%;
+        /* ocupa quase toda a tela no mobile */
+    }
 
-  .config-horario input[type="time"],
-  .config-horario button {
-    width: 100%; /* inputs e botão ocupam 100% da largura do container */
-  }
+    .config-horario input[type="time"],
+    .config-horario button {
+        width: 100%;
+        /* inputs e botão ocupam 100% da largura do container */
+    }
 }
 
-.solicitacoes h2{
+.solicitacoes h2 {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.8em;
 }
-.solicitacoes .d-select{
+
+.solicitacoes .d-select {
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;
@@ -330,7 +339,7 @@ option{
     padding: 0.5rem;
 }
 
-.solicitacoes .d-select label{
+.solicitacoes .d-select label {
     font-size: 1.3rem;
 }
 
@@ -442,7 +451,7 @@ option{
     font-weight: bolder;
 }
 
-.btn-planilha input{
+.btn-planilha input {
     padding: 0.5rem;
     border-radius: 0 16px 16px 0;
     border: none;
@@ -462,7 +471,7 @@ option{
     background-color: #15803d;
 }
 
-.grafico-container{
+.grafico-container {
     width: min(90%, 300px);
 }
 
@@ -472,20 +481,20 @@ option{
 }
 
 .btnDashboard {
-  background: var(--cinza-logo);
-  font-size: 1.1rem;
-  color: rgb(0, 0, 0);
+    background: var(--cinza-logo);
+    font-size: 1.1rem;
+    color: rgb(0, 0, 0);
 
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: 0.2s ease-in-out;
-  border-radius: 12px;
-  font-weight: bold;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: 0.2s ease-in-out;
+    border-radius: 12px;
+    font-weight: bold;
 }
 
 .btnDashboard:hover {
-  color: rgb(17, 163, 17);
+    color: rgb(17, 163, 17);
 }
 
 #barraPesquisa {
@@ -506,19 +515,21 @@ option{
 }
 
 .highlight {
-  background-color: #f2522ec9;
-  border-radius: 3px;
-  padding: 0 2px;
+    background-color: #f2522ec9;
+    border-radius: 3px;
+    padding: 0 2px;
 }
 
 #barraPesquisa:hover {
-    outline: 2px solid var(--laranja);}
+    outline: 2px solid var(--laranja);
+}
 
 .bloco-aluno {
     background: var(--gradient);
     width: 100%;
-    max-width: 600px; /* largura máxima desejada */
-    margin: 0 auto;   
+    max-width: 600px;
+    /* largura máxima desejada */
+    margin: 0 auto;
 
 
     display: flex;
@@ -529,7 +540,6 @@ option{
     padding: 1rem;
     border-radius: 12px;
     transition: 0.5s;
-    cursor: pointer;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.626);
 }
 
@@ -537,10 +547,34 @@ option{
     box-shadow: -2px -2px 4px var(--laranja);
 }
 
+.botoes-alunos {
+    flex-basis: 100%; /* força ocupar toda a largura */
+    display: flex;
+    justify-content: end; /* centraliza horizontalmente */
+    margin-top: 0.5rem;
+}
+
 .bloco-aluno img {
-    width: 4rem;
-    height: 4rem;
+    width: 4.7rem;
+    height: 4.7rem;
     border-radius: 50%;
+    object-fit: cover;
+}
+
+.btn-presenca-manual {
+    padding: 0.3rem;
+    font-size: 1rem;
+    background-color: transparent;
+    color: rgb(152, 152, 152);
+    border-radius: 5px;
+    border: 2px solid rgb(152, 152, 152);;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.btn-presenca-manual:hover{
+border: 2px solid rgb(255, 255, 255);;
+color: rgb(255, 255, 255);
 }
 
 .info-left,
@@ -572,62 +606,83 @@ option{
     text-align: right;
 }
 
+#badge-notificacao {
+    background-color: red;
+    padding: 0.3rem;
+    border-radius: 24px;
+    font-size: 1rem;
+    
+    animation: bg-pulse 2s infinite;
+}
+
+@keyframes bg-pulse {
+    0% {
+        background-color: #ff0000; /* Start color (red) */
+    }
+    50% {
+        background-color: #ff7300; /* Middle color (orange) */
+    }
+    100% {
+        background-color: #ff0000; /* End color (back to red) */
+    }
+}
+
 @media screen and (max-width: 800px) {
     main {
         flex-direction: column;
     }
 
     .d-nome-turma {
-    text-align: center;
-}
+        text-align: center;
+    }
 
-.funcionalidades-lista {
-    justify-content: center;
-}
+    .funcionalidades-lista {
+        justify-content: center;
+    }
 }
 
 @media screen and (max-width: 490px) {
 
     .s-perfil {
-    padding: 10px;
-}
+        padding: 10px;
+    }
 
 
 
 
 
 
-.d-botoes button,
-.d-botoes select {
-    font-size: 1.2rem;
-    padding: 1rem;
+    .d-botoes button,
+    .d-botoes select {
+        font-size: 1.2rem;
+        padding: 1rem;
 
-}
+    }
 
-.d-informacoes-lider img {
-    height: auto;
-    width: 7.6rem;
-}
+    .d-informacoes-lider img {
+        height: auto;
+        width: 7.6rem;
+    }
 
-.d-informacoes-lider h2 {
-    font-size: 1.5rem;
-}
+    .d-informacoes-lider h2 {
+        font-size: 1.5rem;
+    }
 
-.d-informacoes-lider h1 {
-    font-size: 1.2rem;
-}
+    .d-informacoes-lider h1 {
+        font-size: 1.2rem;
+    }
 
-.dados-alunos .circle {
-    padding: 0.5rem 1rem;
-}
+    .dados-alunos .circle {
+        padding: 0.5rem 1rem;
+    }
 
-    .funcionalidades-lista{
+    .funcionalidades-lista {
         gap: 10px;
     }
 
-    .grafico-container{
-    width: min(90%, 200px);
-}
+    .grafico-container {
+        width: min(90%, 200px);
+    }
 
     .solicitacao-card {
         max-width: 350px;
@@ -664,17 +719,17 @@ option{
         font-size: 0.3rem;
     }
 
-    .d-informacoes-lider{
+    .d-informacoes-lider {
         gap: 0.5rem;
     }
 
-    .s-perfil{
+    .s-perfil {
         gap: 1rem;
     }
 
-    .grafico-container{
-    width: min(90%, 150px);
-}
+    .grafico-container {
+        width: min(90%, 150px);
+    }
 
     .d-informacoes-lider h2 {
         font-size: 1.2rem;
@@ -695,13 +750,14 @@ option{
         font-size: auto;
     }
 
-    .btn-perfil{
-    border-radius: 0 0 16px 16px;
+    .btn-perfil {
+        border-radius: 0 0 16px 16px;
 
-}
+    }
 
-.d-botoes select {
-    border-radius: 16px 16px 0 0;}
+    .d-botoes select {
+        border-radius: 16px 16px 0 0;
+    }
 
     .d-botoes button,
     .d-botoes select {
@@ -714,8 +770,8 @@ option{
     }
 
     .dados-alunos .circle {
-    padding: 0 0.5rem;
-}
+        padding: 0 0.5rem;
+    }
 
     .dados-alunos {
         width: 70%;

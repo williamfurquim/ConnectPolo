@@ -15,9 +15,15 @@
         <button onclick="window.location.href='./lider.html'">↩️ Voltar</button>
     </header>
     
-    <!-- <section class="s-categorias">
-
-    </section> -->
+    <div class="categoria">
+        <label for="categoria-notificacao">Selecione uma categoria</label>
+        <select id="categoria-notificacao" onchange="categorizarNot()">
+            <option value="all">Todas</option>
+            <option value="presenca">Presenças</option>
+            <option value="justificativa">Justificativas</option>
+            <option value="solicitação">Solicitações atrasadas</option>
+        </select>
+    </div>
 
     <div id="lista-notificacoes" class="lista-notificacoes">
         
