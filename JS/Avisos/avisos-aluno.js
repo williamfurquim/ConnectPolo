@@ -1,5 +1,6 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 import { db } from "../firebase.js";
+
 import {
     collection,
     query,
@@ -18,14 +19,18 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-// ===== VARIÁVEIS GLOBAIS =====
+
+
+// =========== VARIÁVEIS GLOBAIS =====
 const auth = getAuth();
 const container = document.getElementById("avisos-container");
 const semAvisos = document.getElementById("sem-avisos");
 const TEMPO_MAXIMO = 48 * 60 * 60 * 1000; // 48 horas
 const q = query(collection(db, "avisos"), orderBy("criadoEm", "desc"));
 
-// ===== VERIFICA USUÁRIO LOGADO =====
+
+
+// =========== VERIFICA USUÁRIO LOGADO =====
 onAuthStateChanged(auth, (user) => {
     if (!user) {
         console.warn("Usuário não autenticado!");
@@ -49,7 +54,6 @@ onAuthStateChanged(auth, (user) => {
             })
         );
 
-
         for (const avisoDoc of snapshot.docs) {
             const data = avisoDoc.data();
             if (!data.criadoEm) continue;
@@ -69,7 +73,6 @@ onAuthStateChanged(auth, (user) => {
 
             const aviso = document.createElement("div");
             aviso.classList.add("aviso");
-
             aviso.innerHTML = `
                 <h3>${data.titulo}</h3>
                 <p>${data.mensagem}</p>
@@ -80,9 +83,8 @@ onAuthStateChanged(auth, (user) => {
                     </button>
                 </footer>
             `;
-
+            
             const btnLido = aviso.querySelector(".btn-avisos");
-
             if (jaLido) btnLido.disabled = true;
 
             btnLido.addEventListener("click", async () => {
@@ -102,10 +104,8 @@ onAuthStateChanged(auth, (user) => {
                     lidosCount: increment(1)
                 });
             });
-
             container.appendChild(aviso);
         }
-
         if (!existeAvisoVisivel) container.appendChild(semAvisos);
     });
 });

@@ -1,7 +1,11 @@
+// =========== IMPORTAÇÕES =====
 import { auth, db } from "../firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
+
+
+// =========== VARIÁVEIS GLOBAIS =====
 window.addEventListener("DOMContentLoaded", () => {
   const nome = document.getElementById("nomeCompleto");
   const funcao = document.getElementById("funcao");
@@ -11,6 +15,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const telefone = document.getElementById("telefone");
   const imagem = document.getElementById("imagem");
 
+
+
+// =========== TRAZER DADOS (LÍDER) =====  
   onAuthStateChanged(auth, async (user) => {
     if (!user) return;
 
@@ -18,8 +25,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const snap = await getDoc(ref);
 
     if (!snap.exists()) return;
-
     const d = snap.data();
+    
     if(nome) nome.value = d.nome || "-----";
     if(funcao) funcao.value = d.role || "-----";
     if(contrato) contrato.value = d.contrato || "-----";

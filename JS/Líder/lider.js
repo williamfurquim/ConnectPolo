@@ -1,20 +1,24 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 import { protegerPagina } from "../guard.js";
-
-
 import { auth, db } from "../firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
+
+
+// =========== PROTEÇÃO =====
 protegerPagina("lider");
 
 
 
+// =========== VARIÁVEIS GLOBAIS =====
 const imgLider = document.getElementById("img-lider");
 const nomeLider = document.getElementById("nome-lider");
 const email = document.getElementById("email-lider");
 
 
+
+// =========== PUXAR INFORMAÇÕES =====
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
 
@@ -25,14 +29,13 @@ onAuthStateChanged(auth, async (user) => {
 
   const d = snap.data();
 
-  // Pega o primeiro e último nome
   let nomeExibir = "-----";
   if (d.nome) {
-    const partes = d.nome.trim().split(/\s+/); // separa por espaços
+    const partes = d.nome.trim().split(/\s+/);
     if (partes.length === 1) {
-      nomeExibir = partes[0]; // só um nome
+      nomeExibir = partes[0]; 
     } else {
-      nomeExibir = `${partes[0]} ${partes[partes.length - 1]}`; // primeiro e último
+      nomeExibir = `${partes[0]} ${partes[partes.length - 1]}`; 
     }
   }
 
@@ -41,9 +44,11 @@ onAuthStateChanged(auth, async (user) => {
   if (imgLider) {
     imgLider.src = d.foto || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   }
-
 });
 
+
+
+// =========== BOTÃO SALVAR =====
 const btnSalvar = document.getElementById("btn-salvar-horario");
 if (btnSalvar) {
   btnSalvar.addEventListener("click", async () => {
@@ -78,7 +83,7 @@ if (btnSalvar) {
       await setDoc(
         doc(db, "config", "presenca"),
         { inicio, fim },
-        { merge: true } // 🔐 não apaga outros campos
+        { merge: true } 
       );
       alert("Horário de presença salvo com sucesso!");
     } catch (error) {
@@ -88,7 +93,9 @@ if (btnSalvar) {
   });
 }
 
-// Pré-carregar horários atuais nos inputs do líder
+
+
+// =========== Pré-carregar horários atuais nos inputs do líder =====
 async function carregarHorarioAtual() {
   const ref = doc(db, "config", "presenca");
   const snap = await getDoc(ref);

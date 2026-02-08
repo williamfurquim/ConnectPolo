@@ -1,10 +1,15 @@
+// =========== IMPORTAÇÕES =====
 import { db } from "../firebase.js";
+
 import { collection, getDocs, collectionGroup } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
 import { hojeISO } from "../data.js";
 
 const { jsPDF } = window.jspdf;
 
-// ===== FUNÇÃO PARA PEGAR PRIMEIRO E ÚLTIMO NOME =====
+
+
+// =========== FUNÇÃO PARA PEGAR PRIMEIRO E ÚLTIMO NOME =====
 function primeiroEUltimoNome(nomeCompleto) {
     if (!nomeCompleto) return "Sem nome";
     const partes = nomeCompleto.trim().split(" ");
@@ -12,7 +17,9 @@ function primeiroEUltimoNome(nomeCompleto) {
     return `${partes[0]} ${partes[partes.length - 1]}`;
 }
 
-// ===== FUNÇÃO PRINCIPAL PARA PDF ESTILIZADO COM TOTAL =====
+
+
+// =========== FUNÇÃO PRINCIPAL PARA PDF ESTILIZADO COM TOTAL =====
 async function exportarPresencaDoDiaPDF(data) {
     try {
         const alunosSnap = await getDocs(collection(db, "usuarios"));
@@ -36,25 +43,22 @@ async function exportarPresencaDoDiaPDF(data) {
             return;
         }
 
-        // ===== CONFIGURAÇÃO DO PDF =====
         const doc = new jsPDF("p", "pt", "a4");
         const margin = 40;
         const lineHeight = 22;
         const pageWidth = doc.internal.pageSize.getWidth();
         let y = 60;
 
-        // ===== TÍTULO =====
         doc.setFontSize(18);
         doc.setTextColor(40, 40, 40);
         doc.setFont("helvetica", "bold");
         doc.text(`Presenças do dia ${data}`, pageWidth / 2, y, { align: "center" });
         y += 40;
 
-        // ===== CABEÇALHO =====
         const headers = ["Aluno", "Email", "Status"];
         const colWidths = [180, 220, 120];
 
-        doc.setFillColor(70, 130, 180); // Azul do cabeçalho
+        doc.setFillColor(70, 130, 180); 
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(12);
         let x = margin;
@@ -65,11 +69,9 @@ async function exportarPresencaDoDiaPDF(data) {
         });
         y += lineHeight;
 
-        // ===== LINHAS DOS ALUNOS =====
-        let fillToggle = false; // alterna cores de fundo
+        let fillToggle = false; 
         doc.setFontSize(11);
 
-        // Contadores
         let totalPresente = 0;
         let totalJustificado = 0;
         let totalFalta = 0;
@@ -79,15 +81,15 @@ async function exportarPresencaDoDiaPDF(data) {
             if (d.role !== "aluno") return;
 
             let status = "Falta";
-            let statusColor = [228, 67, 41]; // vermelho
+            let statusColor = [228, 67, 41]; 
 
             if (presencasMap.has(aluno.id)) {
                 status = "Presente";
-                statusColor = [22, 163, 74]; // verde
+                statusColor = [22, 163, 74]; 
                 totalPresente++;
             } else if (justificativasMap.has(aluno.id)) {
                 status = "Justificado";
-                statusColor = [242, 140, 46]; // laranja
+                statusColor = [242, 140, 46]; 
                 totalJustificado++;
             } else {
                 totalFalta++;
@@ -96,12 +98,10 @@ async function exportarPresencaDoDiaPDF(data) {
             fillToggle = !fillToggle;
             if (fillToggle) doc.setFillColor(245, 245, 245);
             else doc.setFillColor(255, 255, 255);
-            doc.rect(margin, y, colWidths.reduce((a,b)=>a+b,0), lineHeight, "F");
+            doc.rect(margin, y, colWidths.reduce((a, b) => a + b, 0), lineHeight, "F");
 
-            // Primeiro e último nome
             const nomeFormatado = primeiroEUltimoNome(d.nome);
 
-            // Texto das células
             doc.setTextColor(0, 0, 0);
             doc.text(nomeFormatado, margin + 5, y + 15);
             doc.text(d.email || "", margin + colWidths[0] + 5, y + 15);
@@ -113,16 +113,15 @@ async function exportarPresencaDoDiaPDF(data) {
 
             y += lineHeight;
 
-            if (y > 720) { // deixa espaço para total no final da página
+            if (y > 720) { 
                 doc.addPage();
                 y = 60;
             }
         });
 
-        // ===== TOTALIZADORES =====
         y += 20;
         doc.setFontSize(12);
-        doc.setTextColor(0,0,0);
+        doc.setTextColor(0, 0, 0);
         doc.setFont("helvetica", "bold");
         doc.text(`Total Presente: ${totalPresente}`, margin, y);
         y += 18;
@@ -138,7 +137,9 @@ async function exportarPresencaDoDiaPDF(data) {
     }
 }
 
-// ===== BOTÃO =====
+
+
+// =========== BOTÃO =====
 const btnExportar = document.getElementById("btn-exportar-presenca");
 if (btnExportar) {
     btnExportar.addEventListener("click", async () => {

@@ -1,5 +1,6 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 import { db } from "../firebase.js";
+
 import {
     collection,
     getDocs,
@@ -8,24 +9,30 @@ import {
     doc,
     getDoc
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
 import Chart from "https://cdn.jsdelivr.net/npm/chart.js/auto/+esm";
 
-// ===== ELEMENTOS DO DOM =====
+
+
+// =========== VARIÁVEIS GLOBAIS =====
 const presencasHojeEl = document.getElementById("presencas-hoje");
 const faltasHojeEl = document.getElementById("faltas-hoje");
 const presencasVarEl = document.getElementById("presencas-variacao");
 const faltasVarEl = document.getElementById("faltas-variacao");
-
 const canvas = document.getElementById("graficoPresencaFaltas");
 const ctx = canvas.getContext("2d");
-
 let grafico = null;
 
-// ===== DATAS =====
+
+
+// =========== DATA =====
 function hojeISO() {
     return new Date().toLocaleDateString("en-CA");
 }
 
+
+
+// =========== REFÊRENCIAS =====
 function dataSemanaPassadaISO() {
     const d = new Date();
     d.setDate(d.getDate() - 7);
@@ -34,12 +41,16 @@ function dataSemanaPassadaISO() {
 
 const HOJE = hojeISO();
 
-// ===== CACHE EM MEMÓRIA =====
+
+
+// =========== CACHE EM MEMÓRIA =====
 const presencasHoje = new Set();
 const justificativasHoje = new Set();
 let totalAlunos = 0;
 
-// ===== FUNÇÃO AUXILIAR VARIAÇÃO =====
+
+
+// =========== FUNÇÃO AUXILIAR VARIAÇÃO =====
 function calcularVariacao(atual, anterior) {
     if (anterior === 0) return "Sem dados";
     const diff = ((atual - anterior) / anterior) * 100;
@@ -49,13 +60,17 @@ function calcularVariacao(atual, anterior) {
     return "Sem dados";
 }
 
-// ===== CARREGAR TOTAL DE ALUNOS =====
+
+
+// =========== CARREGAR TOTAL DE ALUNOS =====
 async function carregarTotalAlunos() {
     const snap = await getDocs(collection(db, "usuarios"));
     totalAlunos = snap.docs.filter(u => u.data().role === "aluno").length;
 }
 
-// ===== OBTER ESTATÍSTICAS SEMANA PASSADA =====
+
+
+// =========== OBTER ESTATÍSTICAS SEMANA PASSADA =====
 async function obterEstatisticasSemanaPassada() {
     const semanaPassada = dataSemanaPassadaISO();
     const snap = await getDocs(collection(db, "usuarios"));
@@ -80,7 +95,9 @@ async function obterEstatisticasSemanaPassada() {
     return { presencas, justificativas };
 }
 
-// ===== FUNÇÃO DE ATUALIZAÇÃO DO GRÁFICO =====
+
+
+// =========== FUNÇÃO DE ATUALIZAÇÃO DO GRÁFICO =====
 function atualizarGraficoEUI() {
     const presencas = presencasHoje.size;
     const justificativas = justificativasHoje.size;
@@ -121,7 +138,9 @@ function atualizarGraficoEUI() {
     });
 }
 
-// ===== ATUALIZA GRÁFICO + VARIAÇÃO SEMANAL =====
+
+
+// =========== ATUALIZA GRÁFICO + VARIAÇÃO SEMANAL =====
 async function atualizarUIComVariacao() {
     atualizarGraficoEUI();
 
@@ -135,15 +154,15 @@ async function atualizarUIComVariacao() {
      const justSemana = semanaPassada.justificativas;
     const faltasSemana = totalAlunos - (presSemana + justSemana);
 
-    // Atualiza elementos
     presencasVarEl.textContent = calcularVariacao(presHoje, presSemana) + " que semana passada";
     faltasVarEl.textContent = calcularVariacao(faltasHoje, faltasSemana) + " que semana passada";
 
-    // Atualiza texto do DOM de faltas hoje
     faltasHojeEl.textContent = faltasHoje;
 }
 
-// ===== TEMPO REAL =====
+
+
+// =========== TEMPO REAL =====
 function escutarTempoReal() {
     onSnapshot(collectionGroup(db, "dias"), snapshot => {
         let mudouHoje = false;
@@ -178,7 +197,9 @@ function escutarTempoReal() {
     });
 }
 
-// ===== INICIALIZAÇÃO =====
+
+
+// =========== INICIALIZAÇÃO =====
 async function iniciar() {
     await carregarTotalAlunos();
     escutarTempoReal();

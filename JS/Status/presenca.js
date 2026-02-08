@@ -1,6 +1,8 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 import { auth, db } from "../firebase.js";
+
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
 import {
   doc,
   getDoc,
@@ -11,18 +13,24 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// ===== VARIÁVEIS GLOBAIS =====
+
+
+// =========== VARIÁVEIS GLOBAIS =====
 const btnPresenca = document.getElementById("btn-presenca");
 const msg = document.getElementById("mensagem-presenca");
 let cacheHorario = null;
 
-// ===== FUNÇÃO AUXILIAR DE HORÁRIO =====
+
+
+// =========== FUNÇÃO AUXILIAR DE HORÁRIO =====
 function horaParaMinutos(hora) {
   const [h, m] = hora.split(":").map(Number);
   return h * 60 + m;
 }
 
-// ===== FUNÇÃO DE HORÁRIO PERMITIDO =====
+
+
+// =========== FUNÇÃO DE HORÁRIO PERMITIDO =====
 async function horarioPermitido() {
   if (!cacheHorario) return false;
 
@@ -35,10 +43,11 @@ async function horarioPermitido() {
   const fimMin = horaParaMinutos(fim);
 
   return agoraMin >= inicioMin && agoraMin <= fimMin;
-
 }
 
-// ===== VERIFICAÇÃO DE STATUS COM HORÁRIO =====
+
+
+// =========== VERIFICAÇÃO DE STATUS COM HORÁRIO =====
 async function verificarStatus(user) {
   msg.style.color = "";
   const hoje = new Date().toLocaleDateString("en-CA");
@@ -68,7 +77,6 @@ async function verificarStatus(user) {
     return "presente";
   }
 
-  // Só habilita o botão se estiver no horário permitido
   if (!permitido) {
     msg.textContent = "Presença só pode ser registrada no horário definido pelo líder";
     msg.style.color = "red";
@@ -83,20 +91,22 @@ async function verificarStatus(user) {
   return "pendente";
 }
 
-// ===== FUNÇÃO DE ATUALIZAÇÃO PERIÓDICA DO BOTÃO =====
+
+
+// =========== FUNÇÃO DE ATUALIZAÇÃO PERIÓDICA DO BOTÃO =====
 async function atualizarBotao(user) {
   await verificarStatus(user);
 }
 
-// ===== ADICIONAR PRESENÇA =====
+
+
+// =========== ADICIONAR PRESENÇA =====
 if (btnPresenca) {
   onAuthStateChanged(auth, async (user) => {
     if (!user) return;
 
-    // Atualiza botão ao carregar
     await atualizarBotao(user);
 
-    // Atualiza botão a cada minuto para refletir mudanças de horário
     setInterval(() => atualizarBotao(user), 60000);
 
     btnPresenca.addEventListener("click", async () => {
