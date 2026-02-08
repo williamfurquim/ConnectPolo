@@ -1,4 +1,5 @@
-import { auth, db } from "./firebase.js";
+// =========== IMPORTAÇÕES =====
+import { auth, db } from "../firebase.js";
 import { onAuthStateChanged } from
   "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import {
@@ -10,7 +11,9 @@ import {
   deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-/* ===== ELEMENTOS ===== */
+
+
+/* =========== ELEMENTOS ===== */
 const calendario = document.getElementById("calendario");
 const detalhes = document.getElementById("detalhes");
 const mesAno = document.getElementById("mes-ano");

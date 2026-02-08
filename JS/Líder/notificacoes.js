@@ -1,5 +1,6 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 import { protegerPagina } from "../guard.js";
+
 import { db } from "../firebase.js";
 import {
   collection,
@@ -13,8 +14,14 @@ import {
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
+
+
+// =========== PROTEÇÃO =====
 protegerPagina("lider");
 
+
+
+// =========== FILTRAGEM DE NOTIFICAÇÕES =====
 document
   .getElementById('categoria-notificacao')
   .addEventListener('change', categorizarNot);
@@ -34,7 +41,10 @@ function categorizarNot() {
   });
 }
 
-function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
+
+
+// =========== EXIBIÇÃO DE NOTIFICAÇÕES =====
+function iniciarNotificacoes() {
   const area = document.getElementById("lista-notificacoes");
   if (!area) {
     console.warn("Área de notificações não encontrada");
@@ -45,22 +55,22 @@ function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
     collection(db, "notificacoes"),
     where("lida", "==", false),
     orderBy("criadaEm", "desc"),
-    limit(15) // Aumentei um pouco o limite para seu conforto
+    limit(15)
   );
 
   let unsubscribe = null;
-  // ===== EXIBE NOTIFICAÇÕES =====
 
+
+
+  // =========== SNAPSHOT =====
   unsubscribe = onSnapshot(q, async (snap) => {
     area.innerHTML = "";
 
     const notificacoes = await Promise.all(snap.docs.map(async (d) => {
       const n = d.data();
 
-      // 1. Já começa com o nome que está na notificação
       let alunoNome = n.alunoNome || "Erro no nome";
 
-      // 2. Se a notificação não tiver o nome gravado nela, mas tiver o ID do aluno:
       if (n.alunoId && (!n.alunoNome || n.alunoNome.trim() === "")) {
         try {
           const refAluno = doc(db, "usuarios", n.alunoId);
@@ -68,7 +78,6 @@ function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
 
           if (snapAluno.exists()) {
             const dados = snapAluno.data();
-            // SÓ ATUALIZA SE O CAMPO 'NOME' EXISTIR NO DOCUMENTO DO USUÁRIO
             if (dados.nome) {
               alunoNome = dados.nome;
             }
@@ -86,25 +95,25 @@ function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
       return { ...n, id: d.id, ref: d.ref, alunoNome, dataFormatada };
     }));
 
-    // Renderização
     notificacoes.forEach(n => {
       const div = document.createElement("div");
       div.classList.add("notificacao");
-      div.dataset.tipo = n.tipo; // 🔥 ponto-chave
+      div.dataset.tipo = n.tipo;
 
       const botaoAcao = n.tipo === "solicitação"
-        ? `<button class="btn-resolver" onclick="window.location.href='lider.html'">Resolver agora</button>`
-        : `<button class="btn-lida">Marcar como lida</button>`
+      ? `<button class="btn-resolver" onclick="window.location.href='lider.html'">Resolver agora</button>`
+      : `<button class="btn-lida">Marcar como lida</button>`
 
-      // USAMOS O n.dataFormatada QUE CRIAMOS ACIMA
       div.innerHTML = `
       <p style="font-size: 1.25rem;"><strong>${n.alunoNome}</strong> ${n.mensagem} ${n.motivo ? `| <strong>Motivo: ${n.motivo}</strong>` : ""}</p>
+
       ${n.observacao ? `<p style="margin-top: 1rem; font-size: 1.1rem;">➡️Observação: ${n.observacao}</p>` : ""}
+
       <div class="notificacaoBottom">
         <small class="small">${n.tipo.toUpperCase()} • ${n.dataFormatada}</small><br>
         ${botaoAcao}
       </div>
-    `;
+      `;
 
       const btnLida = div.querySelector(".btn-lida");
       if (btnLida) {
@@ -113,7 +122,6 @@ function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
             await updateDoc(n.ref, {
               lida: true
             });
-            // A lista atualizará sozinha por causa do onSnapshot
           } catch (err) {
             console.error("Erro ao excluir notificação:", err);
           }
@@ -123,23 +131,18 @@ function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
       const btnResolver = div.querySelector(".btn-resolver");
       if (btnResolver) {
         btnResolver.addEventListener("click", async () => {
-
           window.location.href = 'lider.html'
-
-
         })
       }
-
-
-
-
       area.appendChild(div);
     });
 
   }
   );
 
-  // ===== ATUALIZAÇÃO NA VIRADA DO DIA =====
+
+
+  // =========== ATUALIZAÇÃO NA VIRADA DO DIA =====
   function recarregarNaViradaDoDia() {
     const agora = new Date();
     const meiaNoite = new Date();
@@ -150,9 +153,11 @@ function iniciarNotificacoes() {  // ===== VARIÁVEIS GLOBAIS =====
       window.location.reload();
     }, msAteMeiaNoite);
   }
-
   recarregarNaViradaDoDia();
 }
+
+
+
 iniciarNotificacoes();
 window.addEventListener("beforeunload", () => {
   localStorage.setItem("ultimoAcessoNotificacoes", Date.now());

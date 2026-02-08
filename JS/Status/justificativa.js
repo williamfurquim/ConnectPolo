@@ -1,8 +1,9 @@
-// ===== IMPORTAÇÕES =====
-
+// =========== IMPORTAÇÕES =====
 import { auth, db } from "../firebase.js";
+
 import { onAuthStateChanged } from
   "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
 import {
   doc,
   getDoc,
@@ -12,19 +13,22 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// ===== VARIÁVEIS GLOBAIS =====
 
+
+// =========== VARIÁVEIS GLOBAIS =====
 const btn = document.getElementById("btn-justificar");
 const msg = document.getElementById("msg-justificativa");
 
-// ===== FUNÇÃO DE DATA LOCAL =====
 
+
+// =========== FUNÇÃO DE DATA LOCAL =====
 function hojeISO() {
   return new Date().toLocaleDateString("en-CA");
 }
 
-// ===== ADICIONAR JUSTIFICATIVA SE ESTIVER LOGADO =====
 
+
+// =========== ADICIONAR JUSTIFICATIVA SE ESTIVER LOGADO =====
 if (btn) {
   onAuthStateChanged(auth, (user) => {
     if (!user) return;
@@ -82,7 +86,6 @@ if (btn) {
           return;
         }
 
-        // Salva justificativa
         await setDoc(refJustificativa, {
           motivo,
           observacao,
@@ -90,7 +93,6 @@ if (btn) {
           criadaEm: serverTimestamp()
         });
 
-        // Define mensagem conforme data
         const dataFormatada = dataReferencia.split("-").reverse().join("/");
 
         let mensagem;
@@ -102,7 +104,6 @@ if (btn) {
           mensagem = `justificou ausência ocorrida em ${dataFormatada}.`;
         }
 
-        // Cria notificação para o líder
         await addDoc(collection(db, "notificacoes"), {
           tipo: "justificativa",
           alunoId: user.uid,

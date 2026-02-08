@@ -1,4 +1,4 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 
 import { db } from "../firebase.js";
 
@@ -20,16 +20,18 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-// ===== VARIÁVEIS GLOBAIS =====
 
+
+// =========== VARIÁVEIS GLOBAIS =====
 const auth = getAuth();
 const form = document.getElementById("formulario-solic");
 const container = document.getElementById("minhas-solicitacoes");
 
 let usuarioLogado = null;
 
-// ===== VERIFICA USUÁRIO LOGADO =====
 
+
+// =========== VERIFICA USUÁRIO LOGADO =====
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Você precisa estar logado");
@@ -41,21 +43,20 @@ onAuthStateChanged(auth, (user) => {
   carregarMinhasSolicitacoes();
 });
 
-// ===== ENVIAR SOLICITAÇÕES =====
 
+
+// =========== ENVIAR SOLICITAÇÕES =====
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!usuarioLogado) return;
 
   try {
-    // BUSCA O NOME REAL NO BANCO ANTES DE ENVIAR
     const docRef = doc(db, "usuarios", usuarioLogado.uid);
     const docSnap = await getDoc(docRef);
-    
-    // Se achar o nome no banco, usa ele. Se não achar, coloca um aviso (jamais o email).
+
     let nomeParaSalvar = "?";
     if (docSnap.exists() && docSnap.data().nome) {
-        nomeParaSalvar = docSnap.data().nome;
+      nomeParaSalvar = docSnap.data().nome;
     }
 
     const solicitacao = document.getElementById("selectSolicitacao").value;
@@ -64,7 +65,7 @@ form.addEventListener("submit", async (e) => {
 
     await addDoc(collection(db, "solicitacoes"), {
       alunoId: usuarioLogado.uid,
-      alunoNome: nomeParaSalvar, // <--- Aqui garantimos apenas o nome do banco
+      alunoNome: nomeParaSalvar,
       solicitacao,
       tipo,
       lider,
@@ -84,14 +85,14 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// ===== CARREGAR PRÓPRIAS SOLICITAÇÕES =====
 
+
+// =========== CARREGAR PRÓPRIAS SOLICITAÇÕES =====
 async function carregarMinhasSolicitacoes() {
   const q = query(
     collection(db, "solicitacoes"),
     where("alunoId", "==", usuarioLogado.uid)
   );
-
 
   const snap = await getDocs(q);
 
@@ -112,8 +113,6 @@ async function carregarMinhasSolicitacoes() {
         <p><strong>Status:</strong> ${s.status}</p>
         <p><strong>Sua mensagem:</strong> "${s.tipo}"</p>
 
-
-
         ${s.respostaLider
         ? `<p><strong>Resposta:</strong> ${s.respostaLider}</p>`
         : "<p>Sua solicitação ainda não foi analisada</p>"
@@ -128,11 +127,11 @@ async function carregarMinhasSolicitacoes() {
       </div>
     `;
   });
-
   container.innerHTML = html;
 
-  // ===== BOTÃO EXCLUIR =====
 
+
+  // =========== BOTÃO EXCLUIR =====
   document.querySelectorAll(".btn-excluir").forEach(btn => {
     btn.addEventListener("click", async () => {
       const id = btn.dataset.id;
@@ -140,20 +139,18 @@ async function carregarMinhasSolicitacoes() {
       const ref = doc(db, "solicitacoes", id);
 
       const msg =
-        status === "pendente"
-          ? "Esta solicitação ainda não foi analisada. Ela será excluída definitivamente. Deseja continuar?"
-          : "Deseja excluir esta solicitação?";
+      status === "pendente"
+      ? "Esta solicitação ainda não foi analisada. Ela será excluída definitivamente. Deseja continuar?"
+      : "Deseja excluir esta solicitação?";
 
       if (!confirm(msg)) return;
 
-      // 🔥 CASO ESPECIAL: pendente → apaga DEFINITIVO
       if (status === "pendente") {
         await deleteDoc(ref);
         carregarMinhasSolicitacoes();
         return;
       }
 
-      // 🧠 CASO NORMAL (já respondida)
       await updateDoc(ref, { apagadoAluno: true });
 
       const snap = await getDoc(ref);
@@ -166,6 +163,4 @@ async function carregarMinhasSolicitacoes() {
       carregarMinhasSolicitacoes();
     });
   });
-
-
 }

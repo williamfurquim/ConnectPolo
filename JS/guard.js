@@ -1,15 +1,16 @@
-// ===== IMPORTAÇÕES DESORGANIZADAS =====
-
+// =========== IMPORTAÇÕES =====
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from
   "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { doc, getDoc } from
   "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// ===== VERIFICAÇÃO =====
 
+
+// =========== VERIFICAÇÃO =====
 export function protegerPagina(roleEsperado) {
   return new Promise((resolve, reject) => {
+
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         window.location.href = "index.html";
@@ -30,4 +31,3 @@ export function protegerPagina(roleEsperado) {
     });
   });
 }
-

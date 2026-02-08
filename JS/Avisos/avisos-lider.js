@@ -1,5 +1,6 @@
-// ===== IMPORTAÇÕES =====
+// =========== IMPORTAÇÕES =====
 import { db } from "../firebase.js";
+
 import {
     collection,
     addDoc,
@@ -12,13 +13,17 @@ import {
     updateDoc
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// ===== VARIÁVEIS GLOBAIS =====
+
+
+// =========== VARIÁVEIS GLOBAIS =====
 const form = document.getElementById("form-aviso");
 const msg = document.getElementById("msg");
 const container = document.getElementById("avisos-lider-container");
 const semAvisos = document.getElementById("sem-avisos");
 
-// ===== ENVIAR AVISO PARA TURMA =====
+
+
+// =========== ENVIAR AVISO PARA TURMA =====
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -47,10 +52,11 @@ form.addEventListener("submit", async (e) => {
     }
 });
 
-// ===== PEGA TODOS OS AVISOS CRIADOS =====
+
+
+// =========== EXIBE PRÓPRIOS AVISOS =====
 const q = query(collection(db, "avisos"), orderBy("criadoEm", "desc"));
 
-// ===== EXIBE PRÓPRIOS AVISOS =====
 onSnapshot(q, (snapshot) => {
     container.innerHTML = "";
 
@@ -71,7 +77,9 @@ onSnapshot(q, (snapshot) => {
             <p class="link-aviso" contenteditable="false">
                 ${data.link ? `<a href="${data.link}" target="_blank" rel="noopener noreferrer">${data.link}</a>` : ""}
             </p>
+            
             <p class="aviso-lido">👁️${data.lidosCount || 0} aluno(s) visualizaram</p>
+            
             <div class="aviso-acoes">
                 <button class="btn-editar">Editar</button>
                 <button class="btn-salvar" style="display:none;">Salvar</button>
@@ -88,7 +96,6 @@ onSnapshot(q, (snapshot) => {
         const btnExcluir = aviso.querySelector(".btn-excluir");
         const btnCancelar = aviso.querySelector(".btn-cancelar");
 
-        // ✏️ Editar
         let tituloOriginal = "";
         let mensagemOriginal = "";
         let linkOriginal = "";
@@ -109,7 +116,6 @@ onSnapshot(q, (snapshot) => {
             btnCancelar.style.display = "inline-block";
         });
 
-        // 💾 Salvar edição (incluindo link)
         btnSalvar.addEventListener("click", async () => {
             try {
                 const novoLink = linkEl.textContent.trim();
@@ -132,28 +138,23 @@ onSnapshot(q, (snapshot) => {
                 btnEditar.style.display = "inline-block";
                 btnSalvar.style.display = "none";
                 btnCancelar.style.display = "none";
-
             } catch (e) {
                 alert("Erro ao salvar edição.");
                 console.error(e);
             }
         });
 
-
-        // 🗑️ Excluir
         btnExcluir.addEventListener("click", async () => {
             if (!confirm("Deseja excluir este aviso?")) return;
             await deleteDoc(doc(db, "avisos", d.id));
         });
 
-        // ❌ Cancelar edição
         btnCancelar.addEventListener("click", () => {
             tituloEl.textContent = tituloOriginal;
             mensagemEl.textContent = mensagemOriginal;
             linkEl.innerHTML = linkOriginal
-                ? `<a href="${linkOriginal}" target="_blank" rel="noopener noreferrer">${linkOriginal}</a>`
-                : "";
-
+            ? `<a href="${linkOriginal}" target="_blank" rel="noopener noreferrer">${linkOriginal}</a>`
+            : "";
 
             tituloEl.contentEditable = false;
             mensagemEl.contentEditable = false;
@@ -163,7 +164,6 @@ onSnapshot(q, (snapshot) => {
             btnSalvar.style.display = "none";
             btnCancelar.style.display = "none";
         });
-
         container.appendChild(aviso);
     });
 });

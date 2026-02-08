@@ -1,4 +1,3 @@
-// ===== SERVICE WORKER - CONNECTPOLO =====
 const CACHE_NAME = 'connectpolo-v1.0.6'; // Atualize a cada deploy
 const urlsToCache = [
   './',
@@ -30,7 +29,7 @@ const urlsToCache = [
   './JS/Líder/grafico.js',
   './JS/Líder/lider.js',
   './JS/Líder/notificacoes.js',
-  
+
   './JS/Perfil/buscar-aniver.js',
   './JS/Perfil/dados-aluno.js',
   './JS/Perfil/dados-lider.js',
@@ -49,7 +48,7 @@ const urlsToCache = [
   './JS/data.js',
   './JS/firebase.js',
   './JS/guard.js',
-  './JS/perfil-aluno.js',
+  './JS/Aluno/perfil-aluno.js',
   './JS/upload-service.js',
 
   './Img/favicon.ico',
@@ -57,7 +56,9 @@ const urlsToCache = [
   './Img/icon-512.png'
 ];
 
-// ===== INSTALL =====
+
+
+// =========== INSTALL =====
 self.addEventListener('install', event => {
   console.log('[SW] 🚀 Instalando versão', CACHE_NAME);
   event.waitUntil(
@@ -71,7 +72,9 @@ self.addEventListener('install', event => {
   );
 });
 
-// ===== ACTIVATE =====
+
+
+// =========== ACTIVATE =====
 self.addEventListener('activate', event => {
   console.log('[SW] 🔄 Ativando versão', CACHE_NAME);
   event.waitUntil(
@@ -81,16 +84,17 @@ self.addEventListener('activate', event => {
   );
 });
 
-// ===== FETCH =====
+
+
+// =========== FETCH =====
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Ignorar apenas Firebase e Google APIs
   if (
     url.hostname.includes('firebase') ||
     url.hostname.includes('googleapis')
   ) {
-    return; // deixa passar para rede
+    return;
   }
 
   event.respondWith(
@@ -98,14 +102,12 @@ self.addEventListener('fetch', event => {
       if (cached) return cached;
 
       return fetch(event.request).then(response => {
-        // Cacheia respostas válidas
         if (response && response.status === 200 && event.request.method === 'GET') {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
         }
         return response;
       }).catch(() => {
-        // Fallback para páginas HTML offline
         if (event.request.destination === 'document') {
           return caches.match('./index.html');
         }
@@ -114,7 +116,9 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// ===== UPDATE VIA MESSAGE =====
+
+
+// =========== UPDATE VIA MESSAGE =====
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();

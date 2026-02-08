@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap');
 
-/* ================= VARIÁVEIS ================= */
 :root {
     --fundo-escuro: #1A1A22;
     --gradient: linear-gradient(135deg, #1A1A22, #2E2E3E, #3A3A4A);
@@ -10,7 +9,6 @@
     --box-shadow: 0 8px 30px rgba(0,0,0,.4);
 }
 
-/* ================= RESET ================= */
 * {
     margin: 0;
     padding: 0;
@@ -18,12 +16,10 @@
     font-family: "Archivo", sans-serif;
 }
 
-/* ================= BODY ================= */
 body {
     min-height: 100vh;
     background: var(--gradient);
     color: var(--branco);
-    
     display: flex;
     justify-content: center;
     padding: 20px;
@@ -50,13 +46,12 @@ form {
     padding: 1.8rem;
     border-radius: 22px;
     box-shadow: var(--box-shadow);
-
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-/* Inputs */
+/* ================= INPUTS ================= */
 input,
 textarea {
     background-color: var(--fundo-escuro);
@@ -107,8 +102,7 @@ button:hover {
 }
 
 /* ================= AVISOS ================= */
-#avisos-lider-container {
-    
+#avisos-lider-container {   
     padding-right: 4px;
 }
 
@@ -122,8 +116,7 @@ button:hover {
 
 .aviso p {
     margin-top: 10px;
-    word-break: break-word;
-    
+    word-break: break-word; 
 }
 
 .link-aviso a{
@@ -136,6 +129,16 @@ button:hover {
     display: flex;
     gap: 8px;
 }
+
+
+
+
+
+
+
+
+
+
 
 /* ================= MOBILE ================= */
 @media (max-width: 420px) {
