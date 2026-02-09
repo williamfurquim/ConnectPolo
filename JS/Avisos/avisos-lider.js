@@ -145,9 +145,16 @@ onSnapshot(q, (snapshot) => {
         });
 
         btnExcluir.addEventListener("click", async () => {
-            if (!confirm("Deseja excluir este aviso?")) return;
-            await deleteDoc(doc(db, "avisos", d.id));
-        });
+    if (!confirm("Deseja excluir este aviso?")) return;
+
+    try {
+        await deleteDoc(doc(db, "avisos", d.id));
+        console.log("Aviso excluído:", d.id);
+    } catch (e) {
+        console.error("Erro ao excluir:", e);
+        alert("Você não tem permissão para excluir este aviso.");
+    }
+});
 
         btnCancelar.addEventListener("click", () => {
             tituloEl.textContent = tituloOriginal;
