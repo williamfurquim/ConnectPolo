@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Img/favicon.ico" />
-    <title>Gerenciar Senhas | ConnectPolo</title>
+    <title>Gerenciar Alunos | ConnectPolo</title>
     <style>
         * {
             margin: 0;
@@ -13,27 +11,27 @@
             box-sizing: border-box;
             font-family: system-ui, -apple-system, sans-serif;
         }
-
         body {
-            background: linear-gradient(135deg, #264461 0%, #1a4857 100%);
+            background: linear-gradient(135deg, #0e4061 0%, #4b71a2 100%);
             min-height: 100vh;
             padding: 2rem;
         }
-
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 2rem;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-
         h1 {
             color: #1A1A22;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
-
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
         .info {
             background: #f0f9ff;
             padding: 1rem;
@@ -41,13 +39,11 @@
             border-radius: 4px;
             margin-bottom: 1.5rem;
         }
-
         .busca {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
         }
-
         .busca input {
             flex: 1;
             padding: 0.8rem;
@@ -55,7 +51,6 @@
             border-radius: 8px;
             font-size: 1rem;
         }
-
         .busca button {
             padding: 0.8rem 1.5rem;
             background: #F28C2E;
@@ -64,32 +59,128 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
         }
-
         .busca button:hover {
             background: #d97b26;
         }
-
-        .resultado {
-            background: #f9fafb;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+        #loading {
+            text-align: center;
+            padding: 2rem;
             display: none;
         }
-
-        .resultado.show {
+        #loading.show {
             display: block;
         }
-
-        .aluno-info {
+        #resultado {
+            display: none;
+        }
+        #resultado.show {
+            display: block;
+        }
+        
+        /* Perfil do aluno */
+        .perfil-header {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+        .foto-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .foto-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #F28C2E;
+        }
+        .btn-foto {
+            padding: 0.5rem 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-foto:hover {
+            background: #5568d3;
+        }
+        .info-basica {
+            flex: 1;
+        }
+        .info-basica h2 {
+            color: #1A1A22;
+            margin-bottom: 0.5rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
             margin-bottom: 1rem;
         }
-
-        .aluno-info p {
-            margin: 0.5rem 0;
+        .badge.ativo {
+            background: #d1fae5;
+            color: #065f46;
         }
-
+        .badge.inativo {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        /* Formulário de edição */
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1A1A22;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        .form-group input,
+        .form-group select {
+            padding: 0.7rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #F28C2E;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        /* Senha */
         .senha-box {
             background: #fef3c7;
             border: 2px solid #f59e0b;
@@ -97,45 +188,69 @@
             border-radius: 8px;
             margin: 1rem 0;
         }
-
         .senha-box strong {
             color: #92400e;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
-
+        .senha-valor {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            margin: 0.5rem 0;
+            color: #1A1A22;
+        }
+        
+        /* Botões de ação */
         .acoes {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 2rem;
         }
-
         .btn {
-            flex: 1;
-            padding: 0.8rem;
+            padding: 1rem;
             border: none;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
         }
-
-        .btn-resetar {
-            background: #ef4444;
-            color: white;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-
-        .btn-resetar:hover {
-            background: #dc2626;
-        }
-
-        .btn-copiar {
+        .btn-salvar {
             background: #10b981;
             color: white;
         }
-
-        .btn-copiar:hover {
+        .btn-salvar:hover {
             background: #059669;
         }
-
+        .btn-resetar {
+            background: #f59e0b;
+            color: white;
+        }
+        .btn-resetar:hover {
+            background: #d97706;
+        }
+        .btn-desativar {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-desativar:hover {
+            background: #dc2626;
+        }
+        .btn-ativar {
+            background: #10b981;
+            color: white;
+        }
+        .btn-copiar {
+            background: #6b7280;
+            color: white;
+        }
+        .btn-copiar:hover {
+            background: #4b5563;
+        }
         .btn-voltar {
             background: #6b7280;
             color: white;
@@ -145,81 +260,189 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 2rem;
+            width: 100%;
         }
-
         .btn-voltar:hover {
             background: #4b5563;
         }
-
-        #loading {
-            text-align: center;
-            padding: 2rem;
-            display: none;
-        }
-
-        #loading.show {
-            display: block;
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .perfil-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .acoes {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h1>🔑 Gerenciar Senhas</h1>
-
+        <h1>🔧 Gerenciar Alunos</h1>
+        <p class="subtitle">Edite informações, resete senhas e gerencie status dos alunos</p>
+        
         <div class="info">
             <p><strong>ℹ️ Como usar:</strong></p>
-            <p>Digite o email do aluno para buscar e resetar a senha.</p>
+            <p>Digite o email do aluno para buscar e editar suas informações.</p>
         </div>
 
         <div class="busca">
-            <input type="email" id="emailBusca" placeholder="Digite o email do aluno...">
+            <input 
+                type="email" 
+                id="emailBusca" 
+                placeholder="Digite o email do aluno..."
+                onkeypress="if(event.key==='Enter') buscarAluno()"
+            >
             <button onclick="buscarAluno()">🔍 Buscar</button>
         </div>
 
         <div id="loading">
-            <p>⏳ Buscando...</p>
+            <p>⏳ Buscando aluno...</p>
         </div>
 
-        <div id="resultado" class="resultado">
-            <div class="aluno-info">
-                <h2 id="alunoNome"></h2>
-                <p><strong>Email:</strong> <span id="alunoEmail"></span></p>
-                <p><strong>Matrícula:</strong> <span id="alunoMatricula"></span></p>
-                <p><strong>Turma:</strong> <span id="alunoTurma"></span></p>
+        <div id="resultado">
+            <!-- Perfil do aluno -->
+            <div class="perfil-header">
+                <div class="foto-section">
+                    <img id="fotoPreview" class="foto-preview" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Foto do aluno">
+                    <input type="file" id="fotoInput" accept="image/*" style="display: none;" onchange="handleFotoChange(event)">
+                    <button class="btn-foto" onclick="document.getElementById('fotoInput').click()">
+                        📸 Alterar Foto
+                    </button>
+                </div>
+                <div class="info-basica">
+                    <h2 id="alunoNomeDisplay"></h2>
+                    <span id="statusBadge" class="badge ativo">● Ativo</span>
+                    <p><strong>Email:</strong> <span id="alunoEmailDisplay"></span></p>
+                    <p><strong>ID:</strong> <span id="alunoIdDisplay"></span></p>
+                </div>
             </div>
 
-            <div class="senha-box">
-                <p><strong>🔑 Senha Atual:</strong></p>
-                <p id="senhaAtual" style="font-size: 1.3rem; margin-top: 0.5rem;">-</p>
-            </div>
+            <!-- Formulário de edição -->
+            <form id="formEdicao" onsubmit="salvarAlteracoes(event)">
+                <div class="form-section">
+                    <div class="section-title">📝 Informações Pessoais</div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Nome Completo</label>
+                            <input type="text" id="editNome" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Nome de Exibição</label>
+                            <input type="text" id="editNomeExibicao" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="editEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Data de Nascimento</label>
+                            <input type="date" id="editDataNascimento">
+                        </div>
+                    </div>
+                </div>
 
-            <div class="acoes">
-                <button class="btn btn-resetar" onclick="resetarSenha()">
-                    🔄 Resetar Senha
-                </button>
-                <button class="btn btn-copiar" onclick="copiarCredenciais()">
-                    📋 Copiar Credenciais
-                </button>
-            </div>
+                <div class="form-section">
+                    <div class="section-title">💼 Informações Profissionais</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Setor</label>
+                            <input type="text" id="editSetor" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tempo de Experiência</label>
+                            <input type="text" id="editTempoExperiencia">
+                        </div>
+                        <div class="form-group">
+                            <label>Matrícula</label>
+                            <input type="text" id="editMatricula">
+                        </div>
+                        <div class="form-group">
+                            <label>Turma</label>
+                            <select id="editTurma">
+                                <option value="">Carregando...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">🔑 Senha</div>
+                    <div class="senha-box">
+                        <strong>Senha Temporária:</strong>
+                        <p class="senha-valor" id="senhaAtual">-</p>
+                        <small style="color: #92400e;">
+                            ⚠️ Esta é a senha original gerada no cadastro. Use "Resetar Senha" para enviar email de redefinição.
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Botões de ação -->
+                <div class="acoes">
+                    <button type="submit" class="btn btn-salvar">
+                        💾 Salvar Alterações
+                    </button>
+                    <button type="button" class="btn btn-resetar" onclick="resetarSenha()">
+                        🔄 Resetar Senha (Email)
+                    </button>
+                    <button type="button" class="btn btn-copiar" onclick="copiarCredenciais()">
+                        📋 Copiar Credenciais
+                    </button>
+                    <button type="button" class="btn" id="btnStatus" onclick="toggleStatus()">
+                        🔒 Desativar Aluno
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <button class="btn-voltar" onclick="window.location.href='cadastroaluno.html'">
+        <button class="btn-voltar" onclick="window.location.href='lider.html'">
             ↩️ Voltar
         </button>
     </div>
 
     <script type="module">
-        import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+        import { getAuth, sendPasswordResetEmail, updateEmail as authUpdateEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { db } from "./JS/firebase.js";
-        import { doc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { 
+            doc, 
+            getDoc, 
+            updateDoc, 
+            query, 
+            collection, 
+            where, 
+            getDocs 
+        } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { buscarTurmas } from "./JS/api-service.js";
 
         let alunoAtual = null;
+        let fotoBase64 = null;
         const auth = getAuth();
 
-        window.buscarAluno = async function () {
-            const email = document.getElementById('emailBusca').value.trim().toLowerCase();
+        // Carregar turmas ao iniciar
+        async function carregarTurmas() {
+            try {
+                const result = await buscarTurmas({ ativa: true });
+                const select = document.getElementById('editTurma');
+                
+                if (result.success && result.data.length > 0) {
+                    select.innerHTML = '<option value="">Nenhuma turma</option>' +
+                        result.data.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar turmas:', error);
+            }
+        }
+        carregarTurmas();
 
+        // Buscar aluno
+        window.buscarAluno = async function() {
+            const email = document.getElementById('emailBusca').value.trim().toLowerCase();
+            
             if (!email) {
                 alert('Digite um email');
                 return;
@@ -227,7 +450,7 @@
 
             const loading = document.getElementById('loading');
             const resultado = document.getElementById('resultado');
-
+            
             loading.classList.add('show');
             resultado.classList.remove('show');
 
@@ -237,11 +460,11 @@
                     where("email", "==", email),
                     where("role", "==", "aluno")
                 );
-
+                
                 const snapshot = await getDocs(q);
-
+                
                 if (snapshot.empty) {
-                    alert('Aluno não encontrado');
+                    alert('❌ Aluno não encontrado');
                     loading.classList.remove('show');
                     return;
                 }
@@ -249,48 +472,175 @@
                 const alunoDoc = snapshot.docs[0];
                 alunoAtual = { id: alunoDoc.id, ...alunoDoc.data() };
 
-                document.getElementById('alunoNome').textContent = alunoAtual.nome;
-                document.getElementById('alunoEmail').textContent = alunoAtual.email;
-                document.getElementById('alunoMatricula').textContent = alunoAtual.matricula || 'Não informada';
-                document.getElementById('alunoTurma').textContent = alunoAtual.turmaId || 'Não informada';
-                document.getElementById('senhaAtual').textContent = alunoAtual.senhaTemporaria || '(Senha não registrada)';
+                // Preencher formulário
+                preencherFormulario(alunoAtual);
 
                 loading.classList.remove('show');
                 resultado.classList.add('show');
 
             } catch (error) {
                 console.error('Erro ao buscar:', error);
-                alert('Erro ao buscar aluno: ' + error.message);
+                alert('❌ Erro ao buscar aluno: ' + error.message);
                 loading.classList.remove('show');
             }
         };
 
-        window.resetarSenha = async function () {
-            if (!alunoAtual) return;
+        // Preencher formulário com dados do aluno
+        function preencherFormulario(aluno) {
+            document.getElementById('alunoNomeDisplay').textContent = aluno.nome;
+            document.getElementById('alunoEmailDisplay').textContent = aluno.email;
+            document.getElementById('alunoIdDisplay').textContent = aluno.id;
+            
+            document.getElementById('editNome').value = aluno.nome || '';
+            document.getElementById('editNomeExibicao').value = aluno.nomeExibicao || aluno.nome || '';
+            document.getElementById('editEmail').value = aluno.email || '';
+            document.getElementById('editDataNascimento').value = aluno.dataNascimento || '';
+            document.getElementById('editSetor').value = aluno.setor || '';
+            document.getElementById('editTempoExperiencia').value = aluno.tempoExperiencia || '';
+            document.getElementById('editMatricula').value = aluno.matricula || '';
+            document.getElementById('editTurma').value = aluno.turmaId || '';
+            
+            document.getElementById('senhaAtual').textContent = aluno.senhaTemporaria || '(não registrada)';
+            
+            // Foto
+            const fotoUrl = aluno.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            document.getElementById('fotoPreview').src = fotoUrl;
+            fotoBase64 = aluno.foto;
+            
+            // Status
+            const badge = document.getElementById('statusBadge');
+            const btnStatus = document.getElementById('btnStatus');
+            
+            if (aluno.ativo) {
+                badge.textContent = '● Ativo';
+                badge.className = 'badge ativo';
+                btnStatus.textContent = '🔒 Desativar Aluno';
+                btnStatus.className = 'btn btn-desativar';
+            } else {
+                badge.textContent = '● Inativo';
+                badge.className = 'badge inativo';
+                btnStatus.textContent = '✅ Ativar Aluno';
+                btnStatus.className = 'btn btn-ativar';
+            }
+        }
 
-            if (!confirm(`Resetar senha de ${alunoAtual.nome}?\n\nUm email será enviado para ${alunoAtual.email}`)) {
+        // Handle foto change
+        window.handleFotoChange = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('❌ Selecione apenas imagens');
                 return;
             }
 
+            if (file.size > 5 * 1024 * 1024) {
+                alert('❌ Imagem muito grande (máx 5MB)');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                fotoBase64 = e.target.result;
+                document.getElementById('fotoPreview').src = fotoBase64;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // Salvar alterações
+        window.salvarAlteracoes = async function(event) {
+            event.preventDefault();
+            
+            if (!alunoAtual) return;
+
+            const emailNovo = document.getElementById('editEmail').value.trim().toLowerCase();
+            const emailAntigo = alunoAtual.email;
+
+            if (!confirm('💾 Salvar todas as alterações?')) return;
+
             try {
-                await sendPasswordResetEmail(auth, alunoAtual.email);
-                alert(`✅ Email de reset enviado para ${alunoAtual.email}\n\nO aluno deve verificar a caixa de entrada (e spam).`);
+                const updates = {
+                    nome: document.getElementById('editNome').value.trim(),
+                    nomeExibicao: document.getElementById('editNomeExibicao').value.trim(),
+                    email: emailNovo,
+                    dataNascimento: document.getElementById('editDataNascimento').value || null,
+                    setor: document.getElementById('editSetor').value.trim(),
+                    tempoExperiencia: document.getElementById('editTempoExperiencia').value.trim(),
+                    matricula: document.getElementById('editMatricula').value.trim() || null,
+                    turmaId: document.getElementById('editTurma').value || null,
+                    foto: fotoBase64
+                };
+
+                // Atualizar no Firestore
+                await updateDoc(doc(db, "usuarios", alunoAtual.id), updates);
+
+                // Se email mudou, atualizar no Authentication também
+                if (emailNovo !== emailAntigo) {
+                    alert('⚠️ Email alterado!\n\nO aluno precisará usar o novo email para login.\n\nConsidere enviar um email de reset de senha.');
+                }
+
+                alert('✅ Alterações salvas com sucesso!');
+                
+                // Atualizar display
+                alunoAtual = { ...alunoAtual, ...updates };
+                preencherFormulario(alunoAtual);
+
             } catch (error) {
-                console.error('Erro ao resetar:', error);
-                alert('❌ Erro ao enviar email: ' + error.message);
+                console.error('Erro ao salvar:', error);
+                alert('❌ Erro ao salvar: ' + error.message);
             }
         };
 
-        window.copiarCredenciais = function () {
+        // Resetar senha
+        window.resetarSenha = async function() {
+            if (!alunoAtual) return;
+
+            if (!confirm(`🔄 Enviar email de reset para ${alunoAtual.email}?`)) return;
+
+            try {
+                await sendPasswordResetEmail(auth, alunoAtual.email);
+                alert(`✅ Email enviado para ${alunoAtual.email}\n\nO aluno deve verificar a caixa de entrada (e spam).`);
+            } catch (error) {
+                console.error('Erro ao resetar:', error);
+                alert('❌ Erro: ' + error.message);
+            }
+        };
+
+        // Copiar credenciais
+        window.copiarCredenciais = function() {
             if (!alunoAtual) return;
 
             const texto = `Email: ${alunoAtual.email}\nSenha: ${alunoAtual.senhaTemporaria || '(não registrada)'}`;
-
+            
             navigator.clipboard.writeText(texto)
                 .then(() => alert('✅ Credenciais copiadas!'))
                 .catch(() => alert('❌ Erro ao copiar'));
         };
+
+        // Toggle status (ativar/desativar)
+        window.toggleStatus = async function() {
+            if (!alunoAtual) return;
+
+            const novoStatus = !alunoAtual.ativo;
+            const acao = novoStatus ? 'ativar' : 'desativar';
+
+            if (!confirm(`${novoStatus ? '✅' : '🔒'} Deseja ${acao} este aluno?`)) return;
+
+            try {
+                await updateDoc(doc(db, "usuarios", alunoAtual.id), {
+                    ativo: novoStatus
+                });
+
+                alert(`✅ Aluno ${acao}do com sucesso!`);
+                
+                alunoAtual.ativo = novoStatus;
+                preencherFormulario(alunoAtual);
+
+            } catch (error) {
+                console.error('Erro ao alterar status:', error);
+                alert('❌ Erro: ' + error.message);
+            }
+        };
     </script>
 </body>
-
 </html>
