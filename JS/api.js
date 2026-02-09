@@ -290,7 +290,7 @@ if (barraPesquisa) {
     const alunosFiltrados = alunosCache.filter(aluno => {
       const nome = removeAcentos(aluno.nome.toLowerCase());
       const exibicao = removeAcentos((aluno.nomeExibicao || "").toLowerCase());
-      const setor = removeAcentos((aluno.setor || "").toLowerCase());
+      const setor = removeAcentos(aluno.setor.toLowerCase());
       return nome.includes(termoLimpo) || exibicao.includes(termoLimpo) || setor.includes(termoLimpo);
     });
 
