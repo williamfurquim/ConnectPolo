@@ -1,6 +1,5 @@
-// =========== IMPORTAÇÕES =====
+// ===== IMPORTAÇÕES =====
 import { buscarAlunos, buscarTurmas } from "./api-service.js";
-
 import {
   serverTimestamp,
   doc,
@@ -9,27 +8,21 @@ import {
   addDoc,
   collection
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-
 import { db } from "./firebase.js";
 
 
-
-// =========== CACHE =====
+// ===== CACHE =====
 let alunosCache = [];
 let turmasCache = [];
 let turmaAtualId = null;
 const hoje = new Date().toLocaleDateString("en-CA");
 
-
-
-// =========== ELEMENTOS DO DOM =====
+// ===== ELEMENTOS DO DOM =====
 const lista = document.getElementById("scroll");
 const selectTurma = document.querySelector('select[name="select-turma"]');
 const barraPesquisa = document.getElementById("barraPesquisa");
 
-
-
-// =========== CARREGAR TURMAS NO SELECT =====
+// ===== CARREGAR TURMAS NO SELECT =====
 async function carregarTurmas() {
   if (!selectTurma) return;
 
@@ -50,12 +43,20 @@ async function carregarTurmas() {
       return;
     }
 
+turmasCache.sort((a, b) => {
+  const nomeA = (a.nomeExibicao || a.nome || '').toLowerCase();
+  const nomeB = (b.nomeExibicao || b.nome || '').toLowerCase();
+  return nomeA.localeCompare(nomeB);
+});
+
+    // Popular o select
     let options = '<option value="">Todas as turmas</option>';
     turmasCache.forEach(turma => {
       options += `<option value="${turma.id}">${turma.nome}</option>`;
     });
     selectTurma.innerHTML = options;
 
+    // Iniciar em "Todas as turmas"
     selectTurma.value = "";
     turmaAtualId = null;
     await carregarAlunos();
@@ -73,11 +74,11 @@ async function carregarTurmas() {
 }
 
 
-
 if (selectTurma) {
   selectTurma.addEventListener('change', async (e) => {
     turmaAtualId = e.target.value || null;
 
+    // Atualizar nome da turma no header
     const nomeTurmaEl = document.querySelector('.d-nome-turma h2');
     if (nomeTurmaEl) {
       if (turmaAtualId) {
@@ -93,13 +94,14 @@ if (selectTurma) {
   });
 }
 
-// =========== CARREGAR ALUNOS =====
+// ===== CARREGAR ALUNOS =====
 async function carregarAlunos() {
   if (!lista) return;
 
   try {
     lista.innerHTML = "<p style='color: white; text-align: center;'>⏳ Carregando alunos...</p>";
 
+    // Filtrar por turma se houver seleção
     const filtros = { ativo: true };
     if (turmaAtualId) {
       filtros.turmaId = turmaAtualId;
@@ -126,7 +128,7 @@ async function carregarAlunos() {
   }
 }
 
-// =========== RENDERIZAÇÃO =====
+// ===== RENDERIZAÇÃO =====
 function renderizarAlunos(alunos, termoBusca = "") {
   lista.innerHTML = "";
 
@@ -138,6 +140,12 @@ function renderizarAlunos(alunos, termoBusca = "") {
     `;
     return;
   }
+
+alunos.sort((a, b) => {
+  const nomeA = (a.nomeExibicao || a.nome || '').toLowerCase();
+  const nomeB = (b.nomeExibicao || b.nome || '').toLowerCase();
+  return nomeA.localeCompare(nomeB);
+});
 
   alunos.forEach(aluno => {
     const bloco = document.createElement("div");
@@ -151,21 +159,21 @@ function renderizarAlunos(alunos, termoBusca = "") {
        alt="Foto de ${aluno.nome}"
        onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
 
-      <div class="info-left">
-        <h2>${highlight(nomeExibir, termoBusca)}</h2>
-        <p>Setor: ${highlight(aluno.setor, termoBusca)}</p>
-      </div>
+  <div class="info-left">
+       <h2>${highlight(nomeExibir, termoBusca)}</h2>
+       <p>Setor: ${highlight(aluno.setor, termoBusca)}</p>
+  </div>
 
-      <div class="info-right">
-        <h2>${aluno.dataNascimento || 'Não informado'}</h2>
-        <p>Experiência: ${aluno.tempoExperiencia}</p>
-      </div>
+  <div class="info-right">
+    <h2>${aluno.dataNascimento || 'Não informado'}</h2>
+    <p>Experiência: ${aluno.tempoExperiencia}</p>
+  </div>
 
-      <div class="botoes-alunos">
-        <button class="btn-presenca-manual">Presença manual disponível</button>
-      </div>
+  <!-- Botão em div separado -->
+  <div class="botoes-alunos">
+    <button class="btn-presenca-manual">Presença manual disponível</button>
+  </div>
     `;
-
     lista.appendChild(bloco);
     const btnPresenca = bloco.querySelector(".btn-presenca-manual");
 
@@ -182,6 +190,8 @@ function renderizarAlunos(alunos, termoBusca = "") {
       "notificacoes"
     )
 
+
+    // verifica se já existe
     getDoc(refPresenca).then((snap) => {
       if (snap.exists()) {
         btnPresenca.textContent = "Presente ✔️";
@@ -190,6 +200,7 @@ function renderizarAlunos(alunos, termoBusca = "") {
       }
     });
 
+    // clique do botão
     btnPresenca.addEventListener("click", async () => {
       try {
         btnPresenca.disabled = true;
@@ -221,8 +232,9 @@ function renderizarAlunos(alunos, termoBusca = "") {
   });
 }
 
-// =========== BARRA DE PESQUISA =====
-// =========== FUNÇÕES AUXILIARES =====
+
+// ===== BARRA DE PESQUISA =====
+// ===== FUNÇÕES AUXILIARES =====
 function highlight(texto, termo) {
   if (!texto || !termo) return texto;
 
@@ -232,11 +244,14 @@ function highlight(texto, termo) {
   let resultado = "";
   let lastIndex = 0;
 
+  // Procurar todas as ocorrências do termo no texto sem acento
   const regex = new RegExp(termoNormalizado.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
   let match;
 
   while ((match = regex.exec(textoNormalizado)) !== null) {
+    // Pega a parte original do texto antes do match
     resultado += texto.slice(lastIndex, match.index);
+    // Adiciona highlight mantendo acentos
     resultado += `<span class="highlight">${texto.slice(match.index, match.index + termo.length)}</span>`;
     lastIndex = match.index + termo.length;
   }
@@ -251,9 +266,7 @@ function removeAcentos(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-
-
-// =========== FUNÇÃO DE DEBOUNCE =====
+// ===== FUNÇÃO DE DEBOUNCE =====
 function debounce(fn, delay = 300) {
   let timeout;
   return function (...args) {
@@ -262,9 +275,7 @@ function debounce(fn, delay = 300) {
   };
 }
 
-
-
-// =========== BARRA DE PESQUISA =====
+// ===== BARRA DE PESQUISA =====
 if (barraPesquisa) {
   barraPesquisa.addEventListener("input", debounce(() => {
     const termo = barraPesquisa.value.trim();
@@ -279,7 +290,7 @@ if (barraPesquisa) {
     const alunosFiltrados = alunosCache.filter(aluno => {
       const nome = removeAcentos(aluno.nome.toLowerCase());
       const exibicao = removeAcentos((aluno.nomeExibicao || "").toLowerCase());
-      const setor = removeAcentos(aluno.setor.toLowerCase());
+      const setor = removeAcentos((aluno.setor || "").toLowerCase());
       return nome.includes(termoLimpo) || exibicao.includes(termoLimpo) || setor.includes(termoLimpo);
     });
 
