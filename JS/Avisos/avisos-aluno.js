@@ -11,7 +11,10 @@ import {
     setDoc,
     updateDoc,
     increment,
-    getDoc
+    getDoc,
+    addDoc,
+    getDocs,
+    where
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 import {
@@ -81,9 +84,53 @@ onAuthStateChanged(auth, (user) => {
                     <button class="btn-avisos">
                         ${jaLido ? "Marcado como lido" : "Marcar como lido"}
                     </button>
+
+                    <div class="duvida-box">
+                        <input type="text" class="duvida-mensagem" placeholder="Envie a sua dúvida">
+                        <button class="btn-enviar-duvida">Enviar dúvida</button>
+                    </div>
                 </footer>
             `;
-            
+
+            const btnEnviarDuvida = aviso.querySelector(".btn-enviar-duvida");
+            const inputDuvida = aviso.querySelector(".duvida-mensagem");
+
+            btnEnviarDuvida.addEventListener("click", async () => {
+                const mensagemDuvida = inputDuvida.value.trim();
+
+                if (!mensagemDuvida) return;
+
+                try {
+                    await addDoc(collection(db, "duvidas"), {
+                        avisoId,
+                  
+                        alunoId: userId,
+                        alunoNome: user.displayName || "Aluno",
+                
+
+
+                        mensagem: mensagemDuvida,
+
+                        criadaEm: serverTimestamp(),
+
+                        respondida: false,
+                        resposta: "",
+                        respondidaPor: "",
+                        respondidaEm: null,
+
+                        editada: false,
+                        resolvidaPeloAluno: false
+                    });
+
+
+                    mensagemDuvida.value = "";
+                    alert("Dúvida enviada com sucesso.");
+                } catch (e) {
+                    console.error(e);
+                    alert("Erro ao enviar dúvida.");
+                }
+            });
+
             const btnLido = aviso.querySelector(".btn-avisos");
             if (jaLido) btnLido.disabled = true;
 
