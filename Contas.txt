@@ -1,11 +1,1 @@
-E-mail: William@aluno.com
-Senha: CalvarãoMeuGato
-
-E-mail: ThiagoFlexa@marcopolo.com
-Senha: SandMan
-
-E-mail: amanda@aluno.com
-Senha: 12341234
-
-E-mail: gustavo.chimello@aluno.com
-Senha: Procyon Lotor
+E-mails e senhas encontram-se registrados em aba do Dontpad.com para a segurança da aplicação.
