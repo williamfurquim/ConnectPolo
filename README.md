@@ -1,3 +1,6 @@
+🚨 Este sistema opera com contas e dados controlados, não permitindo acesso público ou criação de novos usuários por questões de segurança.
+--
+
 O ConnectPolo é uma plataforma de gestão e comunicação estruturada entre líderes e aprendizes, projetada para substituir processos informais dispersos em mensagens, planilhas e anotações.
 Sua proposta é simples: centralizar presença, justificativas, avisos e solicitações em um único sistema, com histórico, classificação e indicadores claros, tornando a gestão eficiente e os dados estratégicos.
 
