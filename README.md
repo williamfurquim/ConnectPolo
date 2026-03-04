@@ -1,17 +1,16 @@
-O ConnectPolo é uma plataforma completa de gestão e comunicação estruturada entre líderes e aprendizes, projetada para substituir processos informais dispersos em mensagens, planilhas e anotações.
+O ConnectPolo é uma plataforma de gestão e comunicação estruturada entre líderes e aprendizes, projetada para substituir processos informais dispersos em mensagens, planilhas e anotações.
 Sua proposta é simples: centralizar presença, justificativas, avisos e solicitações em um único sistema, com histórico, classificação e indicadores claros, tornando a gestão eficiente e os dados estratégicos.
 
 👉 TELA DE LOGIN
 
-- O sistema identifica o tipo de usuário pelo e-mail: @aluno ou @marcopolo (líder), redirecionando automaticamente para a página correspondente ✅
-- Criação de contas restrita: apenas líderes, TI, desenvolvedores e RH podem criar contas. Todos os alunos recebem acesso previamente configurado pelo líder ✅
+- O sistema identifica o tipo de usuário pelo e-mail: @aluno ou @marcopolo (líder), redirecionando automaticamente para a página correspondente 
+- Criação de contas restrita: apenas líderes, TI, desenvolvedores e RH podem criar contas. Todos os alunos recebem acesso previamente configurado pelo líder 
 - Regras de segurança do Firebase garantem que cada perfil tenha permissões específicas: líderes têm acesso completo às funcionalidades administrativas, enquanto alunos veem apenas o que lhes é permitido ✅
-- Plataforma PWA instalável, responsiva e pronta para uso sem necessidade de treinamento ✅
+- Plataforma PWA instalável, responsiva e pronta para uso sem necessidade de treinamento 
 
 ⏺️ PÁGINA DO ALUNO
 
 Marcar presença: cada dia inicia com falta marcada. O aluno envia solicitação de presença clicando em um botão, que verifica:
-- Conexão na rede da empresa
 - Janela de horário permitida
 - Envio de notificação ao líder
 - Líder pode reverter presença manualmente em casos excepcionais.
