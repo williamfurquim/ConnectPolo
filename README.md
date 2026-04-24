@@ -87,3 +87,7 @@ Demonstrar capacidade de desenvolver soluções completas para problemas reais, 
 ## Autor
 
 William Furquim
+Amanda Jaguella
+Gustavo Chimello
+Olavo Xavier
+Lucas Miyaki
