@@ -42,7 +42,7 @@ if (!badge) {
     if (contador > 0) {
       const max = 9;
       badge.style.display = "inline-block";
-      badge.textContent = contador > max ? `+${max}+` : `+${contador}`;
+      badge.textContent = contador > max ? `+${max}` : `+${contador}`;
     } else {
       badge.style.display = "none";
     }

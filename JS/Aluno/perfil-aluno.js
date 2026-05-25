@@ -22,6 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (botao) botao.addEventListener("click", () => {
-    window.location.href = "perfil-aluno.html";
+    window.location.href = "./Pages/AlunoPags/perfil-aluno.html";
   });
 });
