@@ -44,10 +44,10 @@ O sistema foi desenhado utilizando **Role-Based Access Control (RBAC)** integrad
 Como este projeto simula um ambiente de missão crítica industrial, tomamos decisões de engenharia focadas em performance e segurança:
 
 ### 1. Sincronização em Tempo Real e Consistência (Firestore)
-Para evitar requisições desnecessárias (HTTP Polling) e garantir que o Líder veja quem faltou sem atrasos, implementamos ouvintes ativos (`onSnapshot`) no Firestore. Os dados de presença e os dashboards analíticos de absenteísmo são atualizados para a tela do gestor.
+Para evitar requisições desnecessárias (HTTP Polling) e garantir que o Líder veja quem faltou sem atrasos, implementamos ouvintes ativos (`onSnapshot`) no Firestore. Os dados de presença e os dashboards analíticos de absenteísmo são atualizados em tempo real na tela do gestor.
 
 ### 2. Segurança no Client-Side (Firebase Security Rules)
-Como não há um back-end tradicional intermediando as requisições, a segurança foi movida para a camada de infraestrutura. Escrevemos regras granulares onde:
+Como não há um back-end tradicional intermediando as requisições, a segurança foi movida para a camada de infraestrutura. Escrevemos regras granulares nas quais:
 *   Alunos possuem permissão estrita de **leitura e escrita apenas** nos seus próprios documentos (`request.auth.uid == resource.data.studentId`).
 *   Apenas usuários com a flag `role == 'leader'` mapeada no Custom Claims/Firestore conseguem realizar mutações (CRUD) em múltiplos registros.
 
