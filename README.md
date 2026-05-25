@@ -4,7 +4,7 @@
 
 🚀 **[CLIQUE AQUI PARA ACESSAR A APLICAÇÃO](https://williamfurquim.github.io/ConnectPolo/)**
 
-Contas para visitantes:
+## Contas para visitantes:
 
 Líder: lider@marcopolo.com / Senha: 123456
 
@@ -18,28 +18,28 @@ robusta, centralizada e auditável. A plataforma foca em rastreabilidade, comuni
 
 ---
 
-## 📸 Demonstração da Interface
+### 📸 Demonstração da Interface
 
-Visão do Líder 
-
+Visão do Líder:
 Dashboard Operacional | Métricas de Absenteísmo | Exportação de Relatórios
+
 <img width="1919" height="972" alt="Captura de tela 2026-05-23 160851" src="https://github.com/user-attachments/assets/b35f8e12-9606-4655-9156-b9808ef47ed3" />
 
 
-Visão do Aluno
-
+Visão do Aluno:
 Registro de Ponto | Histórico de Frequência | Justificativas & Avisos
+
 <img width="1919" height="970" alt="Captura de tela 2026-05-24 163645" src="https://github.com/user-attachments/assets/4470a0fe-e5dc-403e-bf14-074f9343fd21" />
 
 ---
 
-## 🏗️ Arquitetura e Controle de Acesso (RBAC)
+### 🏗️ Arquitetura e Controle de Acesso (RBAC)
 
 O sistema foi desenhado utilizando **Role-Based Access Control (RBAC)** integrado diretamente às **Firebase Security Rules**, garantindo o isolamento estrito de dados sensíveis entre os perfis.
 
 ---
 
-## ⚡ Engenharia e Soluções para os Desafios Técnicos
+### ⚡ Engenharia e Soluções para os Desafios Técnicos
 
 Como este projeto simula um ambiente de missão crítica industrial, tomamos decisões de engenharia focadas em performance e segurança:
 
@@ -56,7 +56,7 @@ Ambientes industriais muitas vezes sofrem com oscilação de conectividade. A es
 
 ---
 
-## 🚀 Principais Funcionalidades
+### 🚀 Principais Funcionalidades
 
 ### 📊 Módulo de Gestão (Líder)
 *   **Análise em tempo real:** Gráfico de comparação de presença, justificativa e falta diária.
@@ -70,7 +70,13 @@ Ambientes industriais muitas vezes sofrem com oscilação de conectividade. A es
 
 ---
 
-## 🛠️ Stack Tecnológica
+### 🔧 Evolução do Projeto & Refatoração
+
+Inicialmente, este projeto foi construído focando na entrega rápida das funcionalidades, o que gerou uma raiz densa de arquivos HTML. Identificando a necessidade de melhoria na escalabilidade e manutenção do código, apliquei uma refatoração completa para arquitetura tradicional de pastas, corrigindo caminhos relativos e otimizando o deploy no Firebase Hosting.
+
+---
+
+### 🛠️ Stack Tecnológica
 
 *   **Core:** JavaScript, HTML5, CSS3.
 *   **Database & Auth:** Firebase Firestore (NoSQL) & Firebase Authentication.

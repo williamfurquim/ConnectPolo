@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./CSS/cadastroaluno.css">
+    <link rel="stylesheet" href="../../CSS/cadastroaluno.css">
     <title>Gerenciar Alunos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-      <link rel="icon" href="Img/favicon.ico" />
-  <link rel="apple-touch-icon" href="./Img/icon-192.png">
+    <link rel="icon" href="../../Img/favicon.ico" />
+    <link rel="apple-touch-icon" href="./Img/icon-192.png">
     <style>
         .nav-buttons {
             position: fixed;
@@ -19,7 +20,7 @@
             gap: 0.5rem;
             z-index: 1000;
         }
-        
+
         .nav-btn {
             background: white;
             color: #1A1A22;
@@ -29,22 +30,22 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             font-size: 0.9rem;
         }
-        
+
         .nav-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             border-color: #F28C2E;
         }
-        
+
         .nav-btn-primary {
             background: #F28C2E;
             color: white;
             border-color: #F28C2E;
         }
-        
+
         .nav-btn-primary:hover {
             background: #d97b26;
             border-color: #d97b26;
@@ -55,7 +56,7 @@
             background: white;
             padding: 1.5rem;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
         }
 
@@ -120,7 +121,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid #F28C2E;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .btn-foto {
@@ -226,12 +227,12 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 0.95rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .btn-action:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .btn-salvar {
@@ -286,7 +287,7 @@
             display: none;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         #loading.show {
@@ -310,8 +311,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         #resultado {
@@ -329,7 +335,7 @@
                 justify-content: center;
                 margin: 1rem;
             }
-            
+
             .nav-btn {
                 padding: 0.6rem 1rem;
                 font-size: 0.85rem;
@@ -350,24 +356,25 @@
         }
     </style>
 </head>
+
 <body>
     <main>
         <div class="nav-buttons">
             <button class="nav-btn nav-btn-primary" onclick="window.location.href='./cadastroaluno.html'">
                 ➕ Cadastrar Aluno
             </button>
-            <button class="nav-btn" onclick="window.location.href='./lider.html'">
+            <button class="nav-btn" onclick="window.location.href='../../lider.html'">
                 ↩️ Voltar
             </button>
         </div>
-        
+
         <div class="header">
             <div class="header-content">
                 <h1>Gerenciar Alunos</h1>
                 <p>Sistema de Gestão</p>
             </div>
         </div>
-        
+
         <div class="content">
             <div class="info-box">
                 <div>
@@ -387,27 +394,25 @@
                     Digite o email do aluno que deseja gerenciar
                 </p>
                 <div class="busca-wrapper">
-                    <input 
-                        type="email" 
-                        id="emailBusca" 
-                        placeholder="exemplo@email.com"
-                        onkeypress="if(event.key==='Enter') buscarAluno()"
-                    >
+                    <input type="email" id="emailBusca" placeholder="exemplo@email.com"
+                        onkeypress="if(event.key==='Enter') buscarAluno()">
                     <button onclick="buscarAluno()">🔍 Buscar</button>
                 </div>
             </div>
-            
+
             <div id="loading">
                 <div class="spinner"></div>
                 <p>⏳ Buscando aluno...</p>
             </div>
-            
+
             <div id="resultado">
                 <!-- Perfil do aluno -->
                 <div class="perfil-header">
                     <div class="foto-section">
-                        <img id="fotoPreview" class="foto-preview" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Foto do aluno">
-                        <input type="file" id="fotoInput" accept="image/*" style="display: none;" onchange="handleFotoChange(event)">
+                        <img id="fotoPreview" class="foto-preview"
+                            src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Foto do aluno">
+                        <input type="file" id="fotoInput" accept="image/*" style="display: none;"
+                            onchange="handleFotoChange(event)">
                         <button class="btn-foto" onclick="document.getElementById('fotoInput').click()">
                             📸 Alterar Foto
                         </button>
@@ -424,85 +429,58 @@
                 <form id="formEdicao" onsubmit="salvarAlteracoes(event)">
                     <div class="form-section">
                         <div class="section-title">Informações Pessoais</div>
-                        
+
                         <div class="form-grid">
                             <div class="form-group full-width">
                                 <label for="editNome">
                                     Nome Completo <span class="required">*</span>
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="editNome" 
-                                    required
-                                    placeholder="Nome completo do aluno"
-                                >
+                                <input type="text" id="editNome" required placeholder="Nome completo do aluno">
                             </div>
-                            
+
                             <div class="form-group full-width">
                                 <label for="editNomeExibicao">
                                     Nome de Exibição <span class="required">*</span>
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="editNomeExibicao" 
-                                    required
-                                    placeholder="Nome que aparece na interface"
-                                >
+                                <input type="text" id="editNomeExibicao" required
+                                    placeholder="Nome que aparece na interface">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="editEmail">
                                     Email <span class="required">*</span>
                                 </label>
-                                <input 
-                                    type="email" 
-                                    id="editEmail" 
-                                    required
-                                    placeholder="exemplo@email.com"
-                                >
+                                <input type="email" id="editEmail" required placeholder="exemplo@email.com">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="editDataNascimento">Data de Nascimento</label>
                                 <input type="date" id="editDataNascimento">
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <div class="section-title">Informações Profissionais</div>
-                        
+
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="editSetor">
                                     Setor <span class="required">*</span>
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="editSetor" 
-                                    required
-                                    placeholder="Ex: Produção, RH, TI..."
-                                >
+                                <input type="text" id="editSetor" required placeholder="Ex: Produção, RH, TI...">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="editTempoExperiencia">Tempo de Experiência</label>
-                                <input 
-                                    type="text" 
-                                    id="editTempoExperiencia" 
-                                    placeholder="Ex: 2 anos e 6 meses"
-                                >
+                                <input type="text" id="editTempoExperiencia" placeholder="Ex: 2 anos e 6 meses">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="editMatricula">Matrícula</label>
-                                <input 
-                                    type="text" 
-                                    id="editMatricula" 
-                                    placeholder="Ex: 2025001"
-                                >
+                                <input type="text" id="editMatricula" placeholder="Ex: 2025001">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="editTurma">Turma</label>
                                 <select id="editTurma">
@@ -511,19 +489,20 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <div class="section-title">Senha</div>
-                        
+
                         <div class="senha-box">
                             <strong>🔑 Senha Temporária:</strong>
                             <p class="senha-valor" id="senhaAtual">-</p>
                             <small>
-                                ⚠️ Esta é a senha original gerada no cadastro. Use "Resetar Senha" para enviar um email de redefinição ao aluno.
+                                ⚠️ Esta é a senha original gerada no cadastro. Use "Resetar Senha" para enviar um email
+                                de redefinição ao aluno.
                             </small>
                         </div>
                     </div>
-                    
+
                     <!-- Botões de ação -->
                     <div class="acoes">
                         <button type="submit" class="btn-action btn-salvar">
@@ -543,17 +522,17 @@
             </div>
         </div>
     </main>
-    
+
     <script type="module">
         import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
         import { db } from "./JS/firebase.js";
-        import { 
-            doc, 
-            updateDoc, 
-            query, 
-            collection, 
-            where, 
-            getDocs 
+        import {
+            doc,
+            updateDoc,
+            query,
+            collection,
+            where,
+            getDocs
         } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
         import { buscarTurmas } from "./JS/api-service.js";
 
@@ -566,7 +545,7 @@
             try {
                 const result = await buscarTurmas({ ativa: true });
                 const select = document.getElementById('editTurma');
-                
+
                 if (result.success && result.data.length > 0) {
                     select.innerHTML = '<option value="">Nenhuma turma</option>' +
                         result.data.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
@@ -582,9 +561,9 @@
         carregarTurmas();
 
         // Buscar aluno
-        window.buscarAluno = async function() {
+        window.buscarAluno = async function () {
             const email = document.getElementById('emailBusca').value.trim().toLowerCase();
-            
+
             if (!email) {
                 alert('❌ Por favor, digite um email');
                 return;
@@ -592,7 +571,7 @@
 
             const loading = document.getElementById('loading');
             const resultado = document.getElementById('resultado');
-            
+
             loading.classList.add('show');
             resultado.classList.remove('show');
 
@@ -602,9 +581,9 @@
                     where("email", "==", email),
                     where("role", "==", "aluno")
                 );
-                
+
                 const snapshot = await getDocs(q);
-                
+
                 if (snapshot.empty) {
                     alert('❌ Aluno não encontrado com este email');
                     loading.classList.remove('show');
@@ -635,7 +614,7 @@
             document.getElementById('alunoNomeDisplay').textContent = aluno.nome;
             document.getElementById('alunoEmailDisplay').textContent = aluno.email;
             document.getElementById('alunoIdDisplay').textContent = aluno.id;
-            
+
             document.getElementById('editNome').value = aluno.nome || '';
             document.getElementById('editNomeExibicao').value = aluno.nomeExibicao || aluno.nome || '';
             document.getElementById('editEmail').value = aluno.email || '';
@@ -644,18 +623,18 @@
             document.getElementById('editTempoExperiencia').value = aluno.tempoExperiencia || '';
             document.getElementById('editMatricula').value = aluno.matricula || '';
             document.getElementById('editTurma').value = aluno.turmaId || '';
-            
+
             document.getElementById('senhaAtual').textContent = aluno.senhaTemporaria || '(não registrada)';
-            
+
             // Foto
             const fotoUrl = aluno.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             document.getElementById('fotoPreview').src = fotoUrl;
             fotoBase64 = aluno.foto;
-            
+
             // Status
             const badge = document.getElementById('statusBadge');
             const btnStatus = document.getElementById('btnStatus');
-            
+
             if (aluno.ativo !== false) {
                 badge.textContent = '● Ativo';
                 badge.className = 'badge ativo';
@@ -670,7 +649,7 @@
         }
 
         // Handle foto change
-        window.handleFotoChange = function(event) {
+        window.handleFotoChange = function (event) {
             const file = event.target.files[0];
             if (!file) return;
 
@@ -693,9 +672,9 @@
         };
 
         // Salvar alterações
-        window.salvarAlteracoes = async function(event) {
+        window.salvarAlteracoes = async function (event) {
             event.preventDefault();
-            
+
             if (!alunoAtual) return;
 
             const emailNovo = document.getElementById('editEmail').value.trim().toLowerCase();
@@ -725,7 +704,7 @@
                 }
 
                 alert('✅ Alterações salvas com sucesso!');
-                
+
                 // Atualizar dados locais
                 alunoAtual = { ...alunoAtual, ...updates };
                 preencherFormulario(alunoAtual);
@@ -737,7 +716,7 @@
         };
 
         // Resetar senha
-        window.resetarSenha = async function() {
+        window.resetarSenha = async function () {
             if (!alunoAtual) return;
 
             if (!confirm(`🔄 Enviar email de reset de senha para ${alunoAtual.email}?`)) return;
@@ -752,18 +731,18 @@
         };
 
         // Copiar credenciais
-        window.copiarCredenciais = function() {
+        window.copiarCredenciais = function () {
             if (!alunoAtual) return;
 
             const texto = `Email: ${alunoAtual.email}\nSenha: ${alunoAtual.senhaTemporaria || '(não registrada)'}`;
-            
+
             navigator.clipboard.writeText(texto)
                 .then(() => alert('✅ Credenciais copiadas para a área de transferência!'))
                 .catch(() => alert('❌ Erro ao copiar. Tente novamente.'));
         };
 
         // Toggle status (ativar/desativar)
-        window.toggleStatus = async function() {
+        window.toggleStatus = async function () {
             if (!alunoAtual) return;
 
             const novoStatus = !(alunoAtual.ativo !== false);
@@ -778,7 +757,7 @@
                 });
 
                 alert(`✅ Aluno ${acao}do com sucesso!`);
-                
+
                 alunoAtual.ativo = novoStatus;
                 preencherFormulario(alunoAtual);
 
@@ -789,4 +768,5 @@
         };
     </script>
 </body>
+
 </html>

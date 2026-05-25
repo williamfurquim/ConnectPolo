@@ -1,19 +1,24 @@
-const CACHE_NAME = 'connectpolo-v1.0.6'; // Atualize a cada deploy
+const CACHE_NAME = 'connectpolo-v1.0.7'; // Atualize a cada deploy
 const urlsToCache = [
   './',
   './index.html',
   './aluno.html',
-  './avisos.html',
-  './dashboard.html',
   './lider.html',
-  './notificacoes.html',
-  './perfil-aluno.html',
-  './perfil-lider.html',
-  './cadastroaluno.html',
+
+  './Pages/LiderPags/avisos.html',
+  './Pages/LiderPags/dashboard.html',
+  './Pages/LiderPags/notificacoes.html',
+  './Pages/LiderPags/perfil-lider.html',
+  './Pages/LiderPags/cadastroaluno.html',
+  './Pages/LiderPags/gerenciar-senhas.html',
+
+  './Pages/AlunoPags/perfil-aluno.html',
+  './Pages/AlunoPags/calendario-aluno.html',
 
   './CSS/aluno.css',
   './CSS/aviso.css',
   './CSS/cadastroaluno.css',
+  './CSS/calendario-aluno.css',
   './CSS/dashboard.css',
   './CSS/lider.css',
   './CSS/login.css',
@@ -23,8 +28,10 @@ const urlsToCache = [
   './JS/Avisos/avisos-aluno.js',
   './JS/Avisos/avisos-lider.js',
 
+  './JS/Líder/badge.js',
   './JS/Líder/cadastroaluno.js',
   './JS/Líder/dashboard.js',
+  './JS/Líder/export.js',
   './JS/Líder/grafico-alunos.js',
   './JS/Líder/grafico.js',
   './JS/Líder/lider.js',
@@ -34,7 +41,7 @@ const urlsToCache = [
   './JS/Perfil/dados-aluno.js',
   './JS/Perfil/dados-lider.js',
 
-  './JS/PWA/service-worker.js',
+  './service-worker.js',
 
   './JS/Solicitações/solici-lider.js',
   './JS/Solicitações/solici.js',
@@ -48,8 +55,11 @@ const urlsToCache = [
   './JS/data.js',
   './JS/firebase.js',
   './JS/guard.js',
-  './JS/Aluno/perfil-aluno.js',
   './JS/upload-service.js',
+
+  './JS/Aluno/perfil-aluno.js',
+  './JS/Aluno/puxar-cursos.js',
+  './JS/Aluno/calendario.js',
 
   './Img/favicon.ico',
   './Img/icon-192.png',
